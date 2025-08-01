@@ -3,6 +3,7 @@
 import 'package:astrum/app/modules/chat/views/chat_view.dart';
 import 'package:astrum/app/modules/discovery/views/discovery_view.dart';
 import 'package:astrum/app/modules/profile/views/profile_view.dart';
+import 'package:astrum/app/modules/role/views/role_view.dart';
 import 'package:astrum/types/types.dart';
 
 List tabs = [
@@ -19,6 +20,13 @@ List tabs = [
     "label": 'tab.chat',
     "name": TabName.chat,
     "page": ChatView(),
+  },
+  {
+    "icon": "assets/svgs/tab_role_unselected.svg",
+    "icon_selected": "assets/svgs/tab_role_selected.svg",
+    "label": 'tab.role',
+    "name": TabName.role,
+    "page": const RoleView(),
   },
   {
     "icon": "assets/svgs/tab_profile_unselected.svg",

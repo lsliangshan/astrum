@@ -1,5 +1,6 @@
+import 'package:astrum/app/data/app.config.dart';
 import 'package:astrum/app/modules/home/views/custom_bottom_navigation_bar_view.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_tabs/extended_tabs.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -12,13 +13,9 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      body: Container(
-        width: Get.width,
-        height: Get.height,
-        child: CachedNetworkImage(
-          imageUrl: 'https://img.liangqy.com/astrum/astrum_bg.jpeg',
-          fit: BoxFit.fitWidth,
-        ),
+      body: ExtendedTabBarView(
+        controller: controller.tabController,
+        children: tabs.map((item) => item['page'] as Widget).toList(),
       ),
       bottomNavigationBar: CustomBottomNavigationBarView(),
     );

@@ -7,6 +7,7 @@ class Messages extends Translations {
       // 页面
       'tab.home': '首页',
       'tab.chat': '聊天',
+      'tab.role': '角色',
       'tab.profile': '我的',
 
       'language': 'zh_CN',
@@ -16,6 +17,7 @@ class Messages extends Translations {
       // 页面
       'tab.home': 'Home',
       'tab.chat': 'Chat',
+      'tab.role': 'Role',
       'tab.profile': 'Profile',
 
       'language': 'en_US',
