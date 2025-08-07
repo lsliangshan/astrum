@@ -22,8 +22,8 @@ class CustomBottomNavigationBarView extends GetView<HomeController> {
                 controller.currentTabName.value == item['name']
                     ? item['icon_selected']
                     : item['icon'],
-                width: 20,
-                height: 20,
+                width: 16,
+                height: 16,
                 colorFilter: ColorFilter.mode(
                   Get.theme.hintColor,
                   BlendMode.srcIn,
@@ -43,7 +43,7 @@ class CustomBottomNavigationBarView extends GetView<HomeController> {
     return Container(
       width: Get.width,
       height: 64,
-      margin: EdgeInsets.only(left: 24, right: 24, bottom: 24),
+      margin: EdgeInsets.only(left: 12, right: 12, bottom: 24),
       child: Card(
         color: Colors.transparent,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
@@ -65,6 +65,7 @@ class CustomBottomNavigationBarView extends GetView<HomeController> {
               height: 64,
               width: Get.width,
               alignment: Alignment.center,
+              padding: EdgeInsets.only(left: 12, right: 12),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(32),
               ),
@@ -80,12 +81,12 @@ class CustomBottomNavigationBarView extends GetView<HomeController> {
                   ),
                   indicatorSize: TabBarIndicatorSize.label,
                   indicatorColor: Get.theme.colorScheme.onPrimary,
-                  labelPadding: EdgeInsets.only(left: 12, right: 12),
-                  labelStyle: Get.textTheme.titleMedium?.copyWith(
+                  labelPadding: EdgeInsets.only(left: 0, right: 0),
+                  labelStyle: Get.textTheme.titleSmall?.copyWith(
                     color: Get.theme.colorScheme.onPrimary,
                     fontWeight: FontWeight.w600,
                   ),
-                  unselectedLabelStyle: Get.textTheme.titleMedium?.copyWith(
+                  unselectedLabelStyle: Get.textTheme.titleSmall?.copyWith(
                     color: Get.theme.hintColor,
                     fontWeight: FontWeight.normal,
                   ),
