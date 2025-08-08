@@ -1,5 +1,9 @@
 import 'package:get/get.dart';
 
+import '../modules/add_attachment/bindings/add_attachment_binding.dart';
+import '../modules/add_attachment/views/add_attachment_view.dart';
+import '../modules/add_role/bindings/add_role_binding.dart';
+import '../modules/add_role/views/add_role_view.dart';
 import '../modules/chat/bindings/chat_binding.dart';
 import '../modules/chat/views/chat_view.dart';
 import '../modules/discovery/bindings/discovery_binding.dart';
@@ -43,6 +47,16 @@ class AppPages {
       name: _Paths.ROLE,
       page: () => const RoleView(),
       binding: RoleBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_ROLE,
+      page: () => const AddRoleView(),
+      binding: AddRoleBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_ATTACHMENT,
+      page: () => const AddAttachmentView(),
+      binding: AddAttachmentBinding(),
     ),
   ];
 }

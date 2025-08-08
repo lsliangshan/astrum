@@ -8,6 +8,8 @@ abstract class Routes {
   static const CHAT = _Paths.CHAT;
   static const PROFILE = _Paths.PROFILE;
   static const ROLE = _Paths.ROLE;
+  static const ADD_ROLE = _Paths.ADD_ROLE;
+  static const ADD_ATTACHMENT = _Paths.ADD_ATTACHMENT;
 }
 
 abstract class _Paths {
@@ -17,4 +19,6 @@ abstract class _Paths {
   static const CHAT = '/chat';
   static const PROFILE = '/profile';
   static const ROLE = '/role';
+  static const ADD_ROLE = '/add-role';
+  static const ADD_ATTACHMENT = '/add-attachment';
 }
