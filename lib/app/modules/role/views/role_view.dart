@@ -13,88 +13,93 @@ class RoleView extends GetView<RoleController> {
   const RoleView({super.key});
 
   Widget _buildItem(BuildContext context, int index) {
-    return Card(
-      color: Colors.white,
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      clipBehavior: Clip.hardEdge,
-      child: Column(
-        children: [
-          Container(
-            height: 100,
-            color: Colors.red,
-            child: CachedNetworkImage(
-              imageUrl:
-                  controller.roles[index].icon ??
-                  'https://img.liangqy.com/astrum/role_bg.png',
-              width: Get.width,
+    return GestureDetector(
+      onTap: () {
+        controller.gotoRoleDetail(controller.roles[index]);
+      },
+      child: Card(
+        color: Colors.white,
+        elevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        clipBehavior: Clip.hardEdge,
+        child: Column(
+          children: [
+            Container(
               height: 100,
-              fit: BoxFit.cover,
-              placeholder: (context, url) =>
-                  const Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
-            ),
-          ),
-          ListTile(
-            visualDensity: VisualDensity.compact,
-            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-            dense: true,
-            title: Text(
-              controller.roles[index].name,
-              style: Get.theme.textTheme.titleMedium?.copyWith(),
-            ),
-            subtitle: Text(
-              controller.roles[index].publishTime ?? '',
-              style: Get.theme.textTheme.bodySmall?.copyWith(
-                color: Get.theme.disabledColor,
+              color: Colors.white,
+              child: CachedNetworkImage(
+                imageUrl:
+                    controller.roles[index].icon ??
+                    'https://img.liangqy.com/astrum/role_bg.png',
+                width: Get.width,
+                height: 100,
+                fit: BoxFit.cover,
+                placeholder: (context, url) =>
+                    const Center(child: CustomLoader()),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            margin: EdgeInsets.only(top: 0, bottom: 16),
-            alignment: Alignment.centerLeft,
-            child: Text(
-              controller.roles[index].description ?? '',
-              style: Get.theme.textTheme.bodySmall?.copyWith(
-                color: Get.theme.hintColor,
+            ListTile(
+              visualDensity: VisualDensity.compact,
+              contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+              dense: true,
+              title: Text(
+                controller.roles[index].name,
+                style: Get.theme.textTheme.titleMedium?.copyWith(),
+              ),
+              subtitle: Text(
+                controller.roles[index].publishTime ?? '',
+                style: Get.theme.textTheme.bodySmall?.copyWith(
+                  color: Get.theme.disabledColor,
+                ),
               ),
             ),
-          ),
-          if (controller.roles[index].authorName != null &&
-              controller.roles[index].authorName!.isNotEmpty)
             Container(
               padding: EdgeInsets.only(left: 16, right: 16),
               margin: EdgeInsets.only(top: 0, bottom: 16),
               alignment: Alignment.centerLeft,
-              child: Row(
-                spacing: 8,
-                children: [
-                  Container(
-                    width: 24,
-                    height: 24,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Get.theme.disabledColor.withValues(alpha: 0.1),
-                    ),
-                    clipBehavior: Clip.hardEdge,
-                    alignment: Alignment.center,
-                    child: SvgPicture.asset(
-                      'assets/svgs/tab_profile_selected.svg',
-                      width: 14,
-                      height: 14,
-                    ),
-                  ),
-                  Text(
-                    controller.roles[index].authorName ?? '',
-                    style: Get.theme.textTheme.bodySmall?.copyWith(
-                      color: Get.theme.hintColor,
-                    ),
-                  ),
-                ],
+              child: Text(
+                controller.roles[index].description ?? '',
+                style: Get.theme.textTheme.bodySmall?.copyWith(
+                  color: Get.theme.hintColor,
+                ),
               ),
             ),
-        ],
+            if (controller.roles[index].authorName != null &&
+                controller.roles[index].authorName!.isNotEmpty)
+              Container(
+                padding: EdgeInsets.only(left: 16, right: 16),
+                margin: EdgeInsets.only(top: 0, bottom: 16),
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  spacing: 8,
+                  children: [
+                    Container(
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Get.theme.disabledColor.withValues(alpha: 0.1),
+                      ),
+                      clipBehavior: Clip.hardEdge,
+                      alignment: Alignment.center,
+                      child: SvgPicture.asset(
+                        'assets/svgs/tab_profile_selected.svg',
+                        width: 14,
+                        height: 14,
+                      ),
+                    ),
+                    Text(
+                      controller.roles[index].authorName ?? '',
+                      style: Get.theme.textTheme.bodySmall?.copyWith(
+                        color: Get.theme.hintColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

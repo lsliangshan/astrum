@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:astrum/components/custom_backward_view/custom_backward_view.dart';
 import 'package:astrum/components/custom_loader/custom_loader.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -9,14 +10,35 @@ import 'package:get/get.dart';
 
 import '../controllers/add_role_controller.dart';
 
+// ignore: must_be_immutable
 class AddRoleView extends GetView<AddRoleController> {
-  const AddRoleView({super.key});
+  String? roleId;
+  AddRoleView({super.key, this.roleId}) {
+    if (roleId != null && roleId!.isNotEmpty) {
+      Get.put<AddRoleController>(
+        AddRoleController(roleId: roleId!),
+        tag: 'add-role-$roleId',
+      );
+    } else {
+      if (!Get.isRegistered<AddRoleController>(tag: 'add-role')) {
+        Get.put<AddRoleController>(AddRoleController(), tag: 'add-role');
+      }
+    }
+  }
+
+  @override
+  AddRoleController get controller => (roleId != null && roleId!.isNotEmpty)
+      ? Get.find(tag: 'add-role-$roleId')
+      : Get.find(tag: 'add-role');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'add_role.title'.tr,
+          roleId != null && roleId!.isNotEmpty
+              ? 'edit_role.title'.tr
+              : 'add_role.title'.tr,
           style: Get.theme.textTheme.titleMedium,
         ),
         centerTitle: true,
@@ -198,6 +220,46 @@ class AddRoleView extends GetView<AddRoleController> {
                                                           .path,
                                                     ),
                                                     fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : (controller.formData.value.icon !=
+                                                  null &&
+                                              controller
+                                                  .formData
+                                                  .value
+                                                  .icon!
+                                                  .isNotEmpty)
+                                        ? Positioned(
+                                            child: IgnorePointer(
+                                              ignoring: true,
+                                              child: Container(
+                                                color: Colors.white,
+                                                width: 200,
+                                                height: 200,
+                                                alignment: Alignment.center,
+                                                child: IgnorePointer(
+                                                  ignoring: true,
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: controller
+                                                        .formData
+                                                        .value
+                                                        .icon!,
+                                                    fit: BoxFit.cover,
+                                                    placeholder:
+                                                        (
+                                                          context,
+                                                          url,
+                                                        ) => const Center(
+                                                          child: CustomLoader(),
+                                                        ),
+                                                    errorWidget:
+                                                        (context, url, error) =>
+                                                            const Icon(
+                                                              Icons.error,
+                                                            ),
                                                   ),
                                                 ),
                                               ),

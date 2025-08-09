@@ -4,16 +4,24 @@ import '../modules/add_attachment/bindings/add_attachment_binding.dart';
 import '../modules/add_attachment/views/add_attachment_view.dart';
 import '../modules/add_role/bindings/add_role_binding.dart';
 import '../modules/add_role/views/add_role_view.dart';
+import '../modules/attachments/bindings/attachments_binding.dart';
+import '../modules/attachments/views/attachments_view.dart';
 import '../modules/chat/bindings/chat_binding.dart';
 import '../modules/chat/views/chat_view.dart';
+import '../modules/create_attachment/bindings/create_attachment_binding.dart';
+import '../modules/create_attachment/views/create_attachment_view.dart';
 import '../modules/discovery/bindings/discovery_binding.dart';
 import '../modules/discovery/views/discovery_view.dart';
+import '../modules/file_previewer/bindings/file_previewer_binding.dart';
+import '../modules/file_previewer/views/file_previewer_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/role/bindings/role_binding.dart';
 import '../modules/role/views/role_view.dart';
+import '../modules/role_detail/bindings/role_detail_binding.dart';
+import '../modules/role_detail/views/role_detail_view.dart';
 
 part 'app_routes.dart';
 
@@ -50,13 +58,36 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ADD_ROLE,
-      page: () => const AddRoleView(),
+      page: () => AddRoleView(),
       binding: AddRoleBinding(),
     ),
     GetPage(
       name: _Paths.ADD_ATTACHMENT,
       page: () => const AddAttachmentView(),
       binding: AddAttachmentBinding(),
+    ),
+    GetPage(
+      name: _Paths.ROLE_DETAIL,
+      page: () => RoleDetailView(roleId: ''),
+      binding: RoleDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.ATTACHMENTS,
+      page: () => AttachmentsView(roleId: '', roleName: ''),
+      binding: AttachmentsBinding(),
+    ),
+    GetPage(
+      name: _Paths.CREATE_ATTACHMENT,
+      page: () => CreateAttachmentView(roleId: '', roleName: ''),
+      binding: CreateAttachmentBinding(),
+    ),
+    GetPage(
+      name: _Paths.FILE_PREVIEWER,
+      page: () => FilePreviewerView(
+        fileUrl: Get.arguments['fileUrl'] ?? '',
+        fileName: Get.arguments['fileName'] ?? '',
+      ),
+      binding: FilePreviewerBinding(),
     ),
   ];
 }

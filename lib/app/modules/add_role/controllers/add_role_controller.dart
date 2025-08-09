@@ -8,6 +8,9 @@ import 'package:drift/drift.dart' show Value;
 import 'package:image_picker/image_picker.dart';
 
 class AddRoleController extends GetxController {
+  String? roleId;
+  AddRoleController({this.roleId});
+
   RoleService roleService = Get.find<RoleService>();
   ToastService toastService = Get.find<ToastService>();
 
@@ -23,6 +26,10 @@ class AddRoleController extends GetxController {
 
   Rx<bool> isLoading = false.obs;
 
+  Rx<Role> role = Role(id: '', name: '').obs;
+
+  late Future<void> initRoleDetailFuture;
+
   @override
   void onInit() {
     super.onInit();
@@ -36,6 +43,36 @@ class AddRoleController extends GetxController {
         description: Value<String?>(descriptionController.text),
       );
     });
+
+    initRoleDetailFuture = initData();
+  }
+
+  Future<void> initData() async {
+    if (roleId == null || roleId!.isEmpty) {
+      return;
+    }
+
+    final response = await roleService.getRoleDetail(roleId: roleId!);
+
+    if (response.code == 200 && response.data != null) {
+      role.value = Role.fromJson(response.data);
+
+      formData.value = formData.value.copyWith(
+        name: role.value.name,
+        description: Value<String?>(role.value.description),
+        icon: Value<String?>(role.value.icon),
+        authorId: Value<String?>(role.value.authorId),
+        authorName: Value<String?>(role.value.authorName),
+        publishTime: Value<String?>(role.value.publishTime),
+        createAt: Value<String?>(role.value.createAt),
+        updateAt: Value<String?>(role.value.updateAt),
+      );
+
+      nameController.text = role.value.name;
+      descriptionController.text = role.value.description ?? '';
+
+      update(['update-role']);
+    }
   }
 
   void selectRoleLogo() async {
@@ -63,17 +100,39 @@ class AddRoleController extends GetxController {
 
     isLoading.value = true;
 
-    NormalResponse response = await roleService.addRole(
-      name: nameController.text,
-      description: descriptionController.text,
-      icon: roleIcon.value,
-    );
+    NormalResponse response;
+
+    if (roleId == null || roleId!.isEmpty) {
+      // 添加角色
+      response = await roleService.addRole(
+        name: nameController.text,
+        description: descriptionController.text,
+        icon: roleIcon.value,
+      );
+    } else {
+      // 编辑角色
+      response = await roleService.editRole(
+        id: roleId!,
+        name: nameController.text,
+        description: descriptionController.text,
+        icon: roleIcon.value,
+      );
+    }
 
     if (response.code == 200) {
       Get.back();
-      toastService.showSuccess('add_role.success'.tr);
+      toastService.showSuccess(
+        roleId == null || roleId!.isEmpty
+            ? 'add_role.success'.tr
+            : 'edit_role.success'.tr,
+      );
     } else {
-      toastService.showError(response.message ?? 'add_role.error'.tr);
+      toastService.showError(
+        response.message ??
+            (roleId == null || roleId!.isEmpty
+                ? 'add_role.error'.tr
+                : 'edit_role.error'.tr),
+      );
     }
 
     isLoading.value = false;

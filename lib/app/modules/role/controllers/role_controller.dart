@@ -1,3 +1,5 @@
+import 'package:astrum/app/modules/add_role/views/add_role_view.dart';
+import 'package:astrum/app/modules/role_detail/views/role_detail_view.dart';
 import 'package:astrum/app/routes/app_pages.dart';
 import 'package:astrum/database/database.dart';
 import 'package:astrum/services/role.dart';
@@ -50,5 +52,10 @@ class RoleController extends GetxController {
 
   void gotoAddRole() {
     Get.toNamed(Routes.ADD_ROLE);
+  }
+
+  void gotoRoleDetail(Role role) {
+    // Get.to(() => AddRoleView(roleId: role.id));
+    Get.to(() => RoleDetailView(roleId: role.id));
   }
 }

@@ -10,6 +10,10 @@ abstract class Routes {
   static const ROLE = _Paths.ROLE;
   static const ADD_ROLE = _Paths.ADD_ROLE;
   static const ADD_ATTACHMENT = _Paths.ADD_ATTACHMENT;
+  static const ROLE_DETAIL = _Paths.ROLE_DETAIL;
+  static const ATTACHMENTS = _Paths.ATTACHMENTS;
+  static const CREATE_ATTACHMENT = _Paths.CREATE_ATTACHMENT;
+  static const FILE_PREVIEWER = _Paths.FILE_PREVIEWER;
 }
 
 abstract class _Paths {
@@ -21,4 +25,8 @@ abstract class _Paths {
   static const ROLE = '/role';
   static const ADD_ROLE = '/add-role';
   static const ADD_ATTACHMENT = '/add-attachment';
+  static const ROLE_DETAIL = '/role-detail';
+  static const ATTACHMENTS = '/attachments';
+  static const CREATE_ATTACHMENT = '/create-attachment';
+  static const FILE_PREVIEWER = '/file-previewer';
 }

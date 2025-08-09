@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:astrum/services/attachment.dart';
 import 'package:astrum/services/role.dart';
 import 'package:astrum/services/toast.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -55,6 +56,9 @@ Future<void> initServices() async {
 
   ToastService toastService = ToastService();
   Get.lazyPut(() => toastService);
+
+  AttachmentService attachmentService = AttachmentService();
+  Get.lazyPut(() => attachmentService);
 
   RoleService roleService = RoleService();
   Get.lazyPut(() => roleService);
