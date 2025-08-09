@@ -39,16 +39,24 @@ class AttachmentsView extends GetView {
           controller.attachments[index].filename,
           style: Get.theme.textTheme.titleSmall,
         ),
-        trailing: SvgPicture.asset(
-          'assets/svgs/icon_arrow_right.svg',
-          width: 20,
-          height: 20,
-          colorFilter: ColorFilter.mode(
-            Get.theme.colorScheme.onSurface.withValues(alpha: 0.18),
-            BlendMode.srcIn,
+        trailing: IconButton(
+          onPressed: () {
+            controller.deleteAttachment(
+              id: controller.attachments[index].id,
+              filename: controller.attachments[index].filename,
+            );
+          },
+          icon: SvgPicture.asset(
+            'assets/svgs/icon_close.svg',
+            width: 16,
+            height: 16,
+            colorFilter: ColorFilter.mode(
+              Get.theme.colorScheme.error.withValues(alpha: 0.88),
+              BlendMode.srcIn,
+            ),
           ),
         ),
-        contentPadding: EdgeInsets.only(left: 16, right: 12),
+        contentPadding: EdgeInsets.only(left: 16, right: 0),
       ),
     );
   }

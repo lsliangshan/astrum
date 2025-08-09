@@ -30,6 +30,25 @@ class AttachmentService extends GetxService {
     return NormalResponse.fromJson(data);
   }
 
+  Future<NormalResponse> deleteAttachment({
+    required String attachmentId,
+  }) async {
+    http.Response response = await http.post(
+      Uri.parse('https://wf.liangqy.com/webhook/astrum/delete-attachment'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json.encode({'attachmentId': attachmentId}),
+    );
+
+    if (response.body.isEmpty) {
+      return NormalResponse(code: 1001, message: '网络异常', data: {});
+    }
+    final data = json.decode(response.body);
+
+    return NormalResponse.fromJson(data);
+  }
+
   Future<NormalResponse> getAttachmentDetail({
     required String attachmentId,
   }) async {
@@ -67,7 +86,7 @@ class AttachmentService extends GetxService {
 
     // 3. 构建 Multipart 请求
     final uri = Uri.parse(
-      'https://wf.liangqy.com/webhook-test/astrum/add-attachments',
+      'https://wf.liangqy.com/webhook/astrum/add-attachments',
     ); // 替换成你的实际 URL
     final request = http.MultipartRequest('POST', uri)
       ..fields['roleId'] = roleId
@@ -117,7 +136,7 @@ class AttachmentService extends GetxService {
     String? authorName,
   }) async {
     final uri = Uri.parse(
-      'https://wf.liangqy.com/webhook-test/astrum/add-attachments',
+      'https://wf.liangqy.com/webhook/astrum/add-attachments',
     ); // 替换成你的实际 URL
     final request = http.MultipartRequest('POST', uri)
       ..fields['roleId'] = roleId

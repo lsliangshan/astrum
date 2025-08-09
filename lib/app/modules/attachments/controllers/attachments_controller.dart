@@ -198,4 +198,59 @@ class AttachmentsController extends GetxController {
       );
     }
   }
+
+  Future<void> deleteAttachmentConfirm({required String attachmentId}) async {
+    NormalResponse response = await attachmentService.deleteAttachment(
+      attachmentId: attachmentId,
+    );
+    if (response.code == 200) {
+      await initAttachments();
+      toastService.showSuccess('attachments.delete.success'.tr);
+    } else {
+      toastService.showError('attachments.delete.failed'.tr);
+    }
+  }
+
+  Future<void> deleteAttachment({
+    required String id,
+    required String filename,
+  }) async {
+    Get.dialog(
+      AlertDialog(
+        title: Text('attachments.delete.title'.tr),
+        content: Text(
+          'attachments.delete.content'.tr.replaceAll('{filename}', filename),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              if (Get.isDialogOpen != null && Get.isDialogOpen!) {
+                Get.back();
+              }
+            },
+            child: Text(
+              'attachments.delete.cancel'.tr,
+              style: Get.theme.textTheme.bodyMedium?.copyWith(
+                color: Get.theme.colorScheme.onSurface.withValues(alpha: 0.4),
+              ),
+            ),
+          ),
+          FilledButton(
+            onPressed: () async {
+              if (Get.isDialogOpen != null && Get.isDialogOpen!) {
+                Get.back();
+              }
+              toastService.showLoading(
+                message: 'attachments.delete.loading'.tr,
+                asyncFunction: () async {
+                  await deleteAttachmentConfirm(attachmentId: id);
+                },
+              );
+            },
+            child: Text('attachments.delete.confirm'.tr),
+          ),
+        ],
+      ),
+    );
+  }
 }

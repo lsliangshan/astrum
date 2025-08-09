@@ -35,6 +35,7 @@ class Messages extends Translations {
       'attachments.uploading': '上传中...',
       'attachments.upload.failed': '上传失败',
       'attachments.upload.success': '上传成功',
+      'attachments.delete.loading': '删除中...',
 
       // 创建附件页面
       'create_attachment.title': '创建附件',
@@ -57,6 +58,13 @@ class Messages extends Translations {
       'language.short': 'zh',
 
       'no_more_data': '没有更多数据了',
+
+      'attachments.delete.title': '删除附件',
+      'attachments.delete.content': '确定要删除附件“{filename}”吗？',
+      'attachments.delete.confirm': '确定',
+      'attachments.delete.cancel': '取消',
+      'attachments.delete.success': '删除成功',
+      'attachments.delete.failed': '删除失败',
     },
     'en_US': {
       // 页面
@@ -90,6 +98,7 @@ class Messages extends Translations {
       'attachments.uploading': 'Uploading...',
       'attachments.upload.failed': 'Upload Failed',
       'attachments.upload.success': 'Upload Success',
+      'attachments.delete.loading': 'Deleting...',
 
       // 创建附件页面
       'create_attachment.title': 'Create Attachment',
@@ -112,6 +121,14 @@ class Messages extends Translations {
       'language.short': 'en',
 
       'no_more_data': 'No more data',
+
+      'attachments.delete.title': 'Delete Attachment',
+      'attachments.delete.content':
+          'Are you sure you want to delete the attachment “{filename}”?',
+      'attachments.delete.confirm': 'Confirm',
+      'attachments.delete.cancel': 'Cancel',
+      'attachments.delete.success': 'Delete Success',
+      'attachments.delete.failed': 'Delete Failed',
     },
   };
 }
