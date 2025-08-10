@@ -29,8 +29,6 @@ class CreateAttachmentController extends GetxController {
   FocusNode fileNameFocusNode = FocusNode();
   FocusNode fileContentFocusNode = FocusNode();
 
-  Rx<String> mode = 'create'.obs;
-
   RxList<Attachment> attachments = <Attachment>[].obs;
 
   Rx<Attachment> attachmentDetail = Attachment(
@@ -62,10 +60,6 @@ class CreateAttachmentController extends GetxController {
       fileContentController.text = await attachmentService.getFileContent(
         fileUrl: attachmentDetail.value.url,
       );
-    }
-
-    if (attachmentId != null && attachmentId!.isNotEmpty) {
-      mode.value = 'edit';
     }
 
     await Future.delayed(const Duration(seconds: 1));
@@ -116,7 +110,7 @@ class CreateAttachmentController extends GetxController {
       return;
     }
 
-    if (mode.value == 'create') {
+    if (attachmentId == null || attachmentId!.isEmpty) {
       await initAttachments();
 
       if (attachments.any(
@@ -134,26 +128,19 @@ class CreateAttachmentController extends GetxController {
 
     isCreating.value = true;
 
-    // NormalResponse normalResponse = await attachmentService.uploadAttachment(
-    //   attachmentId: attachmentId,
-    //   content: fileContentController.text,
-    //   filename: fileNameController.text,
-    //   classId: classId.value,
-    //   className: classDetail.value.name ?? '',
-    //   uploaderId: classDetail.value.teacherId ?? '',
-    //   uploaderName: classDetail.value.teacherEnName ?? '',
-    // );
-    // if (normalResponse.code == 200) {
-    //   Get.back(
-    //     result: AttachmentEntity.fromJson({
-    //       ...(normalResponse.data!),
-    //       'updateAt': DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.now()),
-    //     }),
-    //   );
-    //   toastService.showSuccess('create_attachment.save.success'.tr);
-    // } else {
-    //   toastService.showError('create_attachment.save.failed'.tr);
-    // }
+    NormalResponse normalResponse = await attachmentService.uploadAttachment(
+      attachmentId: attachmentId,
+      content: fileContentController.text,
+      filename: fileNameController.text,
+      roleId: roleId,
+      roleName: roleName,
+    );
+    if (normalResponse.code == 200) {
+      Get.back(result: true);
+      toastService.showSuccess('create_attachment.save.success'.tr);
+    } else {
+      toastService.showError('create_attachment.save.failed'.tr);
+    }
 
     isCreating.value = false;
   }

@@ -51,7 +51,7 @@ class CreateAttachmentView extends GetView {
           onTapOutside: (event) {
             controller.fileNameFocusNode.unfocus();
           },
-          readOnly: controller.mode.value == 'edit',
+          readOnly: attachmentId != null && attachmentId!.isNotEmpty,
           style: Get.theme.textTheme.titleMedium!,
           cursorColor: Get.theme.colorScheme.primary,
           backgroundCursorColor: Get.theme.colorScheme.primary,
