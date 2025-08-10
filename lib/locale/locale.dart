@@ -27,6 +27,8 @@ class Messages extends Translations {
       'role_detail.title': '角色详情',
       'role_detail.base_info': '基础信息',
       'role_detail.attachments': '附件',
+      'role_detail.no_attachments.tip': '暂无附件',
+      'role_detail.chat': '聊天',
 
       'attachments.title': '附件管理',
       'attachments.from.upload': '从本地上传',
@@ -90,6 +92,8 @@ class Messages extends Translations {
       'role_detail.title': 'Role Detail',
       'role_detail.base_info': 'Base Info',
       'role_detail.attachments': 'Attachments',
+      'role_detail.no_attachments.tip': 'No attachments',
+      'role_detail.chat': 'Chat',
 
       'attachments.title': 'Attachments',
       'attachments.from.upload': 'Upload from local',

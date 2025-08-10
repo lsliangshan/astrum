@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:intl/intl.dart';
 
 // 智能体
 @DataClassName('Role')
@@ -54,6 +55,36 @@ class Attachments extends Table {
   TextColumn get createAt => text().nullable().withDefault(
     Constant(DateTime.now().millisecondsSinceEpoch.toString()),
   )();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+@DataClassName('Message')
+class Messages extends Table {
+  // 消息 ID
+  TextColumn get id => text()();
+  // 智能体 ID
+  TextColumn get roleId => text()();
+  // 消息内容
+  TextColumn get content => text()();
+  // 消息发送者 ID
+  TextColumn get senderId => text().nullable()();
+  // 消息发送者名称
+  TextColumn get senderName => text().nullable()();
+  // 消息发送者头像
+  TextColumn get senderAvatar =>
+      text().nullable().withDefault(const Constant(''))();
+  // 消息发送时间
+  TextColumn get createAt => text().nullable().withDefault(
+    Constant(DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())),
+  )();
+  // 消息类型，text、image、voice、video
+  TextColumn get type =>
+      text().nullable().withDefault(const Constant('text'))();
+  // 消息是否是机器人发送的
+  BoolColumn get isRobot =>
+      boolean().nullable().withDefault(const Constant(false))();
 
   @override
   Set<Column> get primaryKey => {id};

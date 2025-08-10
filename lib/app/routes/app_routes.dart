@@ -14,6 +14,7 @@ abstract class Routes {
   static const ATTACHMENTS = _Paths.ATTACHMENTS;
   static const CREATE_ATTACHMENT = _Paths.CREATE_ATTACHMENT;
   static const FILE_PREVIEWER = _Paths.FILE_PREVIEWER;
+  static const CHAT_DETAIL = _Paths.CHAT_DETAIL;
 }
 
 abstract class _Paths {
@@ -29,4 +30,5 @@ abstract class _Paths {
   static const ATTACHMENTS = '/attachments';
   static const CREATE_ATTACHMENT = '/create-attachment';
   static const FILE_PREVIEWER = '/file-previewer';
+  static const CHAT_DETAIL = '/chat-detail';
 }

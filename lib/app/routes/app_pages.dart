@@ -8,6 +8,8 @@ import '../modules/attachments/bindings/attachments_binding.dart';
 import '../modules/attachments/views/attachments_view.dart';
 import '../modules/chat/bindings/chat_binding.dart';
 import '../modules/chat/views/chat_view.dart';
+import '../modules/chat_detail/bindings/chat_detail_binding.dart';
+import '../modules/chat_detail/views/chat_detail_view.dart';
 import '../modules/create_attachment/bindings/create_attachment_binding.dart';
 import '../modules/create_attachment/views/create_attachment_view.dart';
 import '../modules/discovery/bindings/discovery_binding.dart';
@@ -88,6 +90,11 @@ class AppPages {
         fileName: Get.arguments['fileName'] ?? '',
       ),
       binding: FilePreviewerBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHAT_DETAIL,
+      page: () => ChatDetailView(roleId: '', roleName: ''),
+      binding: ChatDetailBinding(),
     ),
   ];
 }

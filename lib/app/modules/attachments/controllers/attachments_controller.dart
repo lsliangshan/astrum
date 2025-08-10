@@ -221,6 +221,10 @@ class AttachmentsController extends GetxController {
         content: Text(
           'attachments.delete.content'.tr.replaceAll('{filename}', filename),
         ),
+        shape: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide.none,
+        ),
         actions: [
           TextButton(
             onPressed: () {
@@ -251,6 +255,8 @@ class AttachmentsController extends GetxController {
           ),
         ],
       ),
+      transitionCurve: Curves.easeInOut,
+      transitionDuration: Duration(milliseconds: 200),
     );
   }
 }

@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:astrum/database/daos/message.dao.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod/riverpod.dart';
 import 'tables.dart';
@@ -29,7 +31,7 @@ LazyDatabase _openConnection() {
 }
 
 // @DriftDatabase(tables: [Activities, Users], include: {'sql.drift'})
-@DriftDatabase(tables: [Roles, Attachments], daos: [])
+@DriftDatabase(tables: [Roles, Attachments, Messages], daos: [MessageDao])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
