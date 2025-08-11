@@ -21,8 +21,11 @@ class AuthService extends GetxService {
 
   Future<void> initLoginInfo() async {
     user.value = await userDao.getLoginInfo();
-    print(">>>>>>>>>>>> ${user.value.toJson()}");
-    isLogin.value = true;
+    if (user.value.token != null && user.value.token!.isNotEmpty) {
+      isLogin.value = true;
+    } else {
+      isLogin.value = false;
+    }
   }
 
   Future<NormalResponse> login({
@@ -62,7 +65,7 @@ class AuthService extends GetxService {
       },
       body: json.encode({'username': username, 'password': password}),
     );
-    print('>>>>>> 用户注册 ${response.body}');
+
     if (response.body.isEmpty) {
       return NormalResponse(code: 1001, message: '网络异常', data: {});
     }
@@ -72,6 +75,8 @@ class AuthService extends GetxService {
   }
 
   void logout() {
+    userDao.logout(user.value.id);
+    user.value = User(id: '', username: '', password: '');
     isLogin.value = false;
   }
 }
