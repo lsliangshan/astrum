@@ -10,13 +10,56 @@ class ProfileView extends GetView<ProfileController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ProfileView'),
+        title: Text('profile.title'.tr, style: Get.theme.textTheme.titleMedium),
         centerTitle: true,
       ),
-      body: const Center(
-        child: Text(
-          'ProfileView is working',
-          style: TextStyle(fontSize: 20),
+      body: Center(
+        child: Column(
+          children: [
+            Obx(
+              () => ListTile(
+                title: Text(
+                  controller.isLogin.isTrue
+                      ? controller.user.value.username
+                      : 'profile.anonymous'.tr,
+                ),
+              ),
+            ),
+            Obx(() {
+              if (controller.isLogin.isTrue) {
+                return TextButton(
+                  onPressed: () {
+                    controller.logout();
+                  },
+                  style: TextButton.styleFrom(
+                    overlayColor: Get.theme.colorScheme.error.withValues(
+                      alpha: 0.5,
+                    ),
+                  ),
+                  child: Text(
+                    'profile.logout'.tr,
+                    style: Get.theme.textTheme.bodyMedium?.copyWith(
+                      color: Get.theme.colorScheme.error,
+                    ),
+                  ),
+                );
+              }
+              return TextButton(
+                onPressed: () {
+                  controller.gotoLogin();
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: Get.theme.colorScheme.secondary,
+                ),
+                child: Text(
+                  'profile.login'.tr,
+                  style: Get.theme.textTheme.bodyMedium?.copyWith(
+                    color: Get.theme.colorScheme.onSurface,
+                  ),
+                ),
+              );
+            }),
+          ],
         ),
       ),
     );

@@ -31,7 +31,10 @@ LazyDatabase _openConnection() {
 }
 
 // @DriftDatabase(tables: [Activities, Users], include: {'sql.drift'})
-@DriftDatabase(tables: [Roles, Attachments, Messages], daos: [MessageDao])
+@DriftDatabase(
+  tables: [Roles, Attachments, Messages, Users],
+  daos: [MessageDao],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 

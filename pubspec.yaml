@@ -74,6 +74,8 @@ dependencies:
 
   markdown_widget: ^2.3.2+8
 
+  dart_jsonwebtoken: ^2.17.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

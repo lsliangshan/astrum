@@ -1,6 +1,5 @@
 import 'package:astrum/app/modules/add_role/views/add_role_view.dart';
 import 'package:astrum/app/modules/attachments/views/attachments_view.dart';
-import 'package:astrum/app/modules/chat_detail/views/chat_detail_view.dart';
 import 'package:astrum/app/modules/create_attachment/views/create_attachment_view.dart';
 import 'package:astrum/app/routes/app_pages.dart';
 import 'package:astrum/database/database.dart';
@@ -98,8 +97,8 @@ class RoleDetailController extends GetxController {
   }
 
   Future<void> gotoChatDetail() async {
-    await Get.to(
-      () => ChatDetailView(roleId: roleId, roleName: role.value.name),
-    );
+    // await Get.to(
+    //   () => ChatDetailView(roleId: roleId, roleName: role.value.name),
+    // );
   }
 }

@@ -90,6 +90,45 @@ class Messages extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+// 智能体
+@DataClassName('User')
+class Users extends Table {
+  // 用户 ID
+  TextColumn get id => text()();
+  // 用户名
+  TextColumn get username => text()();
+  // 密码
+  TextColumn get password => text()();
+  // 手机号
+  TextColumn get phonenum => text().nullable()();
+  // 昵称
+  TextColumn get nickname => text().nullable()();
+  // 邮箱
+  TextColumn get email => text().nullable()();
+  // 用户 token
+  TextColumn get token => text().nullable()();
+  // 头像
+  TextColumn get avatar => text().nullable()();
+  // 性别，male：男，female：女
+  TextColumn get gender =>
+      text().nullable().withDefault(const Constant('male'))();
+  // 生日
+  TextColumn get birthday => text().nullable()();
+  // 个性签名
+  TextColumn get signature => text().nullable()();
+  // 更新时间
+  TextColumn get updateAt => text().nullable().withDefault(
+    Constant(DateTime.now().millisecondsSinceEpoch.toString()),
+  )();
+  // 创建时间
+  TextColumn get createAt => text().nullable().withDefault(
+    Constant(DateTime.now().millisecondsSinceEpoch.toString()),
+  )();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
 mixin AutoIncrementingPrimaryKey on Table {
   IntColumn get id => integer().autoIncrement().nullable()();
 }

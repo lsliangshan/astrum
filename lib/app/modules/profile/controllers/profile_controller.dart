@@ -1,23 +1,24 @@
+import 'package:astrum/app/routes/app_pages.dart';
+import 'package:astrum/database/database.dart';
+import 'package:astrum/services/auth.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
-  //TODO: Implement ProfileController
+  AuthService authService = Get.find<AuthService>();
 
-  final count = 0.obs;
+  Rx<User> get user => authService.user;
+  RxBool get isLogin => authService.isLogin;
+
   @override
   void onInit() {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void gotoLogin() {
+    Get.toNamed(Routes.LOGIN);
   }
 
-  @override
-  void onClose() {
-    super.onClose();
+  void logout() {
+    authService.logout();
   }
-
-  void increment() => count.value++;
 }

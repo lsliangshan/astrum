@@ -1,4 +1,5 @@
 import 'package:astrum/app/data/app.config.dart';
+import 'package:astrum/app/modules/profile/controllers/profile_controller.dart';
 import 'package:astrum/app/modules/role/controllers/role_controller.dart';
 import 'package:astrum/types/types.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,10 @@ class HomeController extends GetxController
     if (!initialedView.contains("RoleView")) {
       initialedView.add('RoleView');
       Get.put<RoleController>(RoleController());
+    }
+    if (!initialedView.contains("ProfileView")) {
+      initialedView.add('ProfileView');
+      Get.put<ProfileController>(ProfileController());
     }
   }
 }

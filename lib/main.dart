@@ -1,5 +1,8 @@
 import 'dart:ui';
+import 'package:astrum/database/daos/user.dao.dart';
+import 'package:astrum/database/database.dart';
 import 'package:astrum/services/attachment.dart';
+import 'package:astrum/services/auth.dart';
 import 'package:astrum/services/role.dart';
 import 'package:astrum/services/toast.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -57,9 +60,16 @@ Future<void> initServices() async {
   ToastService toastService = ToastService();
   Get.lazyPut(() => toastService);
 
+  AppDatabase db = AppDatabase();
+  UserDao userDao = UserDao(db);
+  Get.put<UserDao>(userDao);
+
   AttachmentService attachmentService = AttachmentService();
   Get.lazyPut(() => attachmentService);
 
   RoleService roleService = RoleService();
   Get.lazyPut(() => roleService);
+
+  AuthService authService = AuthService();
+  Get.lazyPut(() => authService);
 }

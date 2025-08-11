@@ -1613,12 +1613,769 @@ class MessagesCompanion extends UpdateCompanion<Message> {
   }
 }
 
+class $UsersTable extends Users with TableInfo<$UsersTable, User> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UsersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _usernameMeta = const VerificationMeta(
+    'username',
+  );
+  @override
+  late final GeneratedColumn<String> username = GeneratedColumn<String>(
+    'username',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _passwordMeta = const VerificationMeta(
+    'password',
+  );
+  @override
+  late final GeneratedColumn<String> password = GeneratedColumn<String>(
+    'password',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _phonenumMeta = const VerificationMeta(
+    'phonenum',
+  );
+  @override
+  late final GeneratedColumn<String> phonenum = GeneratedColumn<String>(
+    'phonenum',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _nicknameMeta = const VerificationMeta(
+    'nickname',
+  );
+  @override
+  late final GeneratedColumn<String> nickname = GeneratedColumn<String>(
+    'nickname',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _emailMeta = const VerificationMeta('email');
+  @override
+  late final GeneratedColumn<String> email = GeneratedColumn<String>(
+    'email',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _tokenMeta = const VerificationMeta('token');
+  @override
+  late final GeneratedColumn<String> token = GeneratedColumn<String>(
+    'token',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _avatarMeta = const VerificationMeta('avatar');
+  @override
+  late final GeneratedColumn<String> avatar = GeneratedColumn<String>(
+    'avatar',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _genderMeta = const VerificationMeta('gender');
+  @override
+  late final GeneratedColumn<String> gender = GeneratedColumn<String>(
+    'gender',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('male'),
+  );
+  static const VerificationMeta _birthdayMeta = const VerificationMeta(
+    'birthday',
+  );
+  @override
+  late final GeneratedColumn<String> birthday = GeneratedColumn<String>(
+    'birthday',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _signatureMeta = const VerificationMeta(
+    'signature',
+  );
+  @override
+  late final GeneratedColumn<String> signature = GeneratedColumn<String>(
+    'signature',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _updateAtMeta = const VerificationMeta(
+    'updateAt',
+  );
+  @override
+  late final GeneratedColumn<String> updateAt = GeneratedColumn<String>(
+    'update_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: Constant(DateTime.now().millisecondsSinceEpoch.toString()),
+  );
+  static const VerificationMeta _createAtMeta = const VerificationMeta(
+    'createAt',
+  );
+  @override
+  late final GeneratedColumn<String> createAt = GeneratedColumn<String>(
+    'create_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: Constant(DateTime.now().millisecondsSinceEpoch.toString()),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    username,
+    password,
+    phonenum,
+    nickname,
+    email,
+    token,
+    avatar,
+    gender,
+    birthday,
+    signature,
+    updateAt,
+    createAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'users';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<User> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('username')) {
+      context.handle(
+        _usernameMeta,
+        username.isAcceptableOrUnknown(data['username']!, _usernameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_usernameMeta);
+    }
+    if (data.containsKey('password')) {
+      context.handle(
+        _passwordMeta,
+        password.isAcceptableOrUnknown(data['password']!, _passwordMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_passwordMeta);
+    }
+    if (data.containsKey('phonenum')) {
+      context.handle(
+        _phonenumMeta,
+        phonenum.isAcceptableOrUnknown(data['phonenum']!, _phonenumMeta),
+      );
+    }
+    if (data.containsKey('nickname')) {
+      context.handle(
+        _nicknameMeta,
+        nickname.isAcceptableOrUnknown(data['nickname']!, _nicknameMeta),
+      );
+    }
+    if (data.containsKey('email')) {
+      context.handle(
+        _emailMeta,
+        email.isAcceptableOrUnknown(data['email']!, _emailMeta),
+      );
+    }
+    if (data.containsKey('token')) {
+      context.handle(
+        _tokenMeta,
+        token.isAcceptableOrUnknown(data['token']!, _tokenMeta),
+      );
+    }
+    if (data.containsKey('avatar')) {
+      context.handle(
+        _avatarMeta,
+        avatar.isAcceptableOrUnknown(data['avatar']!, _avatarMeta),
+      );
+    }
+    if (data.containsKey('gender')) {
+      context.handle(
+        _genderMeta,
+        gender.isAcceptableOrUnknown(data['gender']!, _genderMeta),
+      );
+    }
+    if (data.containsKey('birthday')) {
+      context.handle(
+        _birthdayMeta,
+        birthday.isAcceptableOrUnknown(data['birthday']!, _birthdayMeta),
+      );
+    }
+    if (data.containsKey('signature')) {
+      context.handle(
+        _signatureMeta,
+        signature.isAcceptableOrUnknown(data['signature']!, _signatureMeta),
+      );
+    }
+    if (data.containsKey('update_at')) {
+      context.handle(
+        _updateAtMeta,
+        updateAt.isAcceptableOrUnknown(data['update_at']!, _updateAtMeta),
+      );
+    }
+    if (data.containsKey('create_at')) {
+      context.handle(
+        _createAtMeta,
+        createAt.isAcceptableOrUnknown(data['create_at']!, _createAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  User map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return User(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      username: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}username'],
+      )!,
+      password: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}password'],
+      )!,
+      phonenum: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}phonenum'],
+      ),
+      nickname: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}nickname'],
+      ),
+      email: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}email'],
+      ),
+      token: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}token'],
+      ),
+      avatar: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}avatar'],
+      ),
+      gender: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}gender'],
+      ),
+      birthday: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}birthday'],
+      ),
+      signature: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}signature'],
+      ),
+      updateAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}update_at'],
+      ),
+      createAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}create_at'],
+      ),
+    );
+  }
+
+  @override
+  $UsersTable createAlias(String alias) {
+    return $UsersTable(attachedDatabase, alias);
+  }
+}
+
+class User extends DataClass implements Insertable<User> {
+  final String id;
+  final String username;
+  final String password;
+  final String? phonenum;
+  final String? nickname;
+  final String? email;
+  final String? token;
+  final String? avatar;
+  final String? gender;
+  final String? birthday;
+  final String? signature;
+  final String? updateAt;
+  final String? createAt;
+  const User({
+    required this.id,
+    required this.username,
+    required this.password,
+    this.phonenum,
+    this.nickname,
+    this.email,
+    this.token,
+    this.avatar,
+    this.gender,
+    this.birthday,
+    this.signature,
+    this.updateAt,
+    this.createAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['username'] = Variable<String>(username);
+    map['password'] = Variable<String>(password);
+    if (!nullToAbsent || phonenum != null) {
+      map['phonenum'] = Variable<String>(phonenum);
+    }
+    if (!nullToAbsent || nickname != null) {
+      map['nickname'] = Variable<String>(nickname);
+    }
+    if (!nullToAbsent || email != null) {
+      map['email'] = Variable<String>(email);
+    }
+    if (!nullToAbsent || token != null) {
+      map['token'] = Variable<String>(token);
+    }
+    if (!nullToAbsent || avatar != null) {
+      map['avatar'] = Variable<String>(avatar);
+    }
+    if (!nullToAbsent || gender != null) {
+      map['gender'] = Variable<String>(gender);
+    }
+    if (!nullToAbsent || birthday != null) {
+      map['birthday'] = Variable<String>(birthday);
+    }
+    if (!nullToAbsent || signature != null) {
+      map['signature'] = Variable<String>(signature);
+    }
+    if (!nullToAbsent || updateAt != null) {
+      map['update_at'] = Variable<String>(updateAt);
+    }
+    if (!nullToAbsent || createAt != null) {
+      map['create_at'] = Variable<String>(createAt);
+    }
+    return map;
+  }
+
+  UsersCompanion toCompanion(bool nullToAbsent) {
+    return UsersCompanion(
+      id: Value(id),
+      username: Value(username),
+      password: Value(password),
+      phonenum: phonenum == null && nullToAbsent
+          ? const Value.absent()
+          : Value(phonenum),
+      nickname: nickname == null && nullToAbsent
+          ? const Value.absent()
+          : Value(nickname),
+      email: email == null && nullToAbsent
+          ? const Value.absent()
+          : Value(email),
+      token: token == null && nullToAbsent
+          ? const Value.absent()
+          : Value(token),
+      avatar: avatar == null && nullToAbsent
+          ? const Value.absent()
+          : Value(avatar),
+      gender: gender == null && nullToAbsent
+          ? const Value.absent()
+          : Value(gender),
+      birthday: birthday == null && nullToAbsent
+          ? const Value.absent()
+          : Value(birthday),
+      signature: signature == null && nullToAbsent
+          ? const Value.absent()
+          : Value(signature),
+      updateAt: updateAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updateAt),
+      createAt: createAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createAt),
+    );
+  }
+
+  factory User.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return User(
+      id: serializer.fromJson<String>(json['id']),
+      username: serializer.fromJson<String>(json['username']),
+      password: serializer.fromJson<String>(json['password']),
+      phonenum: serializer.fromJson<String?>(json['phonenum']),
+      nickname: serializer.fromJson<String?>(json['nickname']),
+      email: serializer.fromJson<String?>(json['email']),
+      token: serializer.fromJson<String?>(json['token']),
+      avatar: serializer.fromJson<String?>(json['avatar']),
+      gender: serializer.fromJson<String?>(json['gender']),
+      birthday: serializer.fromJson<String?>(json['birthday']),
+      signature: serializer.fromJson<String?>(json['signature']),
+      updateAt: serializer.fromJson<String?>(json['updateAt']),
+      createAt: serializer.fromJson<String?>(json['createAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'username': serializer.toJson<String>(username),
+      'password': serializer.toJson<String>(password),
+      'phonenum': serializer.toJson<String?>(phonenum),
+      'nickname': serializer.toJson<String?>(nickname),
+      'email': serializer.toJson<String?>(email),
+      'token': serializer.toJson<String?>(token),
+      'avatar': serializer.toJson<String?>(avatar),
+      'gender': serializer.toJson<String?>(gender),
+      'birthday': serializer.toJson<String?>(birthday),
+      'signature': serializer.toJson<String?>(signature),
+      'updateAt': serializer.toJson<String?>(updateAt),
+      'createAt': serializer.toJson<String?>(createAt),
+    };
+  }
+
+  User copyWith({
+    String? id,
+    String? username,
+    String? password,
+    Value<String?> phonenum = const Value.absent(),
+    Value<String?> nickname = const Value.absent(),
+    Value<String?> email = const Value.absent(),
+    Value<String?> token = const Value.absent(),
+    Value<String?> avatar = const Value.absent(),
+    Value<String?> gender = const Value.absent(),
+    Value<String?> birthday = const Value.absent(),
+    Value<String?> signature = const Value.absent(),
+    Value<String?> updateAt = const Value.absent(),
+    Value<String?> createAt = const Value.absent(),
+  }) => User(
+    id: id ?? this.id,
+    username: username ?? this.username,
+    password: password ?? this.password,
+    phonenum: phonenum.present ? phonenum.value : this.phonenum,
+    nickname: nickname.present ? nickname.value : this.nickname,
+    email: email.present ? email.value : this.email,
+    token: token.present ? token.value : this.token,
+    avatar: avatar.present ? avatar.value : this.avatar,
+    gender: gender.present ? gender.value : this.gender,
+    birthday: birthday.present ? birthday.value : this.birthday,
+    signature: signature.present ? signature.value : this.signature,
+    updateAt: updateAt.present ? updateAt.value : this.updateAt,
+    createAt: createAt.present ? createAt.value : this.createAt,
+  );
+  User copyWithCompanion(UsersCompanion data) {
+    return User(
+      id: data.id.present ? data.id.value : this.id,
+      username: data.username.present ? data.username.value : this.username,
+      password: data.password.present ? data.password.value : this.password,
+      phonenum: data.phonenum.present ? data.phonenum.value : this.phonenum,
+      nickname: data.nickname.present ? data.nickname.value : this.nickname,
+      email: data.email.present ? data.email.value : this.email,
+      token: data.token.present ? data.token.value : this.token,
+      avatar: data.avatar.present ? data.avatar.value : this.avatar,
+      gender: data.gender.present ? data.gender.value : this.gender,
+      birthday: data.birthday.present ? data.birthday.value : this.birthday,
+      signature: data.signature.present ? data.signature.value : this.signature,
+      updateAt: data.updateAt.present ? data.updateAt.value : this.updateAt,
+      createAt: data.createAt.present ? data.createAt.value : this.createAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('User(')
+          ..write('id: $id, ')
+          ..write('username: $username, ')
+          ..write('password: $password, ')
+          ..write('phonenum: $phonenum, ')
+          ..write('nickname: $nickname, ')
+          ..write('email: $email, ')
+          ..write('token: $token, ')
+          ..write('avatar: $avatar, ')
+          ..write('gender: $gender, ')
+          ..write('birthday: $birthday, ')
+          ..write('signature: $signature, ')
+          ..write('updateAt: $updateAt, ')
+          ..write('createAt: $createAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    username,
+    password,
+    phonenum,
+    nickname,
+    email,
+    token,
+    avatar,
+    gender,
+    birthday,
+    signature,
+    updateAt,
+    createAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is User &&
+          other.id == this.id &&
+          other.username == this.username &&
+          other.password == this.password &&
+          other.phonenum == this.phonenum &&
+          other.nickname == this.nickname &&
+          other.email == this.email &&
+          other.token == this.token &&
+          other.avatar == this.avatar &&
+          other.gender == this.gender &&
+          other.birthday == this.birthday &&
+          other.signature == this.signature &&
+          other.updateAt == this.updateAt &&
+          other.createAt == this.createAt);
+}
+
+class UsersCompanion extends UpdateCompanion<User> {
+  final Value<String> id;
+  final Value<String> username;
+  final Value<String> password;
+  final Value<String?> phonenum;
+  final Value<String?> nickname;
+  final Value<String?> email;
+  final Value<String?> token;
+  final Value<String?> avatar;
+  final Value<String?> gender;
+  final Value<String?> birthday;
+  final Value<String?> signature;
+  final Value<String?> updateAt;
+  final Value<String?> createAt;
+  final Value<int> rowid;
+  const UsersCompanion({
+    this.id = const Value.absent(),
+    this.username = const Value.absent(),
+    this.password = const Value.absent(),
+    this.phonenum = const Value.absent(),
+    this.nickname = const Value.absent(),
+    this.email = const Value.absent(),
+    this.token = const Value.absent(),
+    this.avatar = const Value.absent(),
+    this.gender = const Value.absent(),
+    this.birthday = const Value.absent(),
+    this.signature = const Value.absent(),
+    this.updateAt = const Value.absent(),
+    this.createAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  UsersCompanion.insert({
+    required String id,
+    required String username,
+    required String password,
+    this.phonenum = const Value.absent(),
+    this.nickname = const Value.absent(),
+    this.email = const Value.absent(),
+    this.token = const Value.absent(),
+    this.avatar = const Value.absent(),
+    this.gender = const Value.absent(),
+    this.birthday = const Value.absent(),
+    this.signature = const Value.absent(),
+    this.updateAt = const Value.absent(),
+    this.createAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       username = Value(username),
+       password = Value(password);
+  static Insertable<User> custom({
+    Expression<String>? id,
+    Expression<String>? username,
+    Expression<String>? password,
+    Expression<String>? phonenum,
+    Expression<String>? nickname,
+    Expression<String>? email,
+    Expression<String>? token,
+    Expression<String>? avatar,
+    Expression<String>? gender,
+    Expression<String>? birthday,
+    Expression<String>? signature,
+    Expression<String>? updateAt,
+    Expression<String>? createAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (username != null) 'username': username,
+      if (password != null) 'password': password,
+      if (phonenum != null) 'phonenum': phonenum,
+      if (nickname != null) 'nickname': nickname,
+      if (email != null) 'email': email,
+      if (token != null) 'token': token,
+      if (avatar != null) 'avatar': avatar,
+      if (gender != null) 'gender': gender,
+      if (birthday != null) 'birthday': birthday,
+      if (signature != null) 'signature': signature,
+      if (updateAt != null) 'update_at': updateAt,
+      if (createAt != null) 'create_at': createAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  UsersCompanion copyWith({
+    Value<String>? id,
+    Value<String>? username,
+    Value<String>? password,
+    Value<String?>? phonenum,
+    Value<String?>? nickname,
+    Value<String?>? email,
+    Value<String?>? token,
+    Value<String?>? avatar,
+    Value<String?>? gender,
+    Value<String?>? birthday,
+    Value<String?>? signature,
+    Value<String?>? updateAt,
+    Value<String?>? createAt,
+    Value<int>? rowid,
+  }) {
+    return UsersCompanion(
+      id: id ?? this.id,
+      username: username ?? this.username,
+      password: password ?? this.password,
+      phonenum: phonenum ?? this.phonenum,
+      nickname: nickname ?? this.nickname,
+      email: email ?? this.email,
+      token: token ?? this.token,
+      avatar: avatar ?? this.avatar,
+      gender: gender ?? this.gender,
+      birthday: birthday ?? this.birthday,
+      signature: signature ?? this.signature,
+      updateAt: updateAt ?? this.updateAt,
+      createAt: createAt ?? this.createAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (username.present) {
+      map['username'] = Variable<String>(username.value);
+    }
+    if (password.present) {
+      map['password'] = Variable<String>(password.value);
+    }
+    if (phonenum.present) {
+      map['phonenum'] = Variable<String>(phonenum.value);
+    }
+    if (nickname.present) {
+      map['nickname'] = Variable<String>(nickname.value);
+    }
+    if (email.present) {
+      map['email'] = Variable<String>(email.value);
+    }
+    if (token.present) {
+      map['token'] = Variable<String>(token.value);
+    }
+    if (avatar.present) {
+      map['avatar'] = Variable<String>(avatar.value);
+    }
+    if (gender.present) {
+      map['gender'] = Variable<String>(gender.value);
+    }
+    if (birthday.present) {
+      map['birthday'] = Variable<String>(birthday.value);
+    }
+    if (signature.present) {
+      map['signature'] = Variable<String>(signature.value);
+    }
+    if (updateAt.present) {
+      map['update_at'] = Variable<String>(updateAt.value);
+    }
+    if (createAt.present) {
+      map['create_at'] = Variable<String>(createAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UsersCompanion(')
+          ..write('id: $id, ')
+          ..write('username: $username, ')
+          ..write('password: $password, ')
+          ..write('phonenum: $phonenum, ')
+          ..write('nickname: $nickname, ')
+          ..write('email: $email, ')
+          ..write('token: $token, ')
+          ..write('avatar: $avatar, ')
+          ..write('gender: $gender, ')
+          ..write('birthday: $birthday, ')
+          ..write('signature: $signature, ')
+          ..write('updateAt: $updateAt, ')
+          ..write('createAt: $createAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $RolesTable roles = $RolesTable(this);
   late final $AttachmentsTable attachments = $AttachmentsTable(this);
   late final $MessagesTable messages = $MessagesTable(this);
+  late final $UsersTable users = $UsersTable(this);
   late final MessageDao messageDao = MessageDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
@@ -1628,6 +2385,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     roles,
     attachments,
     messages,
+    users,
   ];
 }
 
@@ -2418,6 +3176,351 @@ typedef $$MessagesTableProcessedTableManager =
       Message,
       PrefetchHooks Function()
     >;
+typedef $$UsersTableCreateCompanionBuilder =
+    UsersCompanion Function({
+      required String id,
+      required String username,
+      required String password,
+      Value<String?> phonenum,
+      Value<String?> nickname,
+      Value<String?> email,
+      Value<String?> token,
+      Value<String?> avatar,
+      Value<String?> gender,
+      Value<String?> birthday,
+      Value<String?> signature,
+      Value<String?> updateAt,
+      Value<String?> createAt,
+      Value<int> rowid,
+    });
+typedef $$UsersTableUpdateCompanionBuilder =
+    UsersCompanion Function({
+      Value<String> id,
+      Value<String> username,
+      Value<String> password,
+      Value<String?> phonenum,
+      Value<String?> nickname,
+      Value<String?> email,
+      Value<String?> token,
+      Value<String?> avatar,
+      Value<String?> gender,
+      Value<String?> birthday,
+      Value<String?> signature,
+      Value<String?> updateAt,
+      Value<String?> createAt,
+      Value<int> rowid,
+    });
+
+class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
+  $$UsersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get username => $composableBuilder(
+    column: $table.username,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get password => $composableBuilder(
+    column: $table.password,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get phonenum => $composableBuilder(
+    column: $table.phonenum,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get nickname => $composableBuilder(
+    column: $table.nickname,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get email => $composableBuilder(
+    column: $table.email,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get token => $composableBuilder(
+    column: $table.token,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get avatar => $composableBuilder(
+    column: $table.avatar,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get gender => $composableBuilder(
+    column: $table.gender,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get birthday => $composableBuilder(
+    column: $table.birthday,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get signature => $composableBuilder(
+    column: $table.signature,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get updateAt => $composableBuilder(
+    column: $table.updateAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get createAt => $composableBuilder(
+    column: $table.createAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$UsersTableOrderingComposer
+    extends Composer<_$AppDatabase, $UsersTable> {
+  $$UsersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get username => $composableBuilder(
+    column: $table.username,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get password => $composableBuilder(
+    column: $table.password,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get phonenum => $composableBuilder(
+    column: $table.phonenum,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get nickname => $composableBuilder(
+    column: $table.nickname,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get email => $composableBuilder(
+    column: $table.email,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get token => $composableBuilder(
+    column: $table.token,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get avatar => $composableBuilder(
+    column: $table.avatar,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get gender => $composableBuilder(
+    column: $table.gender,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get birthday => $composableBuilder(
+    column: $table.birthday,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get signature => $composableBuilder(
+    column: $table.signature,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get updateAt => $composableBuilder(
+    column: $table.updateAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get createAt => $composableBuilder(
+    column: $table.createAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$UsersTableAnnotationComposer
+    extends Composer<_$AppDatabase, $UsersTable> {
+  $$UsersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get username =>
+      $composableBuilder(column: $table.username, builder: (column) => column);
+
+  GeneratedColumn<String> get password =>
+      $composableBuilder(column: $table.password, builder: (column) => column);
+
+  GeneratedColumn<String> get phonenum =>
+      $composableBuilder(column: $table.phonenum, builder: (column) => column);
+
+  GeneratedColumn<String> get nickname =>
+      $composableBuilder(column: $table.nickname, builder: (column) => column);
+
+  GeneratedColumn<String> get email =>
+      $composableBuilder(column: $table.email, builder: (column) => column);
+
+  GeneratedColumn<String> get token =>
+      $composableBuilder(column: $table.token, builder: (column) => column);
+
+  GeneratedColumn<String> get avatar =>
+      $composableBuilder(column: $table.avatar, builder: (column) => column);
+
+  GeneratedColumn<String> get gender =>
+      $composableBuilder(column: $table.gender, builder: (column) => column);
+
+  GeneratedColumn<String> get birthday =>
+      $composableBuilder(column: $table.birthday, builder: (column) => column);
+
+  GeneratedColumn<String> get signature =>
+      $composableBuilder(column: $table.signature, builder: (column) => column);
+
+  GeneratedColumn<String> get updateAt =>
+      $composableBuilder(column: $table.updateAt, builder: (column) => column);
+
+  GeneratedColumn<String> get createAt =>
+      $composableBuilder(column: $table.createAt, builder: (column) => column);
+}
+
+class $$UsersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $UsersTable,
+          User,
+          $$UsersTableFilterComposer,
+          $$UsersTableOrderingComposer,
+          $$UsersTableAnnotationComposer,
+          $$UsersTableCreateCompanionBuilder,
+          $$UsersTableUpdateCompanionBuilder,
+          (User, BaseReferences<_$AppDatabase, $UsersTable, User>),
+          User,
+          PrefetchHooks Function()
+        > {
+  $$UsersTableTableManager(_$AppDatabase db, $UsersTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$UsersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UsersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$UsersTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> username = const Value.absent(),
+                Value<String> password = const Value.absent(),
+                Value<String?> phonenum = const Value.absent(),
+                Value<String?> nickname = const Value.absent(),
+                Value<String?> email = const Value.absent(),
+                Value<String?> token = const Value.absent(),
+                Value<String?> avatar = const Value.absent(),
+                Value<String?> gender = const Value.absent(),
+                Value<String?> birthday = const Value.absent(),
+                Value<String?> signature = const Value.absent(),
+                Value<String?> updateAt = const Value.absent(),
+                Value<String?> createAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => UsersCompanion(
+                id: id,
+                username: username,
+                password: password,
+                phonenum: phonenum,
+                nickname: nickname,
+                email: email,
+                token: token,
+                avatar: avatar,
+                gender: gender,
+                birthday: birthday,
+                signature: signature,
+                updateAt: updateAt,
+                createAt: createAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String username,
+                required String password,
+                Value<String?> phonenum = const Value.absent(),
+                Value<String?> nickname = const Value.absent(),
+                Value<String?> email = const Value.absent(),
+                Value<String?> token = const Value.absent(),
+                Value<String?> avatar = const Value.absent(),
+                Value<String?> gender = const Value.absent(),
+                Value<String?> birthday = const Value.absent(),
+                Value<String?> signature = const Value.absent(),
+                Value<String?> updateAt = const Value.absent(),
+                Value<String?> createAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => UsersCompanion.insert(
+                id: id,
+                username: username,
+                password: password,
+                phonenum: phonenum,
+                nickname: nickname,
+                email: email,
+                token: token,
+                avatar: avatar,
+                gender: gender,
+                birthday: birthday,
+                signature: signature,
+                updateAt: updateAt,
+                createAt: createAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$UsersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $UsersTable,
+      User,
+      $$UsersTableFilterComposer,
+      $$UsersTableOrderingComposer,
+      $$UsersTableAnnotationComposer,
+      $$UsersTableCreateCompanionBuilder,
+      $$UsersTableUpdateCompanionBuilder,
+      (User, BaseReferences<_$AppDatabase, $UsersTable, User>),
+      User,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -2428,4 +3531,6 @@ class $AppDatabaseManager {
       $$AttachmentsTableTableManager(_db, _db.attachments);
   $$MessagesTableTableManager get messages =>
       $$MessagesTableTableManager(_db, _db.messages);
+  $$UsersTableTableManager get users =>
+      $$UsersTableTableManager(_db, _db.users);
 }
