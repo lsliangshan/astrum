@@ -1,8 +1,10 @@
 import 'dart:ui';
+import 'package:astrum/database/daos/message.dao.dart';
 import 'package:astrum/database/daos/user.dao.dart';
 import 'package:astrum/database/database.dart';
 import 'package:astrum/services/attachment.dart';
 import 'package:astrum/services/auth.dart';
+import 'package:astrum/services/message.dart';
 import 'package:astrum/services/role.dart';
 import 'package:astrum/services/toast.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -64,6 +66,9 @@ Future<void> initServices() async {
   UserDao userDao = UserDao(db);
   Get.put<UserDao>(userDao);
 
+  MessageDao messageDao = MessageDao(db);
+  Get.put<MessageDao>(messageDao);
+
   AttachmentService attachmentService = AttachmentService();
   Get.lazyPut(() => attachmentService);
 
@@ -72,4 +77,7 @@ Future<void> initServices() async {
 
   AuthService authService = AuthService();
   Get.lazyPut(() => authService);
+
+  MessageService messageService = MessageService();
+  Get.lazyPut(() => messageService);
 }

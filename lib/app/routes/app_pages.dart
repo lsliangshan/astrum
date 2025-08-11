@@ -24,6 +24,8 @@ import '../modules/role/bindings/role_binding.dart';
 import '../modules/role/views/role_view.dart';
 import '../modules/role_detail/bindings/role_detail_binding.dart';
 import '../modules/role_detail/views/role_detail_view.dart';
+import '../modules/chat_detail/bindings/chat_detail_binding.dart';
+import '../modules/chat_detail/views/chat_detail_view.dart';
 
 part 'app_routes.dart';
 
@@ -91,11 +93,11 @@ class AppPages {
       ),
       binding: FilePreviewerBinding(),
     ),
-    // GetPage(
-    //   name: _Paths.CHAT_DETAIL,
-    //   page: () => ChatDetailView(roleId: '', roleName: ''),
-    //   binding: ChatDetailBinding(),
-    // ),
+    GetPage(
+      name: _Paths.CHAT_DETAIL,
+      page: () => ChatDetailView(roleId: '', roleName: ''),
+      binding: ChatDetailBinding(),
+    ),
     GetPage(
       name: _Paths.LOGIN,
       page: () => const LoginView(),

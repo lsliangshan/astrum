@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:astrum/database/daos/message.dao.dart';
 import 'package:astrum/database/database.dart';
 import 'package:astrum/models/normal_response.model.dart';
+import 'package:astrum/services/auth.dart';
 import 'package:flutter_http_sse/client/sse_client.dart';
 import 'package:flutter_http_sse/model/sse_request.dart';
 import 'package:flutter_http_sse/model/sse_response.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_http_sse/model/sse_response.dart';
 import 'package:get/get.dart';
 
 class MessageService extends GetxService {
+  AuthService authService = Get.find<AuthService>();
   MessageDao messageDao = Get.find<MessageDao>();
 
   RxMap<String, Function(Message)> messageEventCallbacks =
@@ -18,6 +20,9 @@ class MessageService extends GetxService {
   int maxRetries = 3;
   int attempt = 0;
   Duration delay = const Duration(seconds: 1);
+
+  Rx<User> get loginInfo => authService.user;
+  RxBool get isLogin => authService.isLogin;
 
   Stream<SSEResponse> stream = Stream.empty();
 
@@ -80,7 +85,6 @@ class MessageService extends GetxService {
     String? senderAvatar,
     String? type,
     bool? isRobot,
-    String? from,
   }) async {
     await messageDao.createMessage(
       id: id,
@@ -95,8 +99,13 @@ class MessageService extends GetxService {
   }
 
   Future<void> initMessageService() async {
+    if (isLogin.isFalse) {
+      return;
+    }
+
     final request = SSERequest(
-      url: "http://api.liangqy.com/on/all/wing/robot/message",
+      url:
+          "http://api.liangqy.com/on/all/astrum/robot/message/${loginInfo.value.id}",
       headers: {"Cache-Control": "no-cache"},
       onData: (data) {
         // print(">>>>>>> Received: $data");
@@ -166,13 +175,13 @@ class MessageService extends GetxService {
   }
 
   onMessageEvent({
-    required String classId,
+    required String roleId,
     required Function(Message) callback,
   }) {
-    messageEventCallbacks[classId] = callback;
+    messageEventCallbacks[roleId] = callback;
   }
 
-  offMessageEvent({required String classId}) {
-    messageEventCallbacks.remove(classId);
+  offMessageEvent({required String roleId}) {
+    messageEventCallbacks.remove(roleId);
   }
 }

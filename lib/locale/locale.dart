@@ -95,6 +95,17 @@ class Messages extends Translations {
       'profile.anonymous': '未登录',
       'profile.logout': '退出登录',
       'profile.login': '登录',
+
+      // 发送机器人消息页面
+      'chat_detail.title': '发送机器人消息',
+      'chat_detail.hint_text': '请输入消息内容',
+      'chat_detail.load_more_message': '加载更多消息',
+      'chat_detail.no_more_message': '没有更多消息了',
+      'chat_detail.has_new_message': '{count} 条新消息',
+
+      // 未登录页面
+      'need_login.tip': '需要登录',
+      'need_login.btn.login': '去登录',
     },
     'en_US': {
       // 页面
@@ -190,6 +201,17 @@ class Messages extends Translations {
       'profile.anonymous': 'Anonymous',
       'profile.logout': 'Logout',
       'profile.login': 'Login',
+
+      // 发送机器人消息页面
+      'chat_detail.title': 'Send Robot Message',
+      'chat_detail.hint_text': 'Please enter the message content',
+      'chat_detail.load_more_message': 'Load More Message',
+      'chat_detail.no_more_message': 'No More Message',
+      'chat_detail.has_new_message': '{count} New Message',
+
+      // 未登录页面
+      'need_login.tip': 'Need Login',
+      'need_login.btn.login': 'Go Login',
     },
   };
 }
