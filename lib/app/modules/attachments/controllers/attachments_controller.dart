@@ -3,6 +3,7 @@ import 'package:astrum/app/routes/app_pages.dart';
 import 'package:astrum/database/database.dart';
 import 'package:astrum/models/normal_response.model.dart';
 import 'package:astrum/services/attachment.dart';
+import 'package:astrum/services/auth.dart';
 import 'package:astrum/services/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,6 +17,9 @@ class AttachmentsController extends GetxController {
 
   ToastService toastService = ToastService();
   AttachmentService attachmentService = AttachmentService();
+  AuthService authService = Get.find<AuthService>();
+
+  Rx<User> get loginInfo => authService.user;
 
   RxList<Attachment> attachments = <Attachment>[].obs;
 
@@ -156,8 +160,8 @@ class AttachmentsController extends GetxController {
             files: result.files.map((item) => XFile(item.path!)).toList(),
             roleId: roleId,
             roleName: roleName,
-            authorId: '',
-            authorName: '',
+            authorId: loginInfo.value.id,
+            authorName: loginInfo.value.username,
           );
 
       if (response.code == 200) {
