@@ -150,7 +150,19 @@ class AddRoleView extends GetView<AddRoleController> {
                           width: 100,
                           height: 100,
                           alignment: Alignment.topLeft,
-                          child: Text('add_role.icon'.tr),
+                          child: Row(
+                            children: [
+                              Text('add_role.icon'.tr),
+                              const SizedBox(width: 4),
+                              Text(
+                                '*',
+                                style: Get.theme.textTheme.labelLarge?.copyWith(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         Expanded(
                           child: Container(

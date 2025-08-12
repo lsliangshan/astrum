@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:astrum/database/database.dart';
 import 'package:astrum/models/normal_response.model.dart';
+import 'package:astrum/services/auth.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
@@ -7,6 +9,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 
 class RoleService extends GetxService {
+  AuthService authService = Get.find<AuthService>();
+
+  Rx<User> get loginInfo => authService.user;
+
   Future<NormalResponse> addRole({
     required String name,
     String? description,
@@ -17,16 +23,22 @@ class RoleService extends GetxService {
     ); // 替换成你的实际 URL
     final request = http.MultipartRequest('POST', uri)
       ..fields['name'] = Uri.encodeComponent(name)
-      ..fields['description'] = Uri.encodeComponent(description ?? '');
+      ..fields['description'] = Uri.encodeComponent(description ?? '')
+      ..fields['authorId'] = Uri.encodeComponent(loginInfo.value.id)
+      ..fields['authorName'] = Uri.encodeComponent(loginInfo.value.username);
 
-    request.files.add(
-      await http.MultipartFile.fromPath(
-        'file',
-        icon!.path,
-        filename: icon.name,
-        contentType: MediaType.parse(lookupMimeType(icon.name) ?? 'image/png'),
-      ),
-    );
+    if (icon != null) {
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'file',
+          icon!.path,
+          filename: icon.name,
+          contentType: MediaType.parse(
+            lookupMimeType(icon.name) ?? 'image/png',
+          ),
+        ),
+      );
+    }
 
     final response = await request.send().timeout(Duration(minutes: 30));
 
@@ -44,7 +56,9 @@ class RoleService extends GetxService {
       'https://wf.liangqy.com/webhook/astrum/edit-role',
     ); // 替换成你的实际 URL
     final request = http.MultipartRequest('POST', uri)
-      ..fields['id'] = Uri.encodeComponent(id);
+      ..fields['id'] = Uri.encodeComponent(id)
+      ..fields['authorId'] = Uri.encodeComponent(loginInfo.value.id)
+      ..fields['authorName'] = Uri.encodeComponent(loginInfo.value.username);
 
     if (name != null && name.isNotEmpty) {
       request.fields['name'] = Uri.encodeComponent(name);

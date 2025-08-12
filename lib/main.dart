@@ -72,12 +72,12 @@ Future<void> initServices() async {
   AttachmentService attachmentService = AttachmentService();
   Get.lazyPut(() => attachmentService);
 
-  RoleService roleService = RoleService();
-  Get.lazyPut(() => roleService);
-
   MessageService messageService = MessageService();
   Get.lazyPut(() => messageService);
 
   AuthService authService = AuthService();
   Get.lazyPut(() => authService);
+
+  RoleService roleService = RoleService();
+  Get.lazyPut(() => roleService);
 }

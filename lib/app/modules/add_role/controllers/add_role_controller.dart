@@ -94,6 +94,12 @@ class AddRoleController extends GetxController {
       return;
     }
 
+    if (roleIcon.value == null &&
+        (formData.value.icon == null || formData.value.icon!.isEmpty)) {
+      toastService.showError('add_role.icon.hint'.tr);
+      return;
+    }
+
     if (isLoading.value) {
       return;
     }
