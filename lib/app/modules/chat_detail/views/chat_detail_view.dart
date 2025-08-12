@@ -59,7 +59,7 @@ class ChatDetailView extends GetView {
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 0,
         children: [
-          if (message.senderId != controller.loginInfo.value?.id)
+          if (message.senderId != controller.loginInfo.value.id)
             _buildAvatar(message.senderAvatar ?? ''),
           Expanded(
             child: Column(
@@ -67,13 +67,12 @@ class ChatDetailView extends GetView {
                 Container(
                   height: 18,
                   margin: EdgeInsets.only(left: 16, right: 16),
-                  alignment:
-                      (message.senderId != controller.loginInfo.value?.id)
+                  alignment: (message.senderId != controller.loginInfo.value.id)
                       ? Alignment.centerLeft
                       : Alignment.centerRight,
                   child: Row(
                     textDirection:
-                        (message.senderId != controller.loginInfo.value?.id)
+                        (message.senderId != controller.loginInfo.value.id)
                         ? TextDirection.ltr
                         : TextDirection.rtl,
                     children: [
@@ -127,6 +126,76 @@ class ChatDetailView extends GetView {
           ),
           if (message.senderId == controller.loginInfo.value.id)
             _buildAvatar(message.senderAvatar ?? ''),
+        ],
+      ),
+    );
+  }
+
+  // 机器人模板消息，加载中
+  Widget _buildRobotTemplateMessage(Message message) {
+    return Container(
+      margin: EdgeInsets.only(top: 16, bottom: 16, left: 16, right: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 0,
+        children: [
+          _buildAvatar(message.senderAvatar ?? ''),
+          Expanded(
+            child: Column(
+              children: [
+                Container(
+                  height: 18,
+                  margin: EdgeInsets.only(left: 16, right: 16),
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 14,
+                        height: 14,
+                        margin: EdgeInsets.only(top: 2, right: 8),
+                        child: Icon(
+                          Icons.smart_toy,
+                          size: 14,
+                          color: Get.theme.hintColor,
+                        ),
+                      ),
+
+                      Text(
+                        message.senderName ?? '',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Text(
+                        message.createAt ?? '',
+                        style: TextStyle(fontSize: 14, color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 16),
+                    MessageBubbleView(
+                      content: Padding(
+                        padding: EdgeInsets.only(top: 8, bottom: 8),
+                        child: CustomLoader(size: 8),
+                      ),
+                      isSender: false,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -190,7 +259,15 @@ class ChatDetailView extends GetView {
                     ),
             ),
           ),
-        _buildMessageItemData(message, index),
+        GetBuilder(
+          init: controller,
+          builder: (_) {
+            if (message.status == 'sending' && message.isRobot == true) {
+              return _buildRobotTemplateMessage(message);
+            }
+            return _buildMessageItemData(message, index);
+          },
+        ),
       ],
     );
   }

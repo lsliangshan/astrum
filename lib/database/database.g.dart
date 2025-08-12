@@ -1145,6 +1145,16 @@ class $MessagesTable extends Messages with TableInfo<$MessagesTable, Message> {
     ),
     defaultValue: const Constant(false),
   );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('success'),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1156,6 +1166,7 @@ class $MessagesTable extends Messages with TableInfo<$MessagesTable, Message> {
     createAt,
     type,
     isRobot,
+    status,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1229,6 +1240,12 @@ class $MessagesTable extends Messages with TableInfo<$MessagesTable, Message> {
         isRobot.isAcceptableOrUnknown(data['is_robot']!, _isRobotMeta),
       );
     }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
     return context;
   }
 
@@ -1274,6 +1291,10 @@ class $MessagesTable extends Messages with TableInfo<$MessagesTable, Message> {
         DriftSqlType.bool,
         data['${effectivePrefix}is_robot'],
       ),
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      ),
     );
   }
 
@@ -1293,6 +1314,7 @@ class Message extends DataClass implements Insertable<Message> {
   final String? createAt;
   final String? type;
   final bool? isRobot;
+  final String? status;
   const Message({
     required this.id,
     required this.roleId,
@@ -1303,6 +1325,7 @@ class Message extends DataClass implements Insertable<Message> {
     this.createAt,
     this.type,
     this.isRobot,
+    this.status,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1328,6 +1351,9 @@ class Message extends DataClass implements Insertable<Message> {
     if (!nullToAbsent || isRobot != null) {
       map['is_robot'] = Variable<bool>(isRobot);
     }
+    if (!nullToAbsent || status != null) {
+      map['status'] = Variable<String>(status);
+    }
     return map;
   }
 
@@ -1352,6 +1378,9 @@ class Message extends DataClass implements Insertable<Message> {
       isRobot: isRobot == null && nullToAbsent
           ? const Value.absent()
           : Value(isRobot),
+      status: status == null && nullToAbsent
+          ? const Value.absent()
+          : Value(status),
     );
   }
 
@@ -1370,6 +1399,7 @@ class Message extends DataClass implements Insertable<Message> {
       createAt: serializer.fromJson<String?>(json['createAt']),
       type: serializer.fromJson<String?>(json['type']),
       isRobot: serializer.fromJson<bool?>(json['isRobot']),
+      status: serializer.fromJson<String?>(json['status']),
     );
   }
   @override
@@ -1385,6 +1415,7 @@ class Message extends DataClass implements Insertable<Message> {
       'createAt': serializer.toJson<String?>(createAt),
       'type': serializer.toJson<String?>(type),
       'isRobot': serializer.toJson<bool?>(isRobot),
+      'status': serializer.toJson<String?>(status),
     };
   }
 
@@ -1398,6 +1429,7 @@ class Message extends DataClass implements Insertable<Message> {
     Value<String?> createAt = const Value.absent(),
     Value<String?> type = const Value.absent(),
     Value<bool?> isRobot = const Value.absent(),
+    Value<String?> status = const Value.absent(),
   }) => Message(
     id: id ?? this.id,
     roleId: roleId ?? this.roleId,
@@ -1408,6 +1440,7 @@ class Message extends DataClass implements Insertable<Message> {
     createAt: createAt.present ? createAt.value : this.createAt,
     type: type.present ? type.value : this.type,
     isRobot: isRobot.present ? isRobot.value : this.isRobot,
+    status: status.present ? status.value : this.status,
   );
   Message copyWithCompanion(MessagesCompanion data) {
     return Message(
@@ -1424,6 +1457,7 @@ class Message extends DataClass implements Insertable<Message> {
       createAt: data.createAt.present ? data.createAt.value : this.createAt,
       type: data.type.present ? data.type.value : this.type,
       isRobot: data.isRobot.present ? data.isRobot.value : this.isRobot,
+      status: data.status.present ? data.status.value : this.status,
     );
   }
 
@@ -1438,7 +1472,8 @@ class Message extends DataClass implements Insertable<Message> {
           ..write('senderAvatar: $senderAvatar, ')
           ..write('createAt: $createAt, ')
           ..write('type: $type, ')
-          ..write('isRobot: $isRobot')
+          ..write('isRobot: $isRobot, ')
+          ..write('status: $status')
           ..write(')'))
         .toString();
   }
@@ -1454,6 +1489,7 @@ class Message extends DataClass implements Insertable<Message> {
     createAt,
     type,
     isRobot,
+    status,
   );
   @override
   bool operator ==(Object other) =>
@@ -1467,7 +1503,8 @@ class Message extends DataClass implements Insertable<Message> {
           other.senderAvatar == this.senderAvatar &&
           other.createAt == this.createAt &&
           other.type == this.type &&
-          other.isRobot == this.isRobot);
+          other.isRobot == this.isRobot &&
+          other.status == this.status);
 }
 
 class MessagesCompanion extends UpdateCompanion<Message> {
@@ -1480,6 +1517,7 @@ class MessagesCompanion extends UpdateCompanion<Message> {
   final Value<String?> createAt;
   final Value<String?> type;
   final Value<bool?> isRobot;
+  final Value<String?> status;
   final Value<int> rowid;
   const MessagesCompanion({
     this.id = const Value.absent(),
@@ -1491,6 +1529,7 @@ class MessagesCompanion extends UpdateCompanion<Message> {
     this.createAt = const Value.absent(),
     this.type = const Value.absent(),
     this.isRobot = const Value.absent(),
+    this.status = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   MessagesCompanion.insert({
@@ -1503,6 +1542,7 @@ class MessagesCompanion extends UpdateCompanion<Message> {
     this.createAt = const Value.absent(),
     this.type = const Value.absent(),
     this.isRobot = const Value.absent(),
+    this.status = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        roleId = Value(roleId),
@@ -1517,6 +1557,7 @@ class MessagesCompanion extends UpdateCompanion<Message> {
     Expression<String>? createAt,
     Expression<String>? type,
     Expression<bool>? isRobot,
+    Expression<String>? status,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1529,6 +1570,7 @@ class MessagesCompanion extends UpdateCompanion<Message> {
       if (createAt != null) 'create_at': createAt,
       if (type != null) 'type': type,
       if (isRobot != null) 'is_robot': isRobot,
+      if (status != null) 'status': status,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1543,6 +1585,7 @@ class MessagesCompanion extends UpdateCompanion<Message> {
     Value<String?>? createAt,
     Value<String?>? type,
     Value<bool?>? isRobot,
+    Value<String?>? status,
     Value<int>? rowid,
   }) {
     return MessagesCompanion(
@@ -1555,6 +1598,7 @@ class MessagesCompanion extends UpdateCompanion<Message> {
       createAt: createAt ?? this.createAt,
       type: type ?? this.type,
       isRobot: isRobot ?? this.isRobot,
+      status: status ?? this.status,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1589,6 +1633,9 @@ class MessagesCompanion extends UpdateCompanion<Message> {
     if (isRobot.present) {
       map['is_robot'] = Variable<bool>(isRobot.value);
     }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -1607,6 +1654,7 @@ class MessagesCompanion extends UpdateCompanion<Message> {
           ..write('createAt: $createAt, ')
           ..write('type: $type, ')
           ..write('isRobot: $isRobot, ')
+          ..write('status: $status, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2913,6 +2961,7 @@ typedef $$MessagesTableCreateCompanionBuilder =
       Value<String?> createAt,
       Value<String?> type,
       Value<bool?> isRobot,
+      Value<String?> status,
       Value<int> rowid,
     });
 typedef $$MessagesTableUpdateCompanionBuilder =
@@ -2926,6 +2975,7 @@ typedef $$MessagesTableUpdateCompanionBuilder =
       Value<String?> createAt,
       Value<String?> type,
       Value<bool?> isRobot,
+      Value<String?> status,
       Value<int> rowid,
     });
 
@@ -2980,6 +3030,11 @@ class $$MessagesTableFilterComposer
 
   ColumnFilters<bool> get isRobot => $composableBuilder(
     column: $table.isRobot,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -3037,6 +3092,11 @@ class $$MessagesTableOrderingComposer
     column: $table.isRobot,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$MessagesTableAnnotationComposer
@@ -3078,6 +3138,9 @@ class $$MessagesTableAnnotationComposer
 
   GeneratedColumn<bool> get isRobot =>
       $composableBuilder(column: $table.isRobot, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
 }
 
 class $$MessagesTableTableManager
@@ -3117,6 +3180,7 @@ class $$MessagesTableTableManager
                 Value<String?> createAt = const Value.absent(),
                 Value<String?> type = const Value.absent(),
                 Value<bool?> isRobot = const Value.absent(),
+                Value<String?> status = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => MessagesCompanion(
                 id: id,
@@ -3128,6 +3192,7 @@ class $$MessagesTableTableManager
                 createAt: createAt,
                 type: type,
                 isRobot: isRobot,
+                status: status,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -3141,6 +3206,7 @@ class $$MessagesTableTableManager
                 Value<String?> createAt = const Value.absent(),
                 Value<String?> type = const Value.absent(),
                 Value<bool?> isRobot = const Value.absent(),
+                Value<String?> status = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => MessagesCompanion.insert(
                 id: id,
@@ -3152,6 +3218,7 @@ class $$MessagesTableTableManager
                 createAt: createAt,
                 type: type,
                 isRobot: isRobot,
+                status: status,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

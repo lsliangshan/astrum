@@ -1,17 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:astrum/database/daos/message.dao.dart';
 import 'package:astrum/database/database.dart';
 import 'package:astrum/models/normal_response.model.dart';
-import 'package:astrum/services/auth.dart';
 import 'package:flutter_http_sse/client/sse_client.dart';
 import 'package:flutter_http_sse/model/sse_request.dart';
 import 'package:flutter_http_sse/model/sse_response.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 
 class MessageService extends GetxService {
-  AuthService authService = Get.find<AuthService>();
   MessageDao messageDao = Get.find<MessageDao>();
 
   RxMap<String, Function(Message)> messageEventCallbacks =
@@ -21,15 +20,12 @@ class MessageService extends GetxService {
   int attempt = 0;
   Duration delay = const Duration(seconds: 1);
 
-  Rx<User> get loginInfo => authService.user;
-  RxBool get isLogin => authService.isLogin;
-
   Stream<SSEResponse> stream = Stream.empty();
 
   @override
   void onClose() {
     super.onClose();
-    stream.drain();
+    destroyMessageService();
   }
 
   Future<NormalResponse> getMessages({
@@ -76,6 +72,26 @@ class MessageService extends GetxService {
   //   });
   // }
 
+  Future<void> sendMessageToRobot({
+    required String messageId,
+    required String roleId,
+    required String content,
+    required String userId,
+  }) async {
+    await http.post(
+      Uri.parse('https://wf.liangqy.com/webhook/astrum/send-message'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json.encode({
+        'roleId': roleId,
+        'content': content,
+        'userId': userId,
+        "messageId": messageId,
+      }),
+    );
+  }
+
   Future<void> sendMessage({
     required String id,
     required String roleId,
@@ -85,6 +101,7 @@ class MessageService extends GetxService {
     String? senderAvatar,
     String? type,
     bool? isRobot,
+    String? status,
   }) async {
     await messageDao.createMessage(
       id: id,
@@ -95,21 +112,45 @@ class MessageService extends GetxService {
       senderAvatar: senderAvatar,
       type: type,
       isRobot: isRobot,
+      status: status,
     );
+
+    if (isRobot != null && isRobot == false) {
+      // 人工发送的消息
+      sendMessageToRobot(
+        roleId: roleId,
+        content: content,
+        userId: senderId,
+        messageId: id,
+      );
+      // 发送一条机器人回复的消息，显示发送中状态
+      await messageDao.createMessage(
+        id: 'robot-response-$id',
+        roleId: roleId,
+        content: '',
+        senderId: roleId,
+        senderName: 'astrum',
+        senderAvatar: 'https://img.liangqy.com/astrum/astrum.png',
+        type: 'text',
+        isRobot: true,
+        status: 'sending',
+      );
+    }
   }
 
-  Future<void> initMessageService() async {
-    if (isLogin.isFalse) {
+  void destroyMessageService() {
+    stream.drain();
+  }
+
+  Future<void> initMessageService({required String userId}) async {
+    if (userId.isEmpty) {
       return;
     }
 
     final request = SSERequest(
-      url:
-          "http://api.liangqy.com/on/all/astrum/robot/message/${loginInfo.value.id}",
+      url: "http://api.liangqy.com/on/all/astrum/robot/message/$userId",
       headers: {"Cache-Control": "no-cache"},
-      onData: (data) {
-        // print(">>>>>>> Received: $data");
-      },
+      onData: (data) {},
       onError: (error) {
         // print(">>>>>>> Error: $error");
       },
@@ -128,16 +169,25 @@ class MessageService extends GetxService {
           Message data = Message.fromJson(response.data!);
 
           messageEventCallbacks[data.roleId]?.call(data);
-          sendMessage(
+
+          // 更新消息内容
+          messageDao.updateMessage(
             id: data.id,
-            roleId: data.roleId,
             content: data.content,
-            senderId: data.senderId ?? '',
-            senderName: data.senderName ?? '',
-            senderAvatar: data.senderAvatar,
-            type: data.type,
-            isRobot: data.isRobot,
+            status: data.status ?? 'success',
           );
+
+          // sendMessage(
+          //   id: data.id,
+          //   roleId: data.roleId,
+          //   content: data.content,
+          //   senderId: data.senderId ?? '',
+          //   senderName: data.senderName ?? '',
+          //   senderAvatar: data.senderAvatar,
+          //   type: data.type,
+          //   isRobot: data.isRobot,
+          //   status: data.status ?? 'success',
+          // );
         }
       },
       onError: (error) {

@@ -59,7 +59,22 @@ class ChatDetailController extends GetxController {
     messageService.onMessageEvent(
       roleId: roleId,
       callback: (message) {
-        messages.insert(0, message);
+        // 移除发送中的消息
+        // messages.removeWhere(
+        //   (Message msg) => msg.status == 'sending' && msg.id == message.id,
+        // );
+
+        int messageIndex = messages.indexWhere(
+          (Message msg) => msg.status == 'sending' && msg.id == message.id,
+        );
+
+        if (messageIndex != -1) {
+          messages[messageIndex] = message;
+          // messages.removeAt(messageIndex);
+          // messages.insert(messageIndex, message);
+        } else {
+          messages.insert(0, message);
+        }
         newMessageCount.value += 1;
         update(['update-messages']);
       },
@@ -73,9 +88,6 @@ class ChatDetailController extends GetxController {
       if (scrollController.position.pixels <
           scrollController.position.minScrollExtent + 60) {
         newMessageCount.value = 0;
-        print(
-          '>>>>>>>>>> scrollController.position.minScrollExtent: ${scrollController.position.minScrollExtent}',
-        );
       }
     });
   }
@@ -143,8 +155,23 @@ class ChatDetailController extends GetxController {
       type: 'text',
       isRobot: false,
       createAt: DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()),
+      status: 'success',
     );
     messages.insert(0, newMessage);
+
+    Message robotMessage = Message(
+      id: 'robot-response-${newMessage.id}',
+      roleId: newMessage.roleId,
+      content: '',
+      senderId: newMessage.roleId,
+      senderName: 'astrum',
+      senderAvatar: 'https://img.liangqy.com/astrum/astrum.png',
+      type: 'text',
+      isRobot: true,
+      createAt: DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()),
+      status: 'sending',
+    );
+    messages.insert(0, robotMessage);
 
     await messageService.sendMessage(
       id: newMessage.id,
@@ -155,6 +182,7 @@ class ChatDetailController extends GetxController {
       senderAvatar: newMessage.senderAvatar,
       type: newMessage.type,
       isRobot: newMessage.isRobot,
+      status: newMessage.status,
     );
 
     update(['update-messages']);

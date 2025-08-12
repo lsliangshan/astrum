@@ -75,9 +75,9 @@ Future<void> initServices() async {
   RoleService roleService = RoleService();
   Get.lazyPut(() => roleService);
 
-  AuthService authService = AuthService();
-  Get.lazyPut(() => authService);
-
   MessageService messageService = MessageService();
   Get.lazyPut(() => messageService);
+
+  AuthService authService = AuthService();
+  Get.lazyPut(() => authService);
 }

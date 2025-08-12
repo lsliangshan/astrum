@@ -24,6 +24,7 @@ class MessageDao extends DatabaseAccessor<AppDatabase> with _$MessageDaoMixin {
     String? senderAvatar,
     String? type,
     bool? isRobot,
+    String? status,
   }) {
     return into(messages).insertOnConflictUpdate(
       MessagesCompanion(
@@ -38,7 +39,18 @@ class MessageDao extends DatabaseAccessor<AppDatabase> with _$MessageDaoMixin {
         createAt: Value(
           DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()),
         ),
+        status: Value(status ?? 'success'),
       ),
+    );
+  }
+
+  Future<int> updateMessage({
+    required String id,
+    required String content,
+    required String status,
+  }) {
+    return (update(messages)..where((message) => message.id.equals(id))).write(
+      MessagesCompanion(content: Value(content), status: Value(status)),
     );
   }
 

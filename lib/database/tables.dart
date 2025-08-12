@@ -85,6 +85,9 @@ class Messages extends Table {
   // 消息是否是机器人发送的
   BoolColumn get isRobot =>
       boolean().nullable().withDefault(const Constant(false))();
+  // 消息状态，success、failed、sending
+  TextColumn get status =>
+      text().nullable().withDefault(const Constant('success'))();
 
   @override
   Set<Column> get primaryKey => {id};

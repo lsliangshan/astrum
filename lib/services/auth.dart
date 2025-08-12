@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:astrum/database/daos/user.dao.dart';
 import 'package:astrum/database/database.dart';
 import 'package:astrum/models/normal_response.model.dart';
+import 'package:astrum/services/message.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService extends GetxService {
+  final MessageService messageService = Get.find<MessageService>();
   UserDao userDao = Get.find<UserDao>();
 
   RxBool isLogin = false.obs;
@@ -17,6 +19,14 @@ class AuthService extends GetxService {
   void onInit() {
     super.onInit();
     initLoginInfo();
+
+    ever(isLogin, (value) {
+      if (value) {
+        messageService.initMessageService(userId: user.value.id);
+      } else {
+        messageService.destroyMessageService();
+      }
+    });
   }
 
   Future<void> initLoginInfo() async {
