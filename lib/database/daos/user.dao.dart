@@ -1,8 +1,6 @@
 import 'package:astrum/database/database.dart';
 import 'package:astrum/database/tables.dart';
-import 'package:astrum/models/normal_response.model.dart';
 import 'package:drift/drift.dart';
-import 'package:intl/intl.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 
 part 'user.dao.g.dart';
@@ -76,6 +74,10 @@ class UserDao extends DatabaseAccessor<AppDatabase> with _$UserDaoMixin {
           signature: Value(user.signature),
           createAt: Value(DateTime.now().millisecondsSinceEpoch.toString()),
           updateAt: Value(DateTime.now().millisecondsSinceEpoch.toString()),
+          tokens: Value(user.tokens ?? 0),
+          vipType: Value(user.vipType ?? 'free'),
+          vipStart: Value(user.vipStart ?? ''),
+          vipEnd: Value(user.vipEnd ?? ''),
         ),
       );
     } else {

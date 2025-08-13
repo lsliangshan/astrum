@@ -1802,6 +1802,50 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
     requiredDuringInsert: false,
     defaultValue: Constant(DateTime.now().millisecondsSinceEpoch.toString()),
   );
+  static const VerificationMeta _tokensMeta = const VerificationMeta('tokens');
+  @override
+  late final GeneratedColumn<int> tokens = GeneratedColumn<int>(
+    'tokens',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _vipTypeMeta = const VerificationMeta(
+    'vipType',
+  );
+  @override
+  late final GeneratedColumn<String> vipType = GeneratedColumn<String>(
+    'vip_type',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('free'),
+  );
+  static const VerificationMeta _vipStartMeta = const VerificationMeta(
+    'vipStart',
+  );
+  @override
+  late final GeneratedColumn<String> vipStart = GeneratedColumn<String>(
+    'vip_start',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _vipEndMeta = const VerificationMeta('vipEnd');
+  @override
+  late final GeneratedColumn<String> vipEnd = GeneratedColumn<String>(
+    'vip_end',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1817,6 +1861,10 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
     signature,
     updateAt,
     createAt,
+    tokens,
+    vipType,
+    vipStart,
+    vipEnd,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1911,6 +1959,30 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
         createAt.isAcceptableOrUnknown(data['create_at']!, _createAtMeta),
       );
     }
+    if (data.containsKey('tokens')) {
+      context.handle(
+        _tokensMeta,
+        tokens.isAcceptableOrUnknown(data['tokens']!, _tokensMeta),
+      );
+    }
+    if (data.containsKey('vip_type')) {
+      context.handle(
+        _vipTypeMeta,
+        vipType.isAcceptableOrUnknown(data['vip_type']!, _vipTypeMeta),
+      );
+    }
+    if (data.containsKey('vip_start')) {
+      context.handle(
+        _vipStartMeta,
+        vipStart.isAcceptableOrUnknown(data['vip_start']!, _vipStartMeta),
+      );
+    }
+    if (data.containsKey('vip_end')) {
+      context.handle(
+        _vipEndMeta,
+        vipEnd.isAcceptableOrUnknown(data['vip_end']!, _vipEndMeta),
+      );
+    }
     return context;
   }
 
@@ -1972,6 +2044,22 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
         DriftSqlType.string,
         data['${effectivePrefix}create_at'],
       ),
+      tokens: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tokens'],
+      ),
+      vipType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}vip_type'],
+      ),
+      vipStart: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}vip_start'],
+      ),
+      vipEnd: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}vip_end'],
+      ),
     );
   }
 
@@ -1995,6 +2083,20 @@ class User extends DataClass implements Insertable<User> {
   final String? signature;
   final String? updateAt;
   final String? createAt;
+  final int? tokens;
+
+  /// 用户 vip 类型
+  /// free: 免费用户
+  /// 1-day: 1天会员
+  /// 1-week: 1周会员
+  /// 1-month: 1个月会员
+  /// 1-quarter: 3个月会员
+  /// 1-year: 1年会员
+  /// 1-half-year: 半年会员
+  /// 1-life: 终身会员
+  final String? vipType;
+  final String? vipStart;
+  final String? vipEnd;
   const User({
     required this.id,
     required this.username,
@@ -2009,6 +2111,10 @@ class User extends DataClass implements Insertable<User> {
     this.signature,
     this.updateAt,
     this.createAt,
+    this.tokens,
+    this.vipType,
+    this.vipStart,
+    this.vipEnd,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -2045,6 +2151,18 @@ class User extends DataClass implements Insertable<User> {
     }
     if (!nullToAbsent || createAt != null) {
       map['create_at'] = Variable<String>(createAt);
+    }
+    if (!nullToAbsent || tokens != null) {
+      map['tokens'] = Variable<int>(tokens);
+    }
+    if (!nullToAbsent || vipType != null) {
+      map['vip_type'] = Variable<String>(vipType);
+    }
+    if (!nullToAbsent || vipStart != null) {
+      map['vip_start'] = Variable<String>(vipStart);
+    }
+    if (!nullToAbsent || vipEnd != null) {
+      map['vip_end'] = Variable<String>(vipEnd);
     }
     return map;
   }
@@ -2084,6 +2202,18 @@ class User extends DataClass implements Insertable<User> {
       createAt: createAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createAt),
+      tokens: tokens == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tokens),
+      vipType: vipType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(vipType),
+      vipStart: vipStart == null && nullToAbsent
+          ? const Value.absent()
+          : Value(vipStart),
+      vipEnd: vipEnd == null && nullToAbsent
+          ? const Value.absent()
+          : Value(vipEnd),
     );
   }
 
@@ -2106,6 +2236,10 @@ class User extends DataClass implements Insertable<User> {
       signature: serializer.fromJson<String?>(json['signature']),
       updateAt: serializer.fromJson<String?>(json['updateAt']),
       createAt: serializer.fromJson<String?>(json['createAt']),
+      tokens: serializer.fromJson<int?>(json['tokens']),
+      vipType: serializer.fromJson<String?>(json['vipType']),
+      vipStart: serializer.fromJson<String?>(json['vipStart']),
+      vipEnd: serializer.fromJson<String?>(json['vipEnd']),
     );
   }
   @override
@@ -2125,6 +2259,10 @@ class User extends DataClass implements Insertable<User> {
       'signature': serializer.toJson<String?>(signature),
       'updateAt': serializer.toJson<String?>(updateAt),
       'createAt': serializer.toJson<String?>(createAt),
+      'tokens': serializer.toJson<int?>(tokens),
+      'vipType': serializer.toJson<String?>(vipType),
+      'vipStart': serializer.toJson<String?>(vipStart),
+      'vipEnd': serializer.toJson<String?>(vipEnd),
     };
   }
 
@@ -2142,6 +2280,10 @@ class User extends DataClass implements Insertable<User> {
     Value<String?> signature = const Value.absent(),
     Value<String?> updateAt = const Value.absent(),
     Value<String?> createAt = const Value.absent(),
+    Value<int?> tokens = const Value.absent(),
+    Value<String?> vipType = const Value.absent(),
+    Value<String?> vipStart = const Value.absent(),
+    Value<String?> vipEnd = const Value.absent(),
   }) => User(
     id: id ?? this.id,
     username: username ?? this.username,
@@ -2156,6 +2298,10 @@ class User extends DataClass implements Insertable<User> {
     signature: signature.present ? signature.value : this.signature,
     updateAt: updateAt.present ? updateAt.value : this.updateAt,
     createAt: createAt.present ? createAt.value : this.createAt,
+    tokens: tokens.present ? tokens.value : this.tokens,
+    vipType: vipType.present ? vipType.value : this.vipType,
+    vipStart: vipStart.present ? vipStart.value : this.vipStart,
+    vipEnd: vipEnd.present ? vipEnd.value : this.vipEnd,
   );
   User copyWithCompanion(UsersCompanion data) {
     return User(
@@ -2172,6 +2318,10 @@ class User extends DataClass implements Insertable<User> {
       signature: data.signature.present ? data.signature.value : this.signature,
       updateAt: data.updateAt.present ? data.updateAt.value : this.updateAt,
       createAt: data.createAt.present ? data.createAt.value : this.createAt,
+      tokens: data.tokens.present ? data.tokens.value : this.tokens,
+      vipType: data.vipType.present ? data.vipType.value : this.vipType,
+      vipStart: data.vipStart.present ? data.vipStart.value : this.vipStart,
+      vipEnd: data.vipEnd.present ? data.vipEnd.value : this.vipEnd,
     );
   }
 
@@ -2190,7 +2340,11 @@ class User extends DataClass implements Insertable<User> {
           ..write('birthday: $birthday, ')
           ..write('signature: $signature, ')
           ..write('updateAt: $updateAt, ')
-          ..write('createAt: $createAt')
+          ..write('createAt: $createAt, ')
+          ..write('tokens: $tokens, ')
+          ..write('vipType: $vipType, ')
+          ..write('vipStart: $vipStart, ')
+          ..write('vipEnd: $vipEnd')
           ..write(')'))
         .toString();
   }
@@ -2210,6 +2364,10 @@ class User extends DataClass implements Insertable<User> {
     signature,
     updateAt,
     createAt,
+    tokens,
+    vipType,
+    vipStart,
+    vipEnd,
   );
   @override
   bool operator ==(Object other) =>
@@ -2227,7 +2385,11 @@ class User extends DataClass implements Insertable<User> {
           other.birthday == this.birthday &&
           other.signature == this.signature &&
           other.updateAt == this.updateAt &&
-          other.createAt == this.createAt);
+          other.createAt == this.createAt &&
+          other.tokens == this.tokens &&
+          other.vipType == this.vipType &&
+          other.vipStart == this.vipStart &&
+          other.vipEnd == this.vipEnd);
 }
 
 class UsersCompanion extends UpdateCompanion<User> {
@@ -2244,6 +2406,10 @@ class UsersCompanion extends UpdateCompanion<User> {
   final Value<String?> signature;
   final Value<String?> updateAt;
   final Value<String?> createAt;
+  final Value<int?> tokens;
+  final Value<String?> vipType;
+  final Value<String?> vipStart;
+  final Value<String?> vipEnd;
   final Value<int> rowid;
   const UsersCompanion({
     this.id = const Value.absent(),
@@ -2259,6 +2425,10 @@ class UsersCompanion extends UpdateCompanion<User> {
     this.signature = const Value.absent(),
     this.updateAt = const Value.absent(),
     this.createAt = const Value.absent(),
+    this.tokens = const Value.absent(),
+    this.vipType = const Value.absent(),
+    this.vipStart = const Value.absent(),
+    this.vipEnd = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   UsersCompanion.insert({
@@ -2275,6 +2445,10 @@ class UsersCompanion extends UpdateCompanion<User> {
     this.signature = const Value.absent(),
     this.updateAt = const Value.absent(),
     this.createAt = const Value.absent(),
+    this.tokens = const Value.absent(),
+    this.vipType = const Value.absent(),
+    this.vipStart = const Value.absent(),
+    this.vipEnd = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        username = Value(username),
@@ -2293,6 +2467,10 @@ class UsersCompanion extends UpdateCompanion<User> {
     Expression<String>? signature,
     Expression<String>? updateAt,
     Expression<String>? createAt,
+    Expression<int>? tokens,
+    Expression<String>? vipType,
+    Expression<String>? vipStart,
+    Expression<String>? vipEnd,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -2309,6 +2487,10 @@ class UsersCompanion extends UpdateCompanion<User> {
       if (signature != null) 'signature': signature,
       if (updateAt != null) 'update_at': updateAt,
       if (createAt != null) 'create_at': createAt,
+      if (tokens != null) 'tokens': tokens,
+      if (vipType != null) 'vip_type': vipType,
+      if (vipStart != null) 'vip_start': vipStart,
+      if (vipEnd != null) 'vip_end': vipEnd,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -2327,6 +2509,10 @@ class UsersCompanion extends UpdateCompanion<User> {
     Value<String?>? signature,
     Value<String?>? updateAt,
     Value<String?>? createAt,
+    Value<int?>? tokens,
+    Value<String?>? vipType,
+    Value<String?>? vipStart,
+    Value<String?>? vipEnd,
     Value<int>? rowid,
   }) {
     return UsersCompanion(
@@ -2343,6 +2529,10 @@ class UsersCompanion extends UpdateCompanion<User> {
       signature: signature ?? this.signature,
       updateAt: updateAt ?? this.updateAt,
       createAt: createAt ?? this.createAt,
+      tokens: tokens ?? this.tokens,
+      vipType: vipType ?? this.vipType,
+      vipStart: vipStart ?? this.vipStart,
+      vipEnd: vipEnd ?? this.vipEnd,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -2389,6 +2579,18 @@ class UsersCompanion extends UpdateCompanion<User> {
     if (createAt.present) {
       map['create_at'] = Variable<String>(createAt.value);
     }
+    if (tokens.present) {
+      map['tokens'] = Variable<int>(tokens.value);
+    }
+    if (vipType.present) {
+      map['vip_type'] = Variable<String>(vipType.value);
+    }
+    if (vipStart.present) {
+      map['vip_start'] = Variable<String>(vipStart.value);
+    }
+    if (vipEnd.present) {
+      map['vip_end'] = Variable<String>(vipEnd.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -2411,6 +2613,10 @@ class UsersCompanion extends UpdateCompanion<User> {
           ..write('signature: $signature, ')
           ..write('updateAt: $updateAt, ')
           ..write('createAt: $createAt, ')
+          ..write('tokens: $tokens, ')
+          ..write('vipType: $vipType, ')
+          ..write('vipStart: $vipStart, ')
+          ..write('vipEnd: $vipEnd, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -3258,6 +3464,10 @@ typedef $$UsersTableCreateCompanionBuilder =
       Value<String?> signature,
       Value<String?> updateAt,
       Value<String?> createAt,
+      Value<int?> tokens,
+      Value<String?> vipType,
+      Value<String?> vipStart,
+      Value<String?> vipEnd,
       Value<int> rowid,
     });
 typedef $$UsersTableUpdateCompanionBuilder =
@@ -3275,6 +3485,10 @@ typedef $$UsersTableUpdateCompanionBuilder =
       Value<String?> signature,
       Value<String?> updateAt,
       Value<String?> createAt,
+      Value<int?> tokens,
+      Value<String?> vipType,
+      Value<String?> vipStart,
+      Value<String?> vipEnd,
       Value<int> rowid,
     });
 
@@ -3348,6 +3562,26 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
 
   ColumnFilters<String> get createAt => $composableBuilder(
     column: $table.createAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get tokens => $composableBuilder(
+    column: $table.tokens,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get vipType => $composableBuilder(
+    column: $table.vipType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get vipStart => $composableBuilder(
+    column: $table.vipStart,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get vipEnd => $composableBuilder(
+    column: $table.vipEnd,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -3425,6 +3659,26 @@ class $$UsersTableOrderingComposer
     column: $table.createAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<int> get tokens => $composableBuilder(
+    column: $table.tokens,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get vipType => $composableBuilder(
+    column: $table.vipType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get vipStart => $composableBuilder(
+    column: $table.vipStart,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get vipEnd => $composableBuilder(
+    column: $table.vipEnd,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$UsersTableAnnotationComposer
@@ -3474,6 +3728,18 @@ class $$UsersTableAnnotationComposer
 
   GeneratedColumn<String> get createAt =>
       $composableBuilder(column: $table.createAt, builder: (column) => column);
+
+  GeneratedColumn<int> get tokens =>
+      $composableBuilder(column: $table.tokens, builder: (column) => column);
+
+  GeneratedColumn<String> get vipType =>
+      $composableBuilder(column: $table.vipType, builder: (column) => column);
+
+  GeneratedColumn<String> get vipStart =>
+      $composableBuilder(column: $table.vipStart, builder: (column) => column);
+
+  GeneratedColumn<String> get vipEnd =>
+      $composableBuilder(column: $table.vipEnd, builder: (column) => column);
 }
 
 class $$UsersTableTableManager
@@ -3517,6 +3783,10 @@ class $$UsersTableTableManager
                 Value<String?> signature = const Value.absent(),
                 Value<String?> updateAt = const Value.absent(),
                 Value<String?> createAt = const Value.absent(),
+                Value<int?> tokens = const Value.absent(),
+                Value<String?> vipType = const Value.absent(),
+                Value<String?> vipStart = const Value.absent(),
+                Value<String?> vipEnd = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => UsersCompanion(
                 id: id,
@@ -3532,6 +3802,10 @@ class $$UsersTableTableManager
                 signature: signature,
                 updateAt: updateAt,
                 createAt: createAt,
+                tokens: tokens,
+                vipType: vipType,
+                vipStart: vipStart,
+                vipEnd: vipEnd,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -3549,6 +3823,10 @@ class $$UsersTableTableManager
                 Value<String?> signature = const Value.absent(),
                 Value<String?> updateAt = const Value.absent(),
                 Value<String?> createAt = const Value.absent(),
+                Value<int?> tokens = const Value.absent(),
+                Value<String?> vipType = const Value.absent(),
+                Value<String?> vipStart = const Value.absent(),
+                Value<String?> vipEnd = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => UsersCompanion.insert(
                 id: id,
@@ -3564,6 +3842,10 @@ class $$UsersTableTableManager
                 signature: signature,
                 updateAt: updateAt,
                 createAt: createAt,
+                tokens: tokens,
+                vipType: vipType,
+                vipStart: vipStart,
+                vipEnd: vipEnd,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

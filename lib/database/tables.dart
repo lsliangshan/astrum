@@ -128,6 +128,26 @@ class Users extends Table {
     Constant(DateTime.now().millisecondsSinceEpoch.toString()),
   )();
 
+  // 用户 token 数量
+  IntColumn get tokens => integer().nullable().withDefault(const Constant(0))();
+
+  /// 用户 vip 类型
+  /// free: 免费用户
+  /// 1-day: 1天会员
+  /// 1-week: 1周会员
+  /// 1-month: 1个月会员
+  /// 1-quarter: 3个月会员
+  /// 1-year: 1年会员
+  /// 1-half-year: 半年会员
+  /// 1-life: 终身会员
+  TextColumn get vipType =>
+      text().nullable().withDefault(const Constant('free'))();
+  // 用户 vip 开始时间
+  TextColumn get vipStart =>
+      text().nullable().withDefault(const Constant(''))();
+  // 用户 vip 结束时间
+  TextColumn get vipEnd => text().nullable().withDefault(const Constant(''))();
+
   @override
   Set<Column> get primaryKey => {id};
 }

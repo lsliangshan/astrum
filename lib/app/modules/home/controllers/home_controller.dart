@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 
 class HomeController extends GetxController
     with GetSingleTickerProviderStateMixin {
-  Rx<TabName> currentTabName = TabName.role.obs;
+  Rx<TabName> currentTabName = TabName.profile.obs;
 
   late TabController tabController;
 
