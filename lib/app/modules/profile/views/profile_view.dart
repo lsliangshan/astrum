@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../controllers/profile_controller.dart';
 
@@ -40,7 +41,7 @@ class ProfileView extends GetView<ProfileController> {
                   Obx(() {
                     return Container(
                       width: Get.width,
-                      height: 180,
+                      height: 120,
                       padding: EdgeInsets.only(left: 24),
                       child: Row(
                         spacing: 12,
@@ -101,9 +102,10 @@ class ProfileView extends GetView<ProfileController> {
                                   style: Get.theme.textTheme.titleLarge
                                       ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
-                                subtitle: UnconstrainedBox(
+                                trailing: UnconstrainedBox(
                                   child: SizedBox(
-                                    width: 80,
+                                    width: 64,
+                                    height: 34,
                                     child: TextButton(
                                       onPressed: () {
                                         controller.gotoLogin();
@@ -133,6 +135,89 @@ class ProfileView extends GetView<ProfileController> {
                   }),
                   Obx(() {
                     if (controller.isLogin.isTrue) {
+                      return Card(
+                        color: Colors.white,
+                        margin: EdgeInsets.only(left: 24, right: 24, top: 24),
+                        shadowColor: Get.theme.colorScheme.onSurface,
+                        child: Column(
+                          children: [
+                            ListTile(
+                              title: Text('profile.member_card.title'.tr),
+                              contentPadding: EdgeInsets.only(
+                                left: 12,
+                                right: 12,
+                              ),
+                              trailing: UnconstrainedBox(
+                                child: SizedBox(
+                                  width: 64,
+                                  height: 34,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      controller.gotoLogin();
+                                    },
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: Get.theme.primaryColor,
+                                    ),
+                                    child: Text(
+                                      'profile.member_card.btn.recharge'.tr,
+                                      style: Get.theme.textTheme.bodyMedium
+                                          ?.copyWith(
+                                            color:
+                                                Get.theme.colorScheme.onSurface,
+                                          ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 1,
+                              color: Get.theme.dividerColor.withValues(
+                                alpha: 0.05,
+                              ),
+                            ),
+                            Obx(() {
+                              if (controller.user.value.vipType == 'free') {
+                                return ListTile(
+                                  title: Text(
+                                    'profile.member_card.remaining_tokens'.tr,
+                                    style: Get.theme.textTheme.bodyMedium
+                                        ?.copyWith(
+                                          color: Get.theme.disabledColor,
+                                        ),
+                                  ),
+                                  trailing: Text(
+                                    NumberFormat(
+                                      '#,###',
+                                    ).format(controller.user.value.tokens),
+                                    style: Get.theme.textTheme.bodyMedium
+                                        ?.copyWith(color: Colors.green),
+                                  ),
+                                );
+                              }
+                              return ListTile(
+                                title: Text(
+                                  'profile.member_card.vip_end'.tr,
+                                  style: Get.theme.textTheme.bodyMedium
+                                      ?.copyWith(
+                                        color: Get.theme.disabledColor,
+                                      ),
+                                ),
+                                trailing: Text(
+                                  controller.user.value.vipEnd ?? '',
+                                  style: Get.theme.textTheme.bodyMedium
+                                      ?.copyWith(color: Colors.green),
+                                ),
+                              );
+                            }),
+                          ],
+                        ),
+                      );
+                    }
+                    return SizedBox.shrink();
+                  }),
+                  Obx(() {
+                    if (controller.isLogin.isTrue) {
                       return TextButton(
                         onPressed: () {
                           controller.logout();
@@ -150,20 +235,7 @@ class ProfileView extends GetView<ProfileController> {
                         ),
                       );
                     }
-                    return TextButton(
-                      onPressed: () {
-                        controller.gotoLogin();
-                      },
-                      style: TextButton.styleFrom(
-                        backgroundColor: Get.theme.colorScheme.secondary,
-                      ),
-                      child: Text(
-                        'profile.login'.tr,
-                        style: Get.theme.textTheme.bodyMedium?.copyWith(
-                          color: Get.theme.colorScheme.onSurface,
-                        ),
-                      ),
-                    );
+                    return SizedBox.shrink();
                   }),
                 ],
               ),
@@ -171,55 +243,6 @@ class ProfileView extends GetView<ProfileController> {
           ),
         ],
       ),
-      // body: Center(
-      //   child: Column(
-      //     children: [
-      //       Obx(
-      //         () => ListTile(
-      //           title: Text(
-      //             controller.isLogin.isTrue
-      //                 ? controller.user.value.username
-      //                 : 'profile.anonymous'.tr,
-      //           ),
-      //         ),
-      //       ),
-      //       Obx(() {
-      //         if (controller.isLogin.isTrue) {
-      //           return TextButton(
-      //             onPressed: () {
-      //               controller.logout();
-      //             },
-      //             style: TextButton.styleFrom(
-      //               overlayColor: Get.theme.colorScheme.error.withValues(
-      //                 alpha: 0.5,
-      //               ),
-      //             ),
-      //             child: Text(
-      //               'profile.logout'.tr,
-      //               style: Get.theme.textTheme.bodyMedium?.copyWith(
-      //                 color: Get.theme.colorScheme.error,
-      //               ),
-      //             ),
-      //           );
-      //         }
-      //         return TextButton(
-      //           onPressed: () {
-      //             controller.gotoLogin();
-      //           },
-      //           style: TextButton.styleFrom(
-      //             backgroundColor: Get.theme.colorScheme.secondary,
-      //           ),
-      //           child: Text(
-      //             'profile.login'.tr,
-      //             style: Get.theme.textTheme.bodyMedium?.copyWith(
-      //               color: Get.theme.colorScheme.onSurface,
-      //             ),
-      //           ),
-      //         );
-      //       }),
-      //     ],
-      //   ),
-      // ),
     );
   }
 }

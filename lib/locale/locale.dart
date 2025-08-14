@@ -96,6 +96,10 @@ class Messages extends Translations {
       'profile.anonymous': '未登录',
       'profile.logout': '退出登录',
       'profile.login': '登录',
+      'profile.member_card.title': '我的账户',
+      'profile.member_card.btn.recharge': '充值',
+      'profile.member_card.remaining_tokens': '剩余Tokens',
+      'profile.member_card.vip_end': '会员到期时间',
 
       // 发送机器人消息页面
       'chat_detail.title': '发送机器人消息',
@@ -203,6 +207,10 @@ class Messages extends Translations {
       'profile.anonymous': 'Anonymous',
       'profile.logout': 'Logout',
       'profile.login': 'Login',
+      'profile.member_card.title': 'My Account',
+      'profile.member_card.btn.recharge': 'Recharge',
+      'profile.member_card.remaining_tokens': 'Remaining Tokens',
+      'profile.member_card.vip_end': 'VIP End Time',
 
       // 发送机器人消息页面
       'chat_detail.title': 'Send Robot Message',

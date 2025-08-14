@@ -29,10 +29,36 @@ class AuthService extends GetxService {
     });
   }
 
+  Future<void> syncLoginInfo() async {
+    http.Response response = await http.post(
+      Uri.parse('https://wf.liangqy.com/webhook/astrum/get-login-info'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json.encode({'userId': user.value.id}),
+    );
+
+    if (response.body.isEmpty) {
+      return;
+    }
+
+    final data = json.decode(response.body);
+    if (data['code'] == 200 &&
+        data['data'] != null &&
+        data['data']['id'] != null) {
+      user.value = User.fromJson(data['data']);
+      isLogin.value = true;
+
+      await userDao.login(user: user.value);
+    }
+  }
+
   Future<void> initLoginInfo() async {
     user.value = await userDao.getLoginInfo();
     if (user.value.token != null && user.value.token!.isNotEmpty) {
       isLogin.value = true;
+
+      await syncLoginInfo();
     } else {
       isLogin.value = false;
     }
