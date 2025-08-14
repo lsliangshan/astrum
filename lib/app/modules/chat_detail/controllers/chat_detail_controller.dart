@@ -155,7 +155,7 @@ class ChatDetailController extends GetxController {
       type: 'text',
       isRobot: false,
       createAt: DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()),
-      status: 'success',
+      status: 'sending',
     );
     messages.insert(0, newMessage);
 

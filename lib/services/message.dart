@@ -72,13 +72,13 @@ class MessageService extends GetxService {
   //   });
   // }
 
-  Future<void> sendMessageToRobot({
+  Future<NormalResponse> sendMessageToRobot({
     required String messageId,
     required String roleId,
     required String content,
     required String userId,
   }) async {
-    await http.post(
+    http.Response response = await http.post(
       Uri.parse('https://wf.liangqy.com/webhook/astrum/send-message'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -90,9 +90,24 @@ class MessageService extends GetxService {
         "messageId": messageId,
       }),
     );
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      if (data['code'] == 200) {
+        return NormalResponse.fromJson(data);
+      } else {
+        return NormalResponse(
+          code: 1001,
+          message: data['message'] ?? '网络异常',
+          data: {},
+        );
+      }
+    } else {
+      return NormalResponse(code: 1001, message: '网络异常', data: {});
+    }
   }
 
-  Future<void> sendMessage({
+  Future<NormalResponse> sendMessage({
     required String id,
     required String roleId,
     required String content,
@@ -115,27 +130,46 @@ class MessageService extends GetxService {
       status: status,
     );
 
+    // 判断是否有足够的 TOKENS
+    NormalResponse response = NormalResponse(
+      code: 200,
+      message: '发送成功',
+      data: {},
+    );
+
     if (isRobot != null && isRobot == false) {
       // 人工发送的消息
-      sendMessageToRobot(
+      response = await sendMessageToRobot(
         roleId: roleId,
         content: content,
         userId: senderId,
         messageId: id,
       );
-      // 发送一条机器人回复的消息，显示发送中状态
-      await messageDao.createMessage(
-        id: 'robot-response-$id',
-        roleId: roleId,
-        content: '',
-        senderId: roleId,
-        senderName: 'astrum',
-        senderAvatar: 'https://img.liangqy.com/astrum/astrum.png',
-        type: 'text',
-        isRobot: true,
-        status: 'sending',
-      );
+
+      if (response.code == 200) {
+        // 发送成功
+        // 更新本地消息状态
+        messageDao.updateMessage(id: id, status: 'success');
+
+        // 发送一条机器人回复的消息，显示发送中状态
+        await messageDao.createMessage(
+          id: 'robot-response-$id',
+          roleId: roleId,
+          content: '',
+          senderId: roleId,
+          senderName: 'astrum',
+          senderAvatar: 'https://img.liangqy.com/astrum/astrum.png',
+          type: 'text',
+          isRobot: true,
+          status: 'sending',
+        );
+      } else {
+        // 发送失败
+        messageDao.updateMessage(id: id, status: 'failed');
+      }
     }
+
+    return response;
   }
 
   void destroyMessageService() {

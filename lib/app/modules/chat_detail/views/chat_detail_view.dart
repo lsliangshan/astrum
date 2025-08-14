@@ -6,6 +6,7 @@ import 'package:astrum/components/need_login/need_login.dart';
 import 'package:astrum/database/database.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class ChatDetailView extends GetView {
@@ -112,11 +113,33 @@ class ChatDetailView extends GetView {
                   children: [
                     if (message.senderId != controller.loginInfo.value.id)
                       SizedBox(width: 16),
+                    if (message.senderId == controller.loginInfo.value.id)
+                      Container(
+                        width: 24,
+                        height: 24,
+                        margin: EdgeInsets.only(right: 12),
+                        child: message.status == 'sending'
+                            ? CustomLoader(size: 8)
+                            : (message.status == 'failed'
+                                  ? SvgPicture.asset(
+                                      'assets/svgs/icon_msg_status_failed.svg',
+                                      width: 10,
+                                      height: 10,
+                                      colorFilter: ColorFilter.mode(
+                                        Get.theme.colorScheme.error.withValues(
+                                          alpha: 0.88,
+                                        ),
+                                        BlendMode.srcIn,
+                                      ),
+                                    )
+                                  : SizedBox.shrink()),
+                      ),
                     MessageBubbleView(
                       message: message.content,
                       isSender:
                           message.senderId == controller.loginInfo.value.id,
                     ),
+
                     if (message.senderId == controller.loginInfo.value.id)
                       SizedBox(width: 16),
                   ],

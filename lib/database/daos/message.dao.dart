@@ -46,11 +46,18 @@ class MessageDao extends DatabaseAccessor<AppDatabase> with _$MessageDaoMixin {
 
   Future<int> updateMessage({
     required String id,
-    required String content,
     required String status,
+    String? content,
   }) {
+    if (content != null) {
+      return (update(
+        messages,
+      )..where((message) => message.id.equals(id))).write(
+        MessagesCompanion(content: Value(content), status: Value(status)),
+      );
+    }
     return (update(messages)..where((message) => message.id.equals(id))).write(
-      MessagesCompanion(content: Value(content), status: Value(status)),
+      MessagesCompanion(status: Value(status)),
     );
   }
 
