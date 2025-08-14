@@ -14,7 +14,7 @@ class ProfileController extends GetxController {
   void onInit() {
     super.onInit();
 
-    String text = 'flutter';
+    String text = '⏳';
 
     int tokens2 = countTokens(text);
     print('>>>>>>>countTokens: $tokens2');

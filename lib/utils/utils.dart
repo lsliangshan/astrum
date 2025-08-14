@@ -1,7 +1,11 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
+import 'package:tiktoken/tiktoken.dart';
 
 int countTokens(String text) {
+  final encoding = encodingForModel("gpt-4");
+  return encoding.encode(text).length;
+
   // Anthropic Claude 使用类 GPT-2 的 BPE 分词器
   // 中文特殊规则：每个中文字符计为 2 个 token
 
