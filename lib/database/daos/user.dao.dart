@@ -89,6 +89,15 @@ class UserDao extends DatabaseAccessor<AppDatabase> with _$UserDaoMixin {
     return (select(users)..where((tbl) => tbl.id.equals(user.id))).getSingle();
   }
 
+  Future<void> updateUserTokens({
+    required String userId,
+    required int tokens,
+  }) async {
+    await (update(users)..where((tbl) => tbl.id.equals(userId))).write(
+      UsersCompanion(tokens: Value(tokens)),
+    );
+  }
+
   Future<int> logout(String id) {
     return (delete(users)..where((u) => u.id.equals(id))).go();
   }

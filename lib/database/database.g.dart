@@ -1068,9 +1068,9 @@ class $MessagesTable extends Messages with TableInfo<$MessagesTable, Message> {
   late final GeneratedColumn<String> content = GeneratedColumn<String>(
     'content',
     aliasedName,
-    false,
+    true,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
   );
   static const VerificationMeta _senderIdMeta = const VerificationMeta(
     'senderId',
@@ -1198,8 +1198,6 @@ class $MessagesTable extends Messages with TableInfo<$MessagesTable, Message> {
         _contentMeta,
         content.isAcceptableOrUnknown(data['content']!, _contentMeta),
       );
-    } else if (isInserting) {
-      context.missing(_contentMeta);
     }
     if (data.containsKey('sender_id')) {
       context.handle(
@@ -1266,7 +1264,7 @@ class $MessagesTable extends Messages with TableInfo<$MessagesTable, Message> {
       content: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}content'],
-      )!,
+      ),
       senderId: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}sender_id'],
@@ -1307,7 +1305,7 @@ class $MessagesTable extends Messages with TableInfo<$MessagesTable, Message> {
 class Message extends DataClass implements Insertable<Message> {
   final String id;
   final String roleId;
-  final String content;
+  final String? content;
   final String? senderId;
   final String? senderName;
   final String? senderAvatar;
@@ -1318,7 +1316,7 @@ class Message extends DataClass implements Insertable<Message> {
   const Message({
     required this.id,
     required this.roleId,
-    required this.content,
+    this.content,
     this.senderId,
     this.senderName,
     this.senderAvatar,
@@ -1332,7 +1330,9 @@ class Message extends DataClass implements Insertable<Message> {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
     map['role_id'] = Variable<String>(roleId);
-    map['content'] = Variable<String>(content);
+    if (!nullToAbsent || content != null) {
+      map['content'] = Variable<String>(content);
+    }
     if (!nullToAbsent || senderId != null) {
       map['sender_id'] = Variable<String>(senderId);
     }
@@ -1361,7 +1361,9 @@ class Message extends DataClass implements Insertable<Message> {
     return MessagesCompanion(
       id: Value(id),
       roleId: Value(roleId),
-      content: Value(content),
+      content: content == null && nullToAbsent
+          ? const Value.absent()
+          : Value(content),
       senderId: senderId == null && nullToAbsent
           ? const Value.absent()
           : Value(senderId),
@@ -1392,7 +1394,7 @@ class Message extends DataClass implements Insertable<Message> {
     return Message(
       id: serializer.fromJson<String>(json['id']),
       roleId: serializer.fromJson<String>(json['roleId']),
-      content: serializer.fromJson<String>(json['content']),
+      content: serializer.fromJson<String?>(json['content']),
       senderId: serializer.fromJson<String?>(json['senderId']),
       senderName: serializer.fromJson<String?>(json['senderName']),
       senderAvatar: serializer.fromJson<String?>(json['senderAvatar']),
@@ -1408,7 +1410,7 @@ class Message extends DataClass implements Insertable<Message> {
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
       'roleId': serializer.toJson<String>(roleId),
-      'content': serializer.toJson<String>(content),
+      'content': serializer.toJson<String?>(content),
       'senderId': serializer.toJson<String?>(senderId),
       'senderName': serializer.toJson<String?>(senderName),
       'senderAvatar': serializer.toJson<String?>(senderAvatar),
@@ -1422,7 +1424,7 @@ class Message extends DataClass implements Insertable<Message> {
   Message copyWith({
     String? id,
     String? roleId,
-    String? content,
+    Value<String?> content = const Value.absent(),
     Value<String?> senderId = const Value.absent(),
     Value<String?> senderName = const Value.absent(),
     Value<String?> senderAvatar = const Value.absent(),
@@ -1433,7 +1435,7 @@ class Message extends DataClass implements Insertable<Message> {
   }) => Message(
     id: id ?? this.id,
     roleId: roleId ?? this.roleId,
-    content: content ?? this.content,
+    content: content.present ? content.value : this.content,
     senderId: senderId.present ? senderId.value : this.senderId,
     senderName: senderName.present ? senderName.value : this.senderName,
     senderAvatar: senderAvatar.present ? senderAvatar.value : this.senderAvatar,
@@ -1510,7 +1512,7 @@ class Message extends DataClass implements Insertable<Message> {
 class MessagesCompanion extends UpdateCompanion<Message> {
   final Value<String> id;
   final Value<String> roleId;
-  final Value<String> content;
+  final Value<String?> content;
   final Value<String?> senderId;
   final Value<String?> senderName;
   final Value<String?> senderAvatar;
@@ -1535,7 +1537,7 @@ class MessagesCompanion extends UpdateCompanion<Message> {
   MessagesCompanion.insert({
     required String id,
     required String roleId,
-    required String content,
+    this.content = const Value.absent(),
     this.senderId = const Value.absent(),
     this.senderName = const Value.absent(),
     this.senderAvatar = const Value.absent(),
@@ -1545,8 +1547,7 @@ class MessagesCompanion extends UpdateCompanion<Message> {
     this.status = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
-       roleId = Value(roleId),
-       content = Value(content);
+       roleId = Value(roleId);
   static Insertable<Message> custom({
     Expression<String>? id,
     Expression<String>? roleId,
@@ -1578,7 +1579,7 @@ class MessagesCompanion extends UpdateCompanion<Message> {
   MessagesCompanion copyWith({
     Value<String>? id,
     Value<String>? roleId,
-    Value<String>? content,
+    Value<String?>? content,
     Value<String?>? senderId,
     Value<String?>? senderName,
     Value<String?>? senderAvatar,
@@ -3160,7 +3161,7 @@ typedef $$MessagesTableCreateCompanionBuilder =
     MessagesCompanion Function({
       required String id,
       required String roleId,
-      required String content,
+      Value<String?> content,
       Value<String?> senderId,
       Value<String?> senderName,
       Value<String?> senderAvatar,
@@ -3174,7 +3175,7 @@ typedef $$MessagesTableUpdateCompanionBuilder =
     MessagesCompanion Function({
       Value<String> id,
       Value<String> roleId,
-      Value<String> content,
+      Value<String?> content,
       Value<String?> senderId,
       Value<String?> senderName,
       Value<String?> senderAvatar,
@@ -3379,7 +3380,7 @@ class $$MessagesTableTableManager
               ({
                 Value<String> id = const Value.absent(),
                 Value<String> roleId = const Value.absent(),
-                Value<String> content = const Value.absent(),
+                Value<String?> content = const Value.absent(),
                 Value<String?> senderId = const Value.absent(),
                 Value<String?> senderName = const Value.absent(),
                 Value<String?> senderAvatar = const Value.absent(),
@@ -3405,7 +3406,7 @@ class $$MessagesTableTableManager
               ({
                 required String id,
                 required String roleId,
-                required String content,
+                Value<String?> content = const Value.absent(),
                 Value<String?> senderId = const Value.absent(),
                 Value<String?> senderName = const Value.absent(),
                 Value<String?> senderAvatar = const Value.absent(),

@@ -166,8 +166,6 @@ class AttachmentService extends GetxService {
 
     final data = json.decode(await response.stream.bytesToString());
 
-    print('>>>>>>>request: ${data}');
-
     return NormalResponse.fromJson(data);
   }
 

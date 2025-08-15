@@ -3,8 +3,9 @@ import 'package:astrum/database/database.dart';
 import 'package:astrum/models/normal_response.model.dart';
 import 'package:astrum/services/auth.dart';
 import 'package:astrum/services/message.dart';
+import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Value;
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
@@ -64,6 +65,11 @@ class ChatDetailController extends GetxController {
         //   (Message msg) => msg.status == 'sending' && msg.id == message.id,
         // );
 
+        if (scrollController.position.pixels >
+            scrollController.position.minScrollExtent + 200) {
+          newMessageCount.value += 1;
+        }
+
         int messageIndex = messages.indexWhere(
           (Message msg) => msg.status == 'sending' && msg.id == message.id,
         );
@@ -75,7 +81,7 @@ class ChatDetailController extends GetxController {
         } else {
           messages.insert(0, message);
         }
-        newMessageCount.value += 1;
+
         update(['update-messages']);
       },
     );
@@ -159,24 +165,14 @@ class ChatDetailController extends GetxController {
     );
     messages.insert(0, newMessage);
 
-    Message robotMessage = Message(
-      id: 'robot-response-${newMessage.id}',
-      roleId: newMessage.roleId,
-      content: '',
-      senderId: newMessage.roleId,
-      senderName: 'astrum',
-      senderAvatar: 'https://img.liangqy.com/astrum/astrum.png',
-      type: 'text',
-      isRobot: true,
-      createAt: DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()),
-      status: 'sending',
-    );
-    messages.insert(0, robotMessage);
+    update(['update-messages']);
+    messageController.clear();
+    scrollToBottom();
 
-    await messageService.sendMessage(
+    NormalResponse response = await messageService.sendMessage(
       id: newMessage.id,
       roleId: newMessage.roleId,
-      content: newMessage.content,
+      content: newMessage.content ?? '',
       senderId: newMessage.senderId!,
       senderName: newMessage.senderName!,
       senderAvatar: newMessage.senderAvatar,
@@ -185,9 +181,41 @@ class ChatDetailController extends GetxController {
       status: newMessage.status,
     );
 
+    if (response.code == 200) {
+      // 更新消息状态
+      int messageIndex = messages.indexWhere(
+        (Message msg) => msg.id == newMessage.id,
+      );
+
+      if (messageIndex != -1) {
+        messages[messageIndex] = newMessage.copyWith(status: Value('success'));
+      }
+
+      Message robotMessage = Message(
+        id: 'robot-response-${newMessage.id}',
+        roleId: newMessage.roleId,
+        content: '',
+        senderId: newMessage.roleId,
+        senderName: 'astrum',
+        senderAvatar: 'https://img.liangqy.com/astrum/astrum.png',
+        type: 'text',
+        isRobot: true,
+        createAt: DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()),
+        status: 'sending',
+      );
+      messages.insert(0, robotMessage);
+    } else {
+      // 更新消息状态
+      int messageIndex = messages.indexWhere(
+        (Message msg) => msg.id == newMessage.id,
+      );
+
+      if (messageIndex != -1) {
+        messages[messageIndex] = newMessage.copyWith(status: Value('failed'));
+      }
+    }
+
     update(['update-messages']);
-    messageController.clear();
-    scrollToBottom();
   }
 
   void scrollToBottom({bool useAnimation = true}) {

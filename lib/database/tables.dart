@@ -67,7 +67,7 @@ class Messages extends Table {
   // 智能体 ID
   TextColumn get roleId => text()();
   // 消息内容
-  TextColumn get content => text()();
+  TextColumn get content => text().nullable()();
   // 消息发送者 ID
   TextColumn get senderId => text().nullable()();
   // 消息发送者名称

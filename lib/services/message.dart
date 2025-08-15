@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:astrum/database/daos/message.dao.dart';
+import 'package:astrum/database/daos/user.dao.dart';
 import 'package:astrum/database/database.dart';
 import 'package:astrum/models/normal_response.model.dart';
+import 'package:astrum/services/auth.dart';
 import 'package:flutter_http_sse/client/sse_client.dart';
 import 'package:flutter_http_sse/model/sse_request.dart';
 import 'package:flutter_http_sse/model/sse_response.dart';
@@ -107,6 +109,20 @@ class MessageService extends GetxService {
     }
   }
 
+  Future<void> updateUserTokens({
+    required String userId,
+    required int tokens,
+  }) async {
+    AuthService authService;
+    if (!Get.isRegistered<AuthService>()) {
+      authService = Get.put(AuthService());
+    } else {
+      authService = Get.find<AuthService>();
+    }
+    // 更新用户剩余 TOKENS
+    await authService.updateUserTokens(userId: userId, tokens: tokens);
+  }
+
   Future<NormalResponse> sendMessage({
     required String id,
     required String roleId,
@@ -150,6 +166,12 @@ class MessageService extends GetxService {
         // 发送成功
         // 更新本地消息状态
         messageDao.updateMessage(id: id, status: 'success');
+
+        // 更新本地数据库中的 tokens
+        await updateUserTokens(
+          userId: senderId,
+          tokens: response.data['tokens'],
+        );
 
         // 发送一条机器人回复的消息，显示发送中状态
         await messageDao.createMessage(
@@ -198,11 +220,24 @@ class MessageService extends GetxService {
     stream = sseClient.connect("connectionId", request);
 
     stream.listen(
-      (SSEResponse response) {
+      (SSEResponse response) async {
         if (response.data != null && response.data!.isNotEmpty) {
+          if (response.data['tokens'] != null) {
+            // 更新本地数据库中的 tokens
+            await updateUserTokens(
+              userId: userId,
+              tokens: response.data['tokens'] ?? 0,
+            );
+          }
           Message data = Message.fromJson(response.data!);
 
           messageEventCallbacks[data.roleId]?.call(data);
+
+          if (data.content != null &&
+              data.content!.isNotEmpty &&
+              data.content != '暂时无法回答您的问题，请稍后重试') {
+            // 更新本地数据库中的剩余 TOKENS
+          }
 
           // 更新消息内容
           messageDao.updateMessage(

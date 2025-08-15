@@ -4,7 +4,8 @@ import 'package:astrum/database/daos/user.dao.dart';
 import 'package:astrum/database/database.dart';
 import 'package:astrum/models/normal_response.model.dart';
 import 'package:astrum/services/message.dart';
-import 'package:get/get.dart';
+import 'package:drift/drift.dart';
+import 'package:get/get.dart' hide Value;
 import 'package:http/http.dart' as http;
 
 class AuthService extends GetxService {
@@ -37,7 +38,6 @@ class AuthService extends GetxService {
       },
       body: json.encode({'userId': user.value.id}),
     );
-
     if (response.body.isEmpty) {
       return;
     }
@@ -110,6 +110,14 @@ class AuthService extends GetxService {
     final data = json.decode(response.body);
 
     return NormalResponse.fromJson(data);
+  }
+
+  Future<void> updateUserTokens({
+    required String userId,
+    required int tokens,
+  }) async {
+    await userDao.updateUserTokens(userId: userId, tokens: tokens);
+    user.value = user.value.copyWith(tokens: Value(tokens));
   }
 
   void logout() {
