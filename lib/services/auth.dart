@@ -81,11 +81,13 @@ class AuthService extends GetxService {
     }
     final data = json.decode(response.body);
 
-    user.value = User.fromJson(data['data']);
+    if (data['code'] == 200 && data['data'] != null) {
+      user.value = User.fromJson(data['data']);
 
-    isLogin.value = true;
+      isLogin.value = true;
 
-    await userDao.login(user: user.value);
+      await userDao.login(user: user.value);
+    }
 
     return NormalResponse.fromJson(data);
   }

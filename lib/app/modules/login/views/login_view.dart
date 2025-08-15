@@ -51,18 +51,19 @@ class LoginView extends GetView<LoginController> {
               ),
             ),
           ),
-          Expanded(
-            child: Center(
-              child: GetBuilder(
-                init: controller,
-                builder: (_) {
-                  if (controller.isLoginMode.isTrue) {
-                    return LoginBoxView();
-                  } else {
-                    return RegisterBoxView();
-                  }
-                },
-              ),
+          Container(
+            alignment: Alignment.center,
+            width: Get.width,
+            height: Get.height,
+            child: GetBuilder(
+              init: controller,
+              builder: (_) {
+                if (controller.isLoginMode.isTrue) {
+                  return LoginBoxView();
+                } else {
+                  return RegisterBoxView();
+                }
+              },
             ),
           ),
         ],

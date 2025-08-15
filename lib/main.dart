@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:astrum/database/daos/message.dao.dart';
 import 'package:astrum/database/daos/user.dao.dart';
@@ -36,6 +37,8 @@ void main() async {
     localLanguage.split('_')[0],
     localLanguage.split('_')[1],
   );
+
+  HttpOverrides.global = MyHttpOverrides();
 
   initializeDateFormatting().then(
     (_) => runApp(
@@ -80,4 +83,13 @@ Future<void> initServices() async {
 
   RoleService roleService = RoleService();
   Get.lazyPut(() => roleService);
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
 }
