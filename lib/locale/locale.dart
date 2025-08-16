@@ -24,6 +24,7 @@ class Messages extends Translations {
       'add_role.icon.hint': '请选择图标',
       'add_role.success': '角色添加成功',
       'add_role.error': '角色添加失败',
+
       'edit_role.success': '角色编辑成功',
       'edit_role.error': '角色编辑失败',
 
@@ -32,6 +33,14 @@ class Messages extends Translations {
       'role_detail.attachments': '附件',
       'role_detail.no_attachments.tip': '暂无附件',
       'role_detail.chat': '聊天',
+      'role_detail.authorName': '作者',
+      'role_detail.btn_chat': '开始聊天',
+      'role_detail.btn_fork': '添加到我的角色库',
+      'role_detail.btn_unfork': '从我的角色库中移除',
+      'role_detail.add_role.success': '添加成功',
+      'role_detail.add_role.failed': '添加失败',
+      'role_detail.delete_role.success': '删除成功',
+      'role_detail.delete_role.failed': '删除失败',
 
       'attachments.title': '附件管理',
       'attachments.from.upload': '从本地上传',
@@ -145,6 +154,14 @@ class Messages extends Translations {
       'role_detail.attachments': 'Attachments',
       'role_detail.no_attachments.tip': 'No attachments',
       'role_detail.chat': 'Chat',
+      'role_detail.authorName': 'Author',
+      'role_detail.btn_chat': 'Start Chat',
+      'role_detail.btn_fork': 'Add to my role library',
+      'role_detail.btn_unfork': 'Remove from my role library',
+      'role_detail.add_role.success': 'Add Success',
+      'role_detail.add_role.failed': 'Add Failed',
+      'role_detail.delete_role.success': 'Delete Success',
+      'role_detail.delete_role.failed': 'Delete Failed',
 
       'attachments.title': 'Attachments',
       'attachments.from.upload': 'Upload from local',

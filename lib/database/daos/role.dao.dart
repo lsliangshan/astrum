@@ -25,6 +25,7 @@ class RoleDao extends DatabaseAccessor<AppDatabase> with _$RoleDaoMixin {
     String? publishTime,
     String? updateAt,
     String? createAt,
+    bool? isForked,
   }) {
     return into(roles).insertOnConflictUpdate(
       RolesCompanion(
@@ -41,6 +42,7 @@ class RoleDao extends DatabaseAccessor<AppDatabase> with _$RoleDaoMixin {
         createAt: Value(
           createAt ?? DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()),
         ),
+        isForked: Value(isForked ?? false),
       ),
     );
   }
@@ -58,6 +60,7 @@ class RoleDao extends DatabaseAccessor<AppDatabase> with _$RoleDaoMixin {
           publishTime: e.publishTime,
           updateAt: e.updateAt,
           createAt: e.createAt,
+          isForked: e.isForked,
         ),
       ),
     );
@@ -73,6 +76,7 @@ class RoleDao extends DatabaseAccessor<AppDatabase> with _$RoleDaoMixin {
     String? authorName,
     String? publishTime,
     String? updateAt,
+    bool? isForked,
   }) {
     if (name != null) {
       return (update(roles)..where((role) => role.id.equals(id))).write(
@@ -87,8 +91,19 @@ class RoleDao extends DatabaseAccessor<AppDatabase> with _$RoleDaoMixin {
         authorName: Value(authorName ?? ''),
         publishTime: Value(publishTime ?? ''),
         updateAt: Value(updateAt ?? ''),
+        isForked: Value(isForked ?? false),
       ),
     );
+  }
+
+  Future<int> forkRole({required Role role}) async {
+    return into(
+      roles,
+    ).insertOnConflictUpdate(role.copyWith(isForked: Value(true)));
+  }
+
+  Future<int> unforkRole({required Role role}) async {
+    return (delete(roles)..where((tbl) => tbl.id.equals(role.id))).go();
   }
 
   Future<NormalResponse> getRoles({
@@ -107,11 +122,11 @@ class RoleDao extends DatabaseAccessor<AppDatabase> with _$RoleDaoMixin {
 
     final roleList =
         await (select(roles)
-              ..where((role) => role.authorId.equals(authorId ?? ''))
+              // ..where((role) => role.authorId.equals(authorId ?? ''))
               ..orderBy([(tbl) => OrderingTerm.asc(tbl.createAt)])
               ..limit(pageSize, offset: offset))
             .get();
-
+    print('>>>>>>>>>>>>>>> ${roleList}');
     return NormalResponse(
       code: 200,
       data: {
@@ -127,5 +142,12 @@ class RoleDao extends DatabaseAccessor<AppDatabase> with _$RoleDaoMixin {
 
   Future<void> deleteMyRoles({required String authorId}) async {
     await (delete(roles)..where((role) => role.authorId.equals(authorId))).go();
+  }
+
+  Future<Role?> getRoleDetail({required String roleId}) async {
+    final response = await (select(
+      roles,
+    )..where((role) => role.id.equals(roleId))).getSingleOrNull();
+    return response;
   }
 }

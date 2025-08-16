@@ -6,7 +6,9 @@ import 'package:astrum/app/routes/app_pages.dart';
 import 'package:astrum/database/database.dart';
 import 'package:astrum/models/normal_response.model.dart';
 import 'package:astrum/services/attachment.dart';
+import 'package:astrum/services/auth.dart';
 import 'package:astrum/services/role.dart';
+import 'package:astrum/services/toast.dart';
 import 'package:get/get.dart';
 
 class RoleDetailController extends GetxController {
@@ -15,10 +17,17 @@ class RoleDetailController extends GetxController {
 
   RoleService roleService = Get.find<RoleService>();
   AttachmentService attachmentService = Get.find<AttachmentService>();
+  AuthService authService = Get.find<AuthService>();
+  ToastService toastService = Get.find<ToastService>();
 
   Rx<Role> role = Role(id: '', name: '').obs;
 
   RxList<Attachment> attachments = <Attachment>[].obs;
+
+  Rx<User> get loginInfo => authService.user;
+
+  Rx<bool> isForking = false.obs;
+  Rx<bool> isUnforking = false.obs;
 
   late Future<void> initRoleDetailFuture;
 
@@ -101,5 +110,53 @@ class RoleDetailController extends GetxController {
     await Get.to(
       () => ChatDetailView(roleId: roleId, roleName: role.value.name),
     );
+  }
+
+  Future<void> forkRole() async {
+    if (isForking.isTrue) {
+      return;
+    }
+    isForking.value = true;
+
+    NormalResponse response = await roleService.forkRole(
+      role: role.value,
+      userId: loginInfo.value.id,
+    );
+
+    if (response.code == 200) {
+      // 添加成功
+      toastService.showSuccess('role_detail.add_role.success'.tr);
+
+      await initData();
+    } else {
+      // 添加失败
+      toastService.showError('role_detail.add_role.failed'.tr);
+    }
+
+    isForking.value = false;
+  }
+
+  Future<void> unforkRole() async {
+    if (isUnforking.isTrue) {
+      return;
+    }
+    isUnforking.value = true;
+
+    NormalResponse response = await roleService.unforkRole(
+      role: role.value,
+      userId: loginInfo.value.id,
+    );
+
+    if (response.code == 200) {
+      // 添加成功
+      toastService.showSuccess('role_detail.delete_role.success'.tr);
+
+      await initData();
+    } else {
+      // 添加失败
+      toastService.showError('role_detail.delete_role.failed'.tr);
+    }
+
+    isUnforking.value = false;
   }
 }

@@ -98,6 +98,7 @@ class RoleService extends GetxService {
 
     // 如果本地数据库中没有角色，则从服务器端数据库中获取角色
     final localRoles = await roleDao.getRoles(authorId: authorId);
+    print('>>>>>>>>>>>>>>>localRoles ${localRoles.data['list']}');
     if (localRoles.code == 200 && localRoles.data['list'].isEmpty) {
       final serverRoles = await getRolesFromServer(
         authorId: authorId,
@@ -105,6 +106,7 @@ class RoleService extends GetxService {
         pageIndex: 1,
         pageSize: 1000,
       );
+      print('>>>>>>>>>>>>>>>serverRoles ${serverRoles.data['list']}');
       await roleDao.insertAll(roleList: serverRoles.data['list']);
     }
     return localRoles;
@@ -157,6 +159,11 @@ class RoleService extends GetxService {
     return response;
   }
 
+  Future<Role?> getRoleDetailFromLocal({required String roleId}) async {
+    final response = await roleDao.getRoleDetail(roleId: roleId);
+    return response;
+  }
+
   Future<NormalResponse> getRoleDetail({required String roleId}) async {
     http.Response response = await http.post(
       Uri.parse('https://wf.liangqy.com/webhook/astrum/get-role-detail'),
@@ -172,6 +179,67 @@ class RoleService extends GetxService {
 
     final data = json.decode(response.body);
 
+    if (data['code'] == 200 && data['data'] != null) {
+      Role? localRoleDetail = await getRoleDetailFromLocal(roleId: roleId);
+      if (localRoleDetail != null) {
+        data['data']['isForked'] = localRoleDetail.isForked;
+      } else {
+        data['data']['isForked'] = false;
+      }
+    }
+
     return NormalResponse.fromJson(data);
+  }
+
+  Future<NormalResponse> forkRole({
+    required Role role,
+    required String userId,
+  }) async {
+    if (userId.isEmpty) {
+      return NormalResponse(
+        code: 1001,
+        message: '添加失败',
+        data: {'roleId': role.id, 'userId': userId},
+      );
+    }
+    final response = await roleDao.forkRole(role: role);
+    if (response > 0) {
+      return NormalResponse(
+        code: 200,
+        message: '添加成功',
+        data: {'roleId': role.id, 'userId': userId},
+      );
+    }
+    return NormalResponse(
+      code: 1001,
+      message: '添加失败',
+      data: {'roleId': role.id, 'userId': userId},
+    );
+  }
+
+  Future<NormalResponse> unforkRole({
+    required Role role,
+    required String userId,
+  }) async {
+    if (userId.isEmpty) {
+      return NormalResponse(
+        code: 1001,
+        message: '移除失败',
+        data: {'roleId': role.id, 'userId': userId},
+      );
+    }
+    final response = await roleDao.unforkRole(role: role);
+    if (response > 0) {
+      return NormalResponse(
+        code: 200,
+        message: '移除成功',
+        data: {'roleId': role.id, 'userId': userId},
+      );
+    }
+    return NormalResponse(
+      code: 1001,
+      message: '移除失败',
+      data: {'roleId': role.id, 'userId': userId},
+    );
   }
 }

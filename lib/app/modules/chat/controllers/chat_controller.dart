@@ -52,7 +52,7 @@ class ChatController extends GetxController {
       totalCount.value = response.data['totalCount'];
       totalPage.value = response.data['totalPage'];
 
-      update(['update-roles']);
+      update(['update-chats']);
     }
   }
 
