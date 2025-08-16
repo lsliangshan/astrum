@@ -139,6 +139,25 @@ class RoleView extends GetView<RoleController> {
               init: controller,
               id: 'update-roles',
               builder: (_) {
+                if (controller.roles.isEmpty) {
+                  return ListView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    children: [
+                      SizedBox(
+                        width: Get.width,
+                        height: Get.height - 300,
+                        child: Center(
+                          child: Text(
+                            'no_data'.tr,
+                            style: Get.theme.textTheme.bodySmall?.copyWith(
+                              color: Get.theme.disabledColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }
                 return CustomScrollView(
                   slivers: [
                     SliverPadding(
@@ -151,7 +170,7 @@ class RoleView extends GetView<RoleController> {
                         childCount: controller.roles.length,
                       ),
                     ),
-                    if (controller.pageIndex.value ==
+                    if (controller.pageIndex.value >=
                         controller.totalPage.value)
                       SliverToBoxAdapter(
                         child: Container(

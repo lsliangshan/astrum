@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:astrum/database/daos/role.dao.dart';
 import 'package:astrum/database/database.dart';
 import 'package:astrum/models/normal_response.model.dart';
 import 'package:astrum/services/auth.dart';
@@ -10,6 +11,8 @@ import 'package:mime/mime.dart';
 
 class RoleService extends GetxService {
   AuthService authService = Get.find<AuthService>();
+
+  RoleDao roleDao = Get.find<RoleDao>();
 
   Rx<User> get loginInfo => authService.user;
 
@@ -87,10 +90,31 @@ class RoleService extends GetxService {
     return NormalResponse.fromJson(data);
   }
 
-  Future<NormalResponse> getRoles({
+  /// 将服务器端数据库中的角色同步到本地数据库
+  Future<NormalResponse> syncRoles({required String authorId}) async {
+    if (authorId.isEmpty) {
+      return NormalResponse(code: 200, message: 'success', data: {});
+    }
+
+    // 如果本地数据库中没有角色，则从服务器端数据库中获取角色
+    final localRoles = await roleDao.getRoles(authorId: authorId);
+    if (localRoles.code == 200 && localRoles.data['list'].isEmpty) {
+      final serverRoles = await getRolesFromServer(
+        authorId: authorId,
+        include: 'self',
+        pageIndex: 1,
+        pageSize: 1000,
+      );
+      await roleDao.insertAll(roleList: serverRoles.data['list']);
+    }
+    return localRoles;
+  }
+
+  Future<NormalResponse> getRolesFromServer({
     int pageIndex = 1,
     int pageSize = 20,
     String? authorId,
+    // self others all
     String? include = 'all',
   }) async {
     http.Response response = await http.post(
@@ -110,9 +134,27 @@ class RoleService extends GetxService {
       return NormalResponse(code: 1001, message: '网络异常', data: {});
     }
 
-    final data = json.decode(response.body);
+    var data = json.decode(response.body);
+
+    data['data']['list'] = data['data']['list']
+        .map<Role>((e) => Role.fromJson(e))
+        .toList();
 
     return NormalResponse.fromJson(data);
+  }
+
+  Future<NormalResponse> getRolesFromLocal({
+    required String authorId,
+    int pageIndex = 1,
+    int pageSize = 20,
+  }) async {
+    final response = await roleDao.getRoles(
+      authorId: authorId,
+      pageIndex: pageIndex,
+      pageSize: pageSize,
+    );
+
+    return response;
   }
 
   Future<NormalResponse> getRoleDetail({required String roleId}) async {

@@ -30,6 +30,10 @@ class Roles extends Table {
     Constant(DateTime.now().millisecondsSinceEpoch.toString()),
   )();
 
+  /// 是否是 fork 的智能体
+  BoolColumn get isForked =>
+      boolean().nullable().withDefault(const Constant(false))();
+
   @override
   Set<Column> get primaryKey => {id};
 }

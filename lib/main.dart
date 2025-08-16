@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:astrum/database/daos/message.dao.dart';
+import 'package:astrum/database/daos/role.dao.dart';
 import 'package:astrum/database/daos/user.dao.dart';
 import 'package:astrum/database/database.dart';
 import 'package:astrum/services/attachment.dart';
@@ -68,6 +69,9 @@ Future<void> initServices() async {
   AppDatabase db = AppDatabase();
   UserDao userDao = UserDao(db);
   Get.put<UserDao>(userDao);
+
+  RoleDao roleDao = RoleDao(db);
+  Get.put<RoleDao>(roleDao);
 
   MessageDao messageDao = MessageDao(db);
   Get.put<MessageDao>(messageDao);

@@ -12,6 +12,8 @@ class Messages extends Translations {
 
       'tab_role.title': '角色',
 
+      'tab_chat.title': '聊天列表',
+
       'edit_role.title': '编辑角色',
       'add_role.title': '添加角色',
       'add_role.name': '角色名称',
@@ -111,6 +113,8 @@ class Messages extends Translations {
       // 未登录页面
       'need_login.tip': '需要登录',
       'need_login.btn.login': '去登录',
+
+      'no_data': '暂无数据',
     },
     'en_US': {
       // 页面
@@ -120,6 +124,8 @@ class Messages extends Translations {
       'tab.profile': 'Profile',
 
       'tab_role.title': 'Role',
+
+      'tab_chat.title': 'Chat List',
 
       'edit_role.title': 'Edit Role',
       'add_role.title': 'Add Role',
@@ -222,6 +228,8 @@ class Messages extends Translations {
       // 未登录页面
       'need_login.tip': 'Need Login',
       'need_login.btn.login': 'Go Login',
+
+      'no_data': 'No Data',
     },
   };
 }

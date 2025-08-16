@@ -1,4 +1,6 @@
 import 'package:astrum/app/data/app.config.dart';
+import 'package:astrum/app/modules/chat/controllers/chat_controller.dart';
+import 'package:astrum/app/modules/discovery/controllers/discovery_controller.dart';
 import 'package:astrum/app/modules/profile/controllers/profile_controller.dart';
 import 'package:astrum/app/modules/role/controllers/role_controller.dart';
 import 'package:astrum/types/types.dart';
@@ -46,6 +48,14 @@ class HomeController extends GetxController
     if (!initialedView.contains("ProfileView")) {
       initialedView.add('ProfileView');
       Get.put<ProfileController>(ProfileController());
+    }
+    if (!initialedView.contains("ChatView")) {
+      initialedView.add('ChatView');
+      Get.put<ChatController>(ChatController());
+    }
+    if (!initialedView.contains("DiscoveryView")) {
+      initialedView.add('DiscoveryView');
+      Get.put<DiscoveryController>(DiscoveryController());
     }
   }
 }

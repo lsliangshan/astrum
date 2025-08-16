@@ -105,6 +105,21 @@ class $RolesTable extends Roles with TableInfo<$RolesTable, Role> {
     requiredDuringInsert: false,
     defaultValue: Constant(DateTime.now().millisecondsSinceEpoch.toString()),
   );
+  static const VerificationMeta _isForkedMeta = const VerificationMeta(
+    'isForked',
+  );
+  @override
+  late final GeneratedColumn<bool> isForked = GeneratedColumn<bool>(
+    'is_forked',
+    aliasedName,
+    true,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_forked" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -116,6 +131,7 @@ class $RolesTable extends Roles with TableInfo<$RolesTable, Role> {
     publishTime,
     updateAt,
     createAt,
+    isForked,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -190,6 +206,12 @@ class $RolesTable extends Roles with TableInfo<$RolesTable, Role> {
         createAt.isAcceptableOrUnknown(data['create_at']!, _createAtMeta),
       );
     }
+    if (data.containsKey('is_forked')) {
+      context.handle(
+        _isForkedMeta,
+        isForked.isAcceptableOrUnknown(data['is_forked']!, _isForkedMeta),
+      );
+    }
     return context;
   }
 
@@ -235,6 +257,10 @@ class $RolesTable extends Roles with TableInfo<$RolesTable, Role> {
         DriftSqlType.string,
         data['${effectivePrefix}create_at'],
       ),
+      isForked: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_forked'],
+      ),
     );
   }
 
@@ -254,6 +280,9 @@ class Role extends DataClass implements Insertable<Role> {
   final String? publishTime;
   final String? updateAt;
   final String? createAt;
+
+  /// 是否是 fork 的智能体
+  final bool? isForked;
   const Role({
     required this.id,
     required this.name,
@@ -264,6 +293,7 @@ class Role extends DataClass implements Insertable<Role> {
     this.publishTime,
     this.updateAt,
     this.createAt,
+    this.isForked,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -291,6 +321,9 @@ class Role extends DataClass implements Insertable<Role> {
     if (!nullToAbsent || createAt != null) {
       map['create_at'] = Variable<String>(createAt);
     }
+    if (!nullToAbsent || isForked != null) {
+      map['is_forked'] = Variable<bool>(isForked);
+    }
     return map;
   }
 
@@ -317,6 +350,9 @@ class Role extends DataClass implements Insertable<Role> {
       createAt: createAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createAt),
+      isForked: isForked == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isForked),
     );
   }
 
@@ -335,6 +371,7 @@ class Role extends DataClass implements Insertable<Role> {
       publishTime: serializer.fromJson<String?>(json['publishTime']),
       updateAt: serializer.fromJson<String?>(json['updateAt']),
       createAt: serializer.fromJson<String?>(json['createAt']),
+      isForked: serializer.fromJson<bool?>(json['isForked']),
     );
   }
   @override
@@ -350,6 +387,7 @@ class Role extends DataClass implements Insertable<Role> {
       'publishTime': serializer.toJson<String?>(publishTime),
       'updateAt': serializer.toJson<String?>(updateAt),
       'createAt': serializer.toJson<String?>(createAt),
+      'isForked': serializer.toJson<bool?>(isForked),
     };
   }
 
@@ -363,6 +401,7 @@ class Role extends DataClass implements Insertable<Role> {
     Value<String?> publishTime = const Value.absent(),
     Value<String?> updateAt = const Value.absent(),
     Value<String?> createAt = const Value.absent(),
+    Value<bool?> isForked = const Value.absent(),
   }) => Role(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -373,6 +412,7 @@ class Role extends DataClass implements Insertable<Role> {
     publishTime: publishTime.present ? publishTime.value : this.publishTime,
     updateAt: updateAt.present ? updateAt.value : this.updateAt,
     createAt: createAt.present ? createAt.value : this.createAt,
+    isForked: isForked.present ? isForked.value : this.isForked,
   );
   Role copyWithCompanion(RolesCompanion data) {
     return Role(
@@ -391,6 +431,7 @@ class Role extends DataClass implements Insertable<Role> {
           : this.publishTime,
       updateAt: data.updateAt.present ? data.updateAt.value : this.updateAt,
       createAt: data.createAt.present ? data.createAt.value : this.createAt,
+      isForked: data.isForked.present ? data.isForked.value : this.isForked,
     );
   }
 
@@ -405,7 +446,8 @@ class Role extends DataClass implements Insertable<Role> {
           ..write('authorName: $authorName, ')
           ..write('publishTime: $publishTime, ')
           ..write('updateAt: $updateAt, ')
-          ..write('createAt: $createAt')
+          ..write('createAt: $createAt, ')
+          ..write('isForked: $isForked')
           ..write(')'))
         .toString();
   }
@@ -421,6 +463,7 @@ class Role extends DataClass implements Insertable<Role> {
     publishTime,
     updateAt,
     createAt,
+    isForked,
   );
   @override
   bool operator ==(Object other) =>
@@ -434,7 +477,8 @@ class Role extends DataClass implements Insertable<Role> {
           other.authorName == this.authorName &&
           other.publishTime == this.publishTime &&
           other.updateAt == this.updateAt &&
-          other.createAt == this.createAt);
+          other.createAt == this.createAt &&
+          other.isForked == this.isForked);
 }
 
 class RolesCompanion extends UpdateCompanion<Role> {
@@ -447,6 +491,7 @@ class RolesCompanion extends UpdateCompanion<Role> {
   final Value<String?> publishTime;
   final Value<String?> updateAt;
   final Value<String?> createAt;
+  final Value<bool?> isForked;
   final Value<int> rowid;
   const RolesCompanion({
     this.id = const Value.absent(),
@@ -458,6 +503,7 @@ class RolesCompanion extends UpdateCompanion<Role> {
     this.publishTime = const Value.absent(),
     this.updateAt = const Value.absent(),
     this.createAt = const Value.absent(),
+    this.isForked = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   RolesCompanion.insert({
@@ -470,6 +516,7 @@ class RolesCompanion extends UpdateCompanion<Role> {
     this.publishTime = const Value.absent(),
     this.updateAt = const Value.absent(),
     this.createAt = const Value.absent(),
+    this.isForked = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        name = Value(name);
@@ -483,6 +530,7 @@ class RolesCompanion extends UpdateCompanion<Role> {
     Expression<String>? publishTime,
     Expression<String>? updateAt,
     Expression<String>? createAt,
+    Expression<bool>? isForked,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -495,6 +543,7 @@ class RolesCompanion extends UpdateCompanion<Role> {
       if (publishTime != null) 'publish_time': publishTime,
       if (updateAt != null) 'update_at': updateAt,
       if (createAt != null) 'create_at': createAt,
+      if (isForked != null) 'is_forked': isForked,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -509,6 +558,7 @@ class RolesCompanion extends UpdateCompanion<Role> {
     Value<String?>? publishTime,
     Value<String?>? updateAt,
     Value<String?>? createAt,
+    Value<bool?>? isForked,
     Value<int>? rowid,
   }) {
     return RolesCompanion(
@@ -521,6 +571,7 @@ class RolesCompanion extends UpdateCompanion<Role> {
       publishTime: publishTime ?? this.publishTime,
       updateAt: updateAt ?? this.updateAt,
       createAt: createAt ?? this.createAt,
+      isForked: isForked ?? this.isForked,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -555,6 +606,9 @@ class RolesCompanion extends UpdateCompanion<Role> {
     if (createAt.present) {
       map['create_at'] = Variable<String>(createAt.value);
     }
+    if (isForked.present) {
+      map['is_forked'] = Variable<bool>(isForked.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -573,6 +627,7 @@ class RolesCompanion extends UpdateCompanion<Role> {
           ..write('publishTime: $publishTime, ')
           ..write('updateAt: $updateAt, ')
           ..write('createAt: $createAt, ')
+          ..write('isForked: $isForked, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2632,6 +2687,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $MessagesTable messages = $MessagesTable(this);
   late final $UsersTable users = $UsersTable(this);
   late final MessageDao messageDao = MessageDao(this as AppDatabase);
+  late final RoleDao roleDao = RoleDao(this as AppDatabase);
+  late final UserDao userDao = UserDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2655,6 +2712,7 @@ typedef $$RolesTableCreateCompanionBuilder =
       Value<String?> publishTime,
       Value<String?> updateAt,
       Value<String?> createAt,
+      Value<bool?> isForked,
       Value<int> rowid,
     });
 typedef $$RolesTableUpdateCompanionBuilder =
@@ -2668,6 +2726,7 @@ typedef $$RolesTableUpdateCompanionBuilder =
       Value<String?> publishTime,
       Value<String?> updateAt,
       Value<String?> createAt,
+      Value<bool?> isForked,
       Value<int> rowid,
     });
 
@@ -2721,6 +2780,11 @@ class $$RolesTableFilterComposer extends Composer<_$AppDatabase, $RolesTable> {
 
   ColumnFilters<String> get createAt => $composableBuilder(
     column: $table.createAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isForked => $composableBuilder(
+    column: $table.isForked,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -2778,6 +2842,11 @@ class $$RolesTableOrderingComposer
     column: $table.createAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<bool> get isForked => $composableBuilder(
+    column: $table.isForked,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$RolesTableAnnotationComposer
@@ -2821,6 +2890,9 @@ class $$RolesTableAnnotationComposer
 
   GeneratedColumn<String> get createAt =>
       $composableBuilder(column: $table.createAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get isForked =>
+      $composableBuilder(column: $table.isForked, builder: (column) => column);
 }
 
 class $$RolesTableTableManager
@@ -2860,6 +2932,7 @@ class $$RolesTableTableManager
                 Value<String?> publishTime = const Value.absent(),
                 Value<String?> updateAt = const Value.absent(),
                 Value<String?> createAt = const Value.absent(),
+                Value<bool?> isForked = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => RolesCompanion(
                 id: id,
@@ -2871,6 +2944,7 @@ class $$RolesTableTableManager
                 publishTime: publishTime,
                 updateAt: updateAt,
                 createAt: createAt,
+                isForked: isForked,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -2884,6 +2958,7 @@ class $$RolesTableTableManager
                 Value<String?> publishTime = const Value.absent(),
                 Value<String?> updateAt = const Value.absent(),
                 Value<String?> createAt = const Value.absent(),
+                Value<bool?> isForked = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => RolesCompanion.insert(
                 id: id,
@@ -2895,6 +2970,7 @@ class $$RolesTableTableManager
                 publishTime: publishTime,
                 updateAt: updateAt,
                 createAt: createAt,
+                isForked: isForked,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

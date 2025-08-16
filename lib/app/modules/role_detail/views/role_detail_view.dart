@@ -305,6 +305,21 @@ class RoleDetailView extends GetView {
           );
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          controller.gotoChatDetail();
+        },
+        mini: true,
+        child: SvgPicture.asset(
+          'assets/svgs/icon_chat_filled.svg',
+          width: 24,
+          height: 24,
+          colorFilter: ColorFilter.mode(
+            Get.theme.colorScheme.onSurface.withValues(alpha: 0.68),
+            BlendMode.srcIn,
+          ),
+        ),
+      ),
     );
   }
 }

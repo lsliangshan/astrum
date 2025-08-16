@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:astrum/database/daos/message.dao.dart';
+import 'package:astrum/database/daos/role.dao.dart';
+import 'package:astrum/database/daos/user.dao.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:intl/intl.dart';
@@ -33,7 +35,7 @@ LazyDatabase _openConnection() {
 // @DriftDatabase(tables: [Activities, Users], include: {'sql.drift'})
 @DriftDatabase(
   tables: [Roles, Attachments, Messages, Users],
-  daos: [MessageDao],
+  daos: [MessageDao, RoleDao, UserDao],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());

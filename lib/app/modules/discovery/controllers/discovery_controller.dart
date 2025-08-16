@@ -1,23 +1,70 @@
+import 'package:astrum/app/modules/role_detail/views/role_detail_view.dart';
+import 'package:astrum/app/routes/app_pages.dart';
+import 'package:astrum/database/database.dart';
+import 'package:astrum/services/auth.dart';
+import 'package:astrum/services/role.dart';
 import 'package:get/get.dart';
 
 class DiscoveryController extends GetxController {
-  //TODO: Implement DiscoveryController
+  RoleService roleService = Get.find<RoleService>();
+  AuthService authService = Get.find<AuthService>();
 
-  final count = 0.obs;
+  RxInt pageIndex = 1.obs;
+  RxInt pageSize = 20.obs;
+  RxInt totalCount = 0.obs;
+  RxInt totalPage = 1.obs;
+
+  RxList<Role> roles = <Role>[].obs;
+
+  Rx<User> get loginInfo => authService.user;
+
+  late Future<void> initRoleFuture;
+
   @override
   void onInit() {
     super.onInit();
+
+    initRoleFuture = initData();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  Future<void> initData() async {
+    await getRolesFromServer();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
+  Future<void> getRolesFromServer() async {
+    final response = await roleService.getRolesFromServer(
+      authorId: loginInfo.value.id,
+      pageIndex: pageIndex.value,
+      pageSize: pageSize.value,
+    );
+
+    if (response.code == 200 && response.data != null) {
+      if (pageIndex.value == 1) {
+        roles.clear();
+      }
+      if (response.data['list'] != null && response.data['list'].isNotEmpty) {
+        roles.addAll(response.data['list']);
+      }
+
+      totalCount.value = response.data['totalCount'];
+      totalPage.value = response.data['totalPage'];
+      update(['update-roles']);
+    }
   }
 
-  void increment() => count.value++;
+  Future<void> onRefresh() async {
+    pageIndex.value = 1;
+    await initData();
+
+    await Future.delayed(const Duration(milliseconds: 500));
+  }
+
+  void gotoAddRole() {
+    Get.toNamed(Routes.ADD_ROLE);
+  }
+
+  void gotoRoleDetail(Role role) {
+    // Get.to(() => AddRoleView(roleId: role.id));
+    Get.to(() => RoleDetailView(roleId: role.id));
+  }
 }
