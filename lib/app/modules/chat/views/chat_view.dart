@@ -3,6 +3,7 @@ import 'package:astrum/components/empty_result/empty_result.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 
@@ -86,7 +87,14 @@ class ChatView extends GetView<ChatController> {
                         width: Get.width,
                         height: Get.height - 300,
                         child: Center(
-                          child: EmptyResult(showMainButton: false),
+                          child: EmptyResult(
+                            image: SvgPicture.asset(
+                              'assets/svgs/icon_message_empty.svg',
+                              width: 200,
+                              height: 200,
+                            ),
+                            showMainButton: false,
+                          ),
                         ),
                       ),
                     ],

@@ -147,7 +147,13 @@ class RoleView extends GetView<RoleController> {
                       SizedBox(
                         width: Get.width,
                         height: Get.height - 300,
-                        child: Center(child: EmptyResult()),
+                        child: Center(
+                          child: EmptyResult(
+                            onPressed: () {
+                              controller.gotoAddRole();
+                            },
+                          ),
+                        ),
                       ),
                     ],
                   );

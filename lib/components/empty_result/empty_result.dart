@@ -10,10 +10,12 @@ class EmptyResult extends StatelessWidget {
   final bool showMainButton;
   final bool showSecondaryButton;
   final Widget? secondaryButton;
+  final Widget? image;
   const EmptyResult({
     super.key,
     this.onPressed,
     this.mainButton,
+    this.image,
     this.showMainButton = true,
     this.showSecondaryButton = false,
     this.secondaryButton,
@@ -26,11 +28,14 @@ class EmptyResult extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
-          SvgPicture.asset(
-            'assets/svgs/icon_empty.svg',
-            width: 200,
-            height: 200,
-          ),
+          if (image != null)
+            image!
+          else
+            SvgPicture.asset(
+              'assets/svgs/icon_empty.svg',
+              width: 200,
+              height: 200,
+            ),
           // const SizedBox(height: 16),
           Text(
             'no_data'.tr,
