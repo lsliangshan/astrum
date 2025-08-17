@@ -27,13 +27,13 @@ class EmptyResult extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           SvgPicture.asset(
-            'assets/svgs/empty_result.svg',
+            'assets/svgs/icon_empty.svg',
             width: 200,
             height: 200,
           ),
-          const SizedBox(height: 16),
+          // const SizedBox(height: 16),
           Text(
-            'teacher.tip.empty'.tr,
+            'no_data'.tr,
             style: Get.theme.textTheme.titleMedium?.copyWith(
               color: Color(0xFFC8C8C8),
               fontSize: 14,
@@ -46,14 +46,14 @@ class EmptyResult extends StatelessWidget {
                   onPressed: () {
                     onPressed?.call();
                   },
-                  child: Text('teacher.btn.add'.tr),
+                  child: Text('role_detail.btn_add_role'.tr),
                 ),
           if (showMainButton && showSecondaryButton) const SizedBox(height: 16),
           if (showSecondaryButton)
             secondaryButton ??
                 TextButton(
                   onPressed: () {},
-                  child: Text('teacher.btn.add'.tr),
+                  child: Text('role_detail.btn_add_role'.tr),
                 ),
         ],
       ),

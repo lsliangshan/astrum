@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:astrum/database/daos/role.dao.dart';
 import 'package:astrum/database/daos/user.dao.dart';
 import 'package:astrum/database/database.dart';
 import 'package:astrum/models/normal_response.model.dart';
@@ -11,6 +12,7 @@ import 'package:http/http.dart' as http;
 class AuthService extends GetxService {
   final MessageService messageService = Get.find<MessageService>();
   UserDao userDao = Get.find<UserDao>();
+  RoleDao roleDao = Get.find<RoleDao>();
 
   RxBool isLogin = false.obs;
 
@@ -121,6 +123,8 @@ class AuthService extends GetxService {
   }
 
   void logout() {
+    // 删除角色
+    roleDao.deleteMyRoles(authorId: user.value.id);
     userDao.logout(user.value.id);
     user.value = User(id: '', username: '', password: '');
     isLogin.value = false;

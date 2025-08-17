@@ -1,4 +1,5 @@
 import 'package:astrum/components/custom_loader/custom_loader.dart';
+import 'package:astrum/components/empty_result/empty_result.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
@@ -85,12 +86,7 @@ class ChatView extends GetView<ChatController> {
                         width: Get.width,
                         height: Get.height - 300,
                         child: Center(
-                          child: Text(
-                            'no_data'.tr,
-                            style: Get.theme.textTheme.bodySmall?.copyWith(
-                              color: Get.theme.disabledColor,
-                            ),
-                          ),
+                          child: EmptyResult(showMainButton: false),
                         ),
                       ),
                     ],

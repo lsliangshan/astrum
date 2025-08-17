@@ -126,7 +126,7 @@ class RoleDao extends DatabaseAccessor<AppDatabase> with _$RoleDaoMixin {
               ..orderBy([(tbl) => OrderingTerm.asc(tbl.createAt)])
               ..limit(pageSize, offset: offset))
             .get();
-    print('>>>>>>>>>>>>>>> ${roleList}');
+
     return NormalResponse(
       code: 200,
       data: {
