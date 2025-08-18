@@ -50,6 +50,12 @@ class AddRoleController extends GetxController {
     });
 
     initRoleDetailFuture = initData();
+
+    ever(isLogin, (value) {
+      if (value) {
+        update(['update-role']);
+      }
+    });
   }
 
   Future<void> initData() async {
