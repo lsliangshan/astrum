@@ -15,6 +15,7 @@ class ChatController extends GetxController {
   RxList<Role> roles = <Role>[].obs;
 
   Rx<User> get loginInfo => authService.user;
+  RxBool get isLogin => authService.isLogin;
 
   RxInt pageIndex = 1.obs;
   RxInt pageSize = 10.obs;
@@ -28,9 +29,21 @@ class ChatController extends GetxController {
     super.onInit();
 
     initChatsFuture = initData();
+
+    ever(isLogin, (value) {
+      if (value) {
+        initData();
+      } else {
+        roles.removeWhere((r) => r.isForked == null || r.isForked == false);
+
+        // 移除所有非Fork的角色
+        roleService.deleteUnforkedRoles();
+      }
+    });
   }
 
   Future<void> initData() async {
+    await roleService.syncRoles(authorId: loginInfo.value.id);
     await initRoles();
   }
 
