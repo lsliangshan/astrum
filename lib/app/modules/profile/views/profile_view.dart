@@ -255,13 +255,7 @@ class ProfileView extends GetView<ProfileController> {
                     return Container(
                       width: Get.width,
                       height: 500,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            for (var item in controller.asrResult) Text(item),
-                          ],
-                        ),
-                      ),
+                      child: Text(controller.asrResult.join('，')),
                     );
                   }),
                 ],

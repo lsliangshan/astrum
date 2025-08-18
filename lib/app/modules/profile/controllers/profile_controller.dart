@@ -12,7 +12,7 @@ class ProfileController extends GetxController {
 
   RxList<String> asrResult = <String>[].obs;
 
-  late final asrService;
+  TencentAsrService? asrService;
 
   @override
   void onInit() {
@@ -30,11 +30,22 @@ class ProfileController extends GetxController {
   void test() {
     asrService = TencentAsrService();
 
-    asrService.start(
+    asrService!.start(
       onData: (data) {
-        print('>>>>>>>>>>>>>>>>>data: $data');
-        asrResult.add(data.toString());
-        asrResult.refresh();
+        if (data != null) {
+          if (data['slice_type'] == 0) {
+            if (data['index'] == 0) {
+              asrResult.clear();
+            }
+            asrResult.add('');
+          } else if (data['slice_type'] == 1) {
+            asrResult[data['index']] = data['voice_text_str'];
+          } else if (data['slice_type'] == 2) {
+            asrResult[data['index']] = data['voice_text_str'];
+          }
+
+          asrResult.refresh();
+        }
       },
       onDone: () {
         print('>>>>>>>>>>>>>>>>>done');
@@ -46,6 +57,6 @@ class ProfileController extends GetxController {
   }
 
   void testEnd() {
-    asrService.stop();
+    asrService?.dispose();
   }
 }
