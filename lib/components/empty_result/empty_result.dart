@@ -23,45 +23,43 @@ class EmptyResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          if (image != null)
-            image!
-          else
-            SvgPicture.asset(
-              'assets/svgs/icon_empty.svg',
-              width: 200,
-              height: 200,
-            ),
-          // const SizedBox(height: 16),
-          Text(
-            'no_data'.tr,
-            style: Get.theme.textTheme.titleMedium?.copyWith(
-              color: Color(0xFFC8C8C8),
-              fontSize: 14,
-            ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        if (image != null)
+          image!
+        else
+          SvgPicture.asset(
+            'assets/svgs/icon_empty.svg',
+            width: 200,
+            height: 200,
           ),
-          const SizedBox(height: 32),
-          if (showMainButton)
-            mainButton ??
-                FilledButton(
-                  onPressed: () {
-                    onPressed?.call();
-                  },
-                  child: Text('role_detail.btn_add_role'.tr),
-                ),
-          if (showMainButton && showSecondaryButton) const SizedBox(height: 16),
-          if (showSecondaryButton)
-            secondaryButton ??
-                TextButton(
-                  onPressed: () {},
-                  child: Text('role_detail.btn_add_role'.tr),
-                ),
-        ],
-      ),
+        // const SizedBox(height: 16),
+        Text(
+          'no_data'.tr,
+          style: Get.theme.textTheme.titleMedium?.copyWith(
+            color: Color(0xFFC8C8C8),
+            fontSize: 14,
+          ),
+        ),
+        const SizedBox(height: 32),
+        if (showMainButton)
+          mainButton ??
+              FilledButton(
+                onPressed: () {
+                  onPressed?.call();
+                },
+                child: Text('role_detail.btn_add_role'.tr),
+              ),
+        if (showMainButton && showSecondaryButton) const SizedBox(height: 16),
+        if (showSecondaryButton)
+          secondaryButton ??
+              TextButton(
+                onPressed: () {},
+                child: Text('role_detail.btn_add_role'.tr),
+              ),
+      ],
     );
   }
 }

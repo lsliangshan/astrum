@@ -145,15 +145,14 @@ class RoleView extends GetView<RoleController> {
                   return ListView(
                     physics: AlwaysScrollableScrollPhysics(),
                     children: [
-                      SizedBox(
+                      Container(
                         width: Get.width,
                         height: Get.height - 300,
-                        child: Center(
-                          child: EmptyResult(
-                            onPressed: () {
-                              controller.gotoAddRole();
-                            },
-                          ),
+                        alignment: Alignment.center,
+                        child: EmptyResult(
+                          onPressed: () {
+                            controller.gotoAddRole();
+                          },
                         ),
                       ),
                     ],

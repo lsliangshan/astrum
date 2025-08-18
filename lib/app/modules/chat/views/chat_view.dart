@@ -83,18 +83,17 @@ class ChatView extends GetView<ChatController> {
                   return ListView(
                     physics: AlwaysScrollableScrollPhysics(),
                     children: [
-                      SizedBox(
+                      Container(
                         width: Get.width,
                         height: Get.height - 300,
-                        child: Center(
-                          child: EmptyResult(
-                            image: SvgPicture.asset(
-                              'assets/svgs/icon_message_empty.svg',
-                              width: 200,
-                              height: 200,
-                            ),
-                            showMainButton: false,
+                        alignment: Alignment.center,
+                        child: EmptyResult(
+                          image: SvgPicture.asset(
+                            'assets/svgs/icon_message_empty.svg',
+                            width: 200,
+                            height: 200,
                           ),
+                          showMainButton: false,
                         ),
                       ),
                     ],
