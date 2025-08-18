@@ -25,6 +25,7 @@ class RoleDetailController extends GetxController {
   RxList<Attachment> attachments = <Attachment>[].obs;
 
   Rx<User> get loginInfo => authService.user;
+  RxBool get isLogin => authService.isLogin;
 
   Rx<bool> isForking = false.obs;
   Rx<bool> isUnforking = false.obs;

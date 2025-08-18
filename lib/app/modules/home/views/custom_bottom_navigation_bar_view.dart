@@ -25,7 +25,9 @@ class CustomBottomNavigationBarView extends GetView<HomeController> {
                 width: 16,
                 height: 16,
                 colorFilter: ColorFilter.mode(
-                  Get.theme.hintColor,
+                  controller.currentTabName.value == item['name']
+                      ? Get.theme.colorScheme.onPrimary
+                      : Get.theme.colorScheme.onSurface,
                   BlendMode.srcIn,
                 ),
               ),

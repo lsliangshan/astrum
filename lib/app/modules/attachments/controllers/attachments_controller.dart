@@ -239,7 +239,7 @@ class AttachmentsController extends GetxController {
             child: Text(
               'attachments.delete.cancel'.tr,
               style: Get.theme.textTheme.bodyMedium?.copyWith(
-                color: Get.theme.colorScheme.onSurface.withValues(alpha: 0.4),
+                color: Get.theme.colorScheme.onPrimary.withValues(alpha: 0.4),
               ),
             ),
           ),

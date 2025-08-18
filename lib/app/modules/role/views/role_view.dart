@@ -134,6 +134,7 @@ class RoleView extends GetView<RoleController> {
           if (snapshot.connectionState != ConnectionState.done) {
             return const Center(child: CustomLoader());
           }
+
           return CustomMaterialIndicator(
             onRefresh: controller.onRefresh,
             child: GetBuilder(

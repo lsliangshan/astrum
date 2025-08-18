@@ -17,6 +17,7 @@ class RoleController extends GetxController {
   RxList<Role> roles = <Role>[].obs;
 
   Rx<User> get loginInfo => authService.user;
+  RxBool get isLogin => authService.isLogin;
 
   late Future<void> initRoleFuture;
 
@@ -68,5 +69,9 @@ class RoleController extends GetxController {
   void gotoRoleDetail(Role role) {
     // Get.to(() => AddRoleView(roleId: role.id));
     Get.to(() => RoleDetailView(roleId: role.id));
+  }
+
+  void gotoLogin() {
+    Get.toNamed(Routes.LOGIN);
   }
 }

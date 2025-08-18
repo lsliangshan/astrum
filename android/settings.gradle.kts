@@ -10,9 +10,22 @@ pluginManagement {
     includeBuild("$flutterSdkPath/packages/flutter_tools/gradle")
 
     repositories {
+        gradlePluginPortal()
         google()
         mavenCentral()
-        gradlePluginPortal()
+        maven {
+            url = uri("https://storage.googleapis.com/download.flutter.io")
+        }
+    }
+
+    resolutionStrategy {
+        eachPlugin {
+            when (requested.id.id) {
+                "dev.flutter.flutter-plugin-loader" -> {
+                    useModule("dev.flutter:flutter-plugin-loader:1.0.0")
+                }
+            }
+        }
     }
 }
 

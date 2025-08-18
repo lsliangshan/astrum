@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:astrum/database/daos/message.dao.dart';
-import 'package:astrum/database/daos/user.dao.dart';
 import 'package:astrum/database/database.dart';
 import 'package:astrum/models/normal_response.model.dart';
 import 'package:astrum/services/auth.dart';

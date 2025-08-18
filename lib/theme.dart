@@ -9,7 +9,7 @@ class AppTheme extends ChangeNotifier {
   }
 }
 
-Color primaryColor = const Color(0xFFBBF246);
+Color primaryColor = const Color(0xFF0891B2);
 // Color primaryColor = const Color(0xFFFF7F50);
 ThemeData darkTheme() {
   return ThemeData(
@@ -17,11 +17,13 @@ ThemeData darkTheme() {
     primaryColor: primaryColor, // const Color.fromRGBO(155, 89, 182, 1), // 主颜色
     colorScheme: ColorScheme.light(
       primary: primaryColor, // 主颜色
-      secondary: const Color.fromRGBO(255, 176, 61, 1), // 强调色
-      error: const Color(0xFFED4747),
-      onPrimary: Color(0xFF192126),
+      secondary: const Color(0xFF8B5CF6), // 强调色
+      error: const Color(0xFFF75555),
+      // onPrimary: Color(0xFF192126),
+      onPrimary: Color(0xFFFFFFFF),
     ),
-    scaffoldBackgroundColor: const Color(0xFFF0F0F0),
+    cardColor: const Color(0xFFF3F4F6),
+    scaffoldBackgroundColor: const Color(0xFFF3F4F6),
     appBarTheme: const AppBarTheme(backgroundColor: Colors.white, elevation: 0),
     useMaterial3: true,
   );

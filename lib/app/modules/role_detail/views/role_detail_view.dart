@@ -253,7 +253,8 @@ class RoleDetailView extends GetView {
   }
 
   Widget _renderForkCard() {
-    if (controller.role.value.authorId == controller.loginInfo.value.id ||
+    if (controller.isLogin.isFalse ||
+        controller.role.value.authorId == controller.loginInfo.value.id ||
         (controller.role.value.isForked != null &&
             controller.role.value.isForked == true)) {
       return SizedBox.shrink();

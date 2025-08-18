@@ -1,5 +1,7 @@
+import 'package:astrum/app/routes/app_pages.dart';
 import 'package:astrum/database/database.dart';
 import 'package:astrum/models/normal_response.model.dart';
+import 'package:astrum/services/auth.dart';
 import 'package:astrum/services/role.dart';
 import 'package:astrum/services/toast.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,7 @@ class AddRoleController extends GetxController {
 
   RoleService roleService = Get.find<RoleService>();
   ToastService toastService = Get.find<ToastService>();
+  AuthService authService = Get.find<AuthService>();
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
@@ -23,6 +26,8 @@ class AddRoleController extends GetxController {
   final Rx<XFile?> roleIcon = Rx<XFile?>(null);
 
   Rx<Role> formData = Role(id: '', name: '').obs;
+
+  RxBool get isLogin => authService.isLogin;
 
   Rx<bool> isLoading = false.obs;
 
@@ -142,5 +147,9 @@ class AddRoleController extends GetxController {
     }
 
     isLoading.value = false;
+  }
+
+  void gotoLogin() {
+    Get.toNamed(Routes.LOGIN);
   }
 }

@@ -121,7 +121,7 @@ class ProfileView extends GetView<ProfileController> {
                                               color: Get
                                                   .theme
                                                   .colorScheme
-                                                  .onSurface,
+                                                  .onPrimary,
                                             ),
                                       ),
                                     ),
@@ -163,7 +163,7 @@ class ProfileView extends GetView<ProfileController> {
                                       style: Get.theme.textTheme.bodyMedium
                                           ?.copyWith(
                                             color:
-                                                Get.theme.colorScheme.onSurface,
+                                                Get.theme.colorScheme.onPrimary,
                                           ),
                                     ),
                                   ),
@@ -236,6 +236,33 @@ class ProfileView extends GetView<ProfileController> {
                       );
                     }
                     return SizedBox.shrink();
+                  }),
+
+                  TextButton(
+                    onPressed: () {
+                      controller.test();
+                    },
+                    child: Text('profile.test'.tr),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      controller.testEnd();
+                    },
+                    child: Text('profile.stop'.tr),
+                  ),
+
+                  Obx(() {
+                    return Container(
+                      width: Get.width,
+                      height: 500,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            for (var item in controller.asrResult) Text(item),
+                          ],
+                        ),
+                      ),
+                    );
                   }),
                 ],
               ),

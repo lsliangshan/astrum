@@ -1,6 +1,7 @@
 import 'package:astrum/app/routes/app_pages.dart';
 import 'package:astrum/database/database.dart';
 import 'package:astrum/services/auth.dart';
+import 'package:astrum/services/tencent_asr.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
@@ -8,6 +9,10 @@ class ProfileController extends GetxController {
 
   Rx<User> get user => authService.user;
   RxBool get isLogin => authService.isLogin;
+
+  RxList<String> asrResult = <String>[].obs;
+
+  late final asrService;
 
   @override
   void onInit() {
@@ -20,5 +25,27 @@ class ProfileController extends GetxController {
 
   void logout() {
     authService.logout();
+  }
+
+  void test() {
+    asrService = TencentAsrService();
+
+    asrService.start(
+      onData: (data) {
+        print('>>>>>>>>>>>>>>>>>data: $data');
+        asrResult.add(data.toString());
+        asrResult.refresh();
+      },
+      onDone: () {
+        print('>>>>>>>>>>>>>>>>>done');
+      },
+      onError: (error) {
+        print('>>>>>>>>>>>>>>>>>error: $error');
+      },
+    );
+  }
+
+  void testEnd() {
+    asrService.stop();
   }
 }
