@@ -26,6 +26,17 @@ class RoleController extends GetxController {
     super.onInit();
 
     initRoleFuture = initData();
+
+    ever(isLogin, (value) {
+      if (value) {
+        initData();
+      } else {
+        roles.removeWhere((r) => r.isForked == null || r.isForked == false);
+
+        // 移除所有非Fork的角色
+        roleService.deleteUnforkedRoles();
+      }
+    });
   }
 
   Future<void> initData() async {

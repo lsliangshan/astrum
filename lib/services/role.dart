@@ -112,6 +112,14 @@ class RoleService extends GetxService {
     return localRoles;
   }
 
+  Future<void> deleteMyRoles({required String authorId}) async {
+    await roleDao.deleteMyRoles(authorId: authorId);
+  }
+
+  Future<void> deleteUnforkedRoles() async {
+    await roleDao.deleteUnforkedRoles();
+  }
+
   Future<NormalResponse> getRolesFromServer({
     int pageIndex = 1,
     int pageSize = 20,

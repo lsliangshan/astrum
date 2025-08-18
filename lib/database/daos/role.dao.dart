@@ -144,6 +144,13 @@ class RoleDao extends DatabaseAccessor<AppDatabase> with _$RoleDaoMixin {
     await (delete(roles)..where((role) => role.authorId.equals(authorId))).go();
   }
 
+  Future<void> deleteUnForkedRoles() async {
+    await (delete(roles)..where(
+          (role) => role.isForked.isNull() | role.isForked.equals(false),
+        ))
+        .go();
+  }
+
   Future<Role?> getRoleDetail({required String roleId}) async {
     final response = await (select(
       roles,
