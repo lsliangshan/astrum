@@ -9,6 +9,7 @@ import 'package:astrum/services/auth.dart';
 import 'package:astrum/services/message.dart';
 import 'package:astrum/services/role.dart';
 import 'package:astrum/services/toast.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:astrum/app/data/app.config.dart';
 import 'package:astrum/locale/locale.dart';
@@ -40,6 +41,8 @@ void main() async {
   );
 
   HttpOverrides.global = MyHttpOverrides();
+
+  await dotenv.load(fileName: ".env");
 
   initializeDateFormatting().then(
     (_) => runApp(

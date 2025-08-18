@@ -4,14 +4,15 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:record/record.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/io.dart';
 
 class TencentAsrService {
-  final String secretId = 'AKIDBML7h8PSIxSkogSO8g0EG5h6IG1Zu1vc';
-  final String secretKey = 'XxCE3h9PTUN4whJky0pQozgDXeYMBnHY';
-  final String appId = '1324609388';
+  final String secretId = dotenv.env['TENCENT_ASR_SECRET_ID'] ?? '';
+  final String secretKey = dotenv.env['TENCENT_ASR_SECRET_KEY'] ?? '';
+  final String appId = dotenv.env['TENCENT_ASR_APP_ID'] ?? '';
   final String engineModelType = '16k_zh';
 
   late AudioRecorder record;
@@ -84,9 +85,7 @@ class TencentAsrService {
       nonce: nonce,
       voiceId: voiceId,
     );
-    print(
-      '>>>>>>>>>>>>> url: wss://asr.cloud.tencent.com/asr/v2/$appId?engine_model_type=$engineModelType&expired=${timestamp + 24 * 60 * 60}&filter_dirty=1&filter_modal=1&filter_punc=1&needvad=1&nonce=$nonce&secretid=$secretId&timestamp=$timestamp&voice_format=1&voice_id=$voiceId&signature=${Uri.encodeComponent(signature)}',
-    );
+
     return IOWebSocketChannel.connect(
       Uri.parse(
         'wss://asr.cloud.tencent.com/asr/v2/$appId?engine_model_type=$engineModelType&expired=${timestamp + 24 * 60 * 60}&needvad=1&nonce=$nonce&secretid=$secretId&timestamp=$timestamp&voice_format=1&voice_id=$voiceId&signature=${Uri.encodeComponent(signature)}',
