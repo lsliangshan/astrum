@@ -3,6 +3,7 @@ import 'package:astrum/database/database.dart';
 import 'package:astrum/models/normal_response.model.dart';
 import 'package:astrum/services/auth.dart';
 import 'package:astrum/services/message.dart';
+import 'package:astrum/services/role.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Value;
@@ -17,9 +18,7 @@ class ChatDetailController extends GetxController {
 
   AuthService authService = Get.find<AuthService>();
   final MessageService messageService = Get.find<MessageService>();
-  // final EventBus eventBus = Get.find<EventBus>();
-  // final UserService userService = Get.find<UserService>();
-  // final DingtalkService dingtalkService = Get.find<DingtalkService>();
+  final RoleService roleService = Get.find<RoleService>();
 
   final ScrollController scrollController = ScrollController(
     initialScrollOffset: 0,
@@ -35,6 +34,8 @@ class ChatDetailController extends GetxController {
 
   Rx<User> get loginInfo => authService.user;
   RxBool get isLogin => authService.isLogin;
+
+  Rx<Role> roleDetail = Role(id: '', name: '').obs;
 
   Rx<bool> isLoadingMoreMessages = false.obs;
 
@@ -143,7 +144,15 @@ class ChatDetailController extends GetxController {
   }
 
   Future<void> initData() async {
+    await initRoleDetail();
     await getMessages();
+  }
+
+  Future<void> initRoleDetail() async {
+    NormalResponse response = await roleService.getRoleDetail(roleId: roleId);
+    if (response.code == 200) {
+      roleDetail.value = Role.fromJson(response.data);
+    }
   }
 
   Future<void> sendMessage() async {
@@ -181,6 +190,7 @@ class ChatDetailController extends GetxController {
       type: newMessage.type,
       isRobot: newMessage.isRobot,
       status: newMessage.status,
+      roleDetail: roleDetail.value,
     );
 
     if (response.code == 200) {
@@ -198,8 +208,10 @@ class ChatDetailController extends GetxController {
         roleId: newMessage.roleId,
         content: '',
         senderId: newMessage.roleId,
-        senderName: 'astrum',
-        senderAvatar: 'https://img.liangqy.com/astrum/astrum.png',
+        senderName: roleName,
+        senderAvatar:
+            roleDetail.value.icon ??
+            'https://img.liangqy.com/astrum/astrum.png',
         type: 'text',
         isRobot: true,
         createAt: DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()),

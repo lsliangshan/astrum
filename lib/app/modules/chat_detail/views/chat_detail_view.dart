@@ -35,6 +35,7 @@ class ChatDetailView extends GetView {
       ),
       child: CachedNetworkImage(
         imageUrl: avatar,
+        fit: BoxFit.cover,
         placeholder: (context, url) => Container(
           width: 32,
           height: 32,
