@@ -48,7 +48,8 @@ class ProfileView extends GetView<ProfileController> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           if (controller.isLogin.isTrue &&
-                              controller.user.value.avatar != null)
+                              controller.user.value.avatar != null &&
+                              controller.user.value.avatar!.isNotEmpty)
                             Container(
                               width: 80,
                               height: 80,
@@ -56,15 +57,19 @@ class ProfileView extends GetView<ProfileController> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(40),
                                 border: Border.all(
-                                  color: Get.theme.colorScheme.secondary,
+                                  color: Get.theme.hintColor.withValues(
+                                    alpha: 0.1,
+                                  ),
                                   width: 2,
+                                ),
+                                image: DecorationImage(
+                                  image: CachedNetworkImageProvider(
+                                    controller.user.value.avatar!,
+                                  ),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                               clipBehavior: Clip.hardEdge,
-                              child: CachedNetworkImage(
-                                imageUrl: controller.user.value.avatar!,
-                                fit: BoxFit.cover,
-                              ),
                             )
                           else
                             Container(
@@ -216,6 +221,7 @@ class ProfileView extends GetView<ProfileController> {
                     }
                     return SizedBox.shrink();
                   }),
+                  SizedBox(height: 24),
                   Obx(() {
                     if (controller.isLogin.isTrue) {
                       return TextButton(
@@ -238,26 +244,26 @@ class ProfileView extends GetView<ProfileController> {
                     return SizedBox.shrink();
                   }),
 
-                  TextButton(
-                    onPressed: () {
-                      controller.test();
-                    },
-                    child: Text('profile.test'.tr),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      controller.testEnd();
-                    },
-                    child: Text('profile.stop'.tr),
-                  ),
+                  // TextButton(
+                  //   onPressed: () {
+                  //     controller.test();
+                  //   },
+                  //   child: Text('profile.test'.tr),
+                  // ),
+                  // TextButton(
+                  //   onPressed: () {
+                  //     controller.testEnd();
+                  //   },
+                  //   child: Text('profile.stop'.tr),
+                  // ),
 
-                  Obx(() {
-                    return Container(
-                      width: Get.width,
-                      height: 500,
-                      child: Text(controller.asrResult.join('，')),
-                    );
-                  }),
+                  // Obx(() {
+                  //   return Container(
+                  //     width: Get.width,
+                  //     height: 500,
+                  //     child: Text(controller.asrResult.join('，')),
+                  //   );
+                  // }),
                 ],
               ),
             ),

@@ -87,6 +87,16 @@ class RoleService extends GetxService {
     final response = await request.send().timeout(Duration(minutes: 30));
 
     final data = json.decode(await response.stream.bytesToString());
+
+    if (data['code'] == 200) {
+      // 更新本地数据库中的role
+      await roleDao.updateRole(
+        id: id,
+        name: name,
+        description: description,
+        icon: data['data']['icon'],
+      );
+    }
     return NormalResponse.fromJson(data);
   }
 
@@ -98,7 +108,6 @@ class RoleService extends GetxService {
 
     // 如果本地数据库中没有角色，则从服务器端数据库中获取角色
     final localRoles = await roleDao.getRoles(authorId: authorId);
-    print('>>>>>>>>>>>>>>>localRoles ${localRoles.data['list']}');
     if (localRoles.code == 200 && localRoles.data['list'].isEmpty) {
       final serverRoles = await getRolesFromServer(
         authorId: authorId,
@@ -106,7 +115,6 @@ class RoleService extends GetxService {
         pageIndex: 1,
         pageSize: 1000,
       );
-      print('>>>>>>>>>>>>>>>serverRoles ${serverRoles.data['list']}');
       await roleDao.insertAll(roleList: serverRoles.data['list']);
     }
     return localRoles;

@@ -14,6 +14,11 @@ class AuthService extends GetxService {
   UserDao userDao = Get.find<UserDao>();
   RoleDao roleDao = Get.find<RoleDao>();
 
+  String defaultFemaleAvatar =
+      'https://img.liangqy.com/astrum/astrum_default_logo_female.png';
+  String defaultMaleAvatar =
+      'https://img.liangqy.com/astrum/astrum_default_logo_male.png';
+
   RxBool isLogin = false.obs;
 
   Rx<User> user = User(id: '', username: '', password: '').obs;
@@ -30,6 +35,32 @@ class AuthService extends GetxService {
         messageService.destroyMessageService();
       }
     });
+
+    ever(user, (value) {
+      setDefaultAvatarIfNull();
+    });
+  }
+
+  String getDefaultAvatar() {
+    return user.value.gender == 'female'
+        ? defaultFemaleAvatar
+        : defaultMaleAvatar;
+  }
+
+  void setDefaultAvatarIfNull() {
+    if (user.value.id.isEmpty) {
+      return;
+    }
+
+    if (user.value.avatar == null || user.value.avatar!.isEmpty) {
+      user.value = user.value.copyWith(
+        avatar: Value(
+          user.value.gender == 'female'
+              ? defaultFemaleAvatar
+              : defaultMaleAvatar,
+        ),
+      );
+    }
   }
 
   Future<void> syncLoginInfo() async {
@@ -85,7 +116,6 @@ class AuthService extends GetxService {
 
     if (data['code'] == 200 && data['data'] != null) {
       user.value = User.fromJson(data['data']);
-
       isLogin.value = true;
 
       await userDao.login(user: user.value);

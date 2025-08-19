@@ -24,7 +24,7 @@ class ChatDetailView extends GetView {
   ChatDetailController get controller =>
       Get.find<ChatDetailController>(tag: 'chat-detail-$roleId');
 
-  Widget _buildAvatar(String avatar) {
+  Widget _buildAvatar({required bool isSender}) {
     return Container(
       width: 32,
       height: 32,
@@ -34,7 +34,10 @@ class ChatDetailView extends GetView {
         color: Get.theme.colorScheme.surface,
       ),
       child: CachedNetworkImage(
-        imageUrl: avatar,
+        imageUrl: isSender
+            ? (controller.loginInfo.value.avatar ?? '')
+            : controller.roleDetail.value.icon ??
+                  'https://img.liangqy.com/astrum/astrum.png',
         fit: BoxFit.cover,
         placeholder: (context, url) => Container(
           width: 32,
@@ -62,7 +65,7 @@ class ChatDetailView extends GetView {
         spacing: 0,
         children: [
           if (message.senderId != controller.loginInfo.value.id)
-            _buildAvatar(message.senderAvatar ?? ''),
+            _buildAvatar(isSender: false),
           Expanded(
             child: Column(
               children: [
@@ -91,7 +94,10 @@ class ChatDetailView extends GetView {
                         ),
 
                       Text(
-                        message.senderName ?? '',
+                        message.isRobot == true
+                            ? controller.roleDetail.value.name
+                            : controller.loginInfo.value.nickname ??
+                                  controller.loginInfo.value.username,
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.black,
@@ -149,7 +155,7 @@ class ChatDetailView extends GetView {
             ),
           ),
           if (message.senderId == controller.loginInfo.value.id)
-            _buildAvatar(message.senderAvatar ?? ''),
+            _buildAvatar(isSender: true),
         ],
       ),
     );
@@ -165,7 +171,7 @@ class ChatDetailView extends GetView {
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 0,
         children: [
-          _buildAvatar(message.senderAvatar ?? ''),
+          _buildAvatar(isSender: false),
           Expanded(
             child: Column(
               children: [
@@ -189,7 +195,10 @@ class ChatDetailView extends GetView {
                       ),
 
                       Text(
-                        message.senderName ?? '',
+                        message.isRobot == true
+                            ? controller.roleDetail.value.name
+                            : controller.loginInfo.value.nickname ??
+                                  controller.loginInfo.value.username,
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.black,

@@ -73,13 +73,17 @@ class RoleController extends GetxController {
     await Future.delayed(const Duration(milliseconds: 500));
   }
 
-  void gotoAddRole() {
-    Get.toNamed(Routes.ADD_ROLE);
+  Future<void> gotoAddRole() async {
+    await Get.toNamed(Routes.ADD_ROLE);
+
+    await initData();
   }
 
-  void gotoRoleDetail(Role role) {
+  Future<void> gotoRoleDetail(Role role) async {
     // Get.to(() => AddRoleView(roleId: role.id));
-    Get.to(() => RoleDetailView(roleId: role.id));
+    await Get.to(() => RoleDetailView(roleId: role.id));
+
+    await initData();
   }
 
   void gotoLogin() {

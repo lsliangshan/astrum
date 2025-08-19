@@ -78,13 +78,14 @@ class RoleDao extends DatabaseAccessor<AppDatabase> with _$RoleDaoMixin {
     String? updateAt,
     bool? isForked,
   }) {
-    if (name != null) {
-      return (update(roles)..where((role) => role.id.equals(id))).write(
-        RolesCompanion(name: Value(name)),
-      );
-    }
+    // if (name != null) {
+    //   return (update(roles)..where((role) => role.id.equals(id))).write(
+    //     RolesCompanion(name: Value(name)),
+    //   );
+    // }
     return (update(roles)..where((role) => role.id.equals(id))).write(
       RolesCompanion(
+        name: Value(name ?? ''),
         description: Value(description ?? ''),
         icon: Value(icon ?? ''),
         authorId: Value(authorId ?? ''),
