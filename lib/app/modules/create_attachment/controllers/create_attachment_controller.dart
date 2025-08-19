@@ -1,6 +1,7 @@
 import 'package:astrum/database/database.dart';
 import 'package:astrum/models/normal_response.model.dart';
 import 'package:astrum/services/attachment.dart';
+import 'package:astrum/services/auth.dart';
 import 'package:astrum/services/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,6 +18,7 @@ class CreateAttachmentController extends GetxController {
 
   AttachmentService attachmentService = Get.find<AttachmentService>();
   ToastService toastService = Get.find<ToastService>();
+  AuthService authService = Get.find<AuthService>();
 
   late Future<void> initCreateAttachmentFuture;
 
@@ -36,6 +38,8 @@ class CreateAttachmentController extends GetxController {
     filename: '',
     url: '',
   ).obs;
+
+  RxBool get isLogin => authService.isLogin;
 
   Rx<bool> isCreating = false.obs;
 

@@ -51,7 +51,9 @@ class CreateAttachmentView extends GetView {
           onTapOutside: (event) {
             controller.fileNameFocusNode.unfocus();
           },
-          readOnly: attachmentId != null && attachmentId!.isNotEmpty,
+          readOnly:
+              attachmentId != null && attachmentId!.isNotEmpty ||
+              controller.isLogin.isFalse,
           style: Get.theme.textTheme.titleMedium!,
           cursorColor: Get.theme.colorScheme.primary,
           backgroundCursorColor: Get.theme.colorScheme.primary,
@@ -62,16 +64,18 @@ class CreateAttachmentView extends GetView {
         leading: const CustomBackwardView(),
         actions: [
           Obx(
-            () => TextButton(
-              onPressed: controller.isCreating.value
-                  ? null
-                  : () {
-                      controller.saveAttachment();
-                    },
-              child: controller.isCreating.value
-                  ? CustomLoader(size: 8)
-                  : Text('create_attachment.btn.save'.tr),
-            ),
+            () => controller.isLogin.isTrue
+                ? TextButton(
+                    onPressed: controller.isCreating.value
+                        ? null
+                        : () {
+                            controller.saveAttachment();
+                          },
+                    child: controller.isCreating.value
+                        ? CustomLoader(size: 8)
+                        : Text('create_attachment.btn.save'.tr),
+                  )
+                : Container(),
           ),
         ],
       ),
@@ -91,6 +95,7 @@ class CreateAttachmentView extends GetView {
               },
               maxLines: null,
               minLines: 60,
+              readOnly: controller.isLogin.isFalse,
               style: Get.theme.textTheme.bodyLarge,
               cursorColor: Get.theme.colorScheme.primary,
               decoration: InputDecoration(
