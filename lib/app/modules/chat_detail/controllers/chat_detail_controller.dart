@@ -40,6 +40,8 @@ class ChatDetailController extends GetxController {
 
   RxList<Message> messages = <Message>[].obs;
 
+  Rx<String> sendType = 'text'.obs;
+
   Rx<int> pageIndex = 1.obs;
   Rx<int> pageSize = 10.obs;
   Rx<int> totalCount = 0.obs;
@@ -248,5 +250,9 @@ class ChatDetailController extends GetxController {
     totalPage.value = 0;
     isLoadingMoreMessages.value = false;
     await initData();
+  }
+
+  void toggleSendType() {
+    sendType.value = sendType.value == 'text' ? 'voice' : 'text';
   }
 }

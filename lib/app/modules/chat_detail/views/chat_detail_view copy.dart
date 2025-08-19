@@ -298,12 +298,12 @@ class ChatDetailView extends GetView {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(roleName, style: Get.theme.textTheme.titleMedium),
-      //   centerTitle: true,
-      //   backgroundColor: Get.theme.scaffoldBackgroundColor,
-      //   leading: const CustomBackwardView(),
-      // ),
+      appBar: AppBar(
+        title: Text(roleName, style: Get.theme.textTheme.titleMedium),
+        centerTitle: true,
+        backgroundColor: Get.theme.scaffoldBackgroundColor,
+        leading: const CustomBackwardView(),
+      ),
       body: GetBuilder(
         id: 'update-messages',
         init: controller,
@@ -321,206 +321,160 @@ class ChatDetailView extends GetView {
                 );
               }
 
-              return Stack(
-                children: [
-                  Positioned(
-                    left: 0,
-                    top: 0,
-                    child: Container(
-                      width: Get.width,
-                      height: 56 + Get.mediaQuery.padding.top,
-                      color: Get.theme.colorScheme.surface,
-                      alignment: Alignment.bottomCenter,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 0,
-                            bottom: 0,
-                            child: SizedBox(
-                              width: 48,
-                              height: 48,
-                              child: const CustomBackwardView(),
-                            ),
-                          ),
-                          Positioned(
-                            left: 0,
-                            bottom: 0,
-                            child: Container(
-                              width: Get.width,
-                              height: 56,
-                              alignment: Alignment.center,
-                              child: Text(
-                                roleName,
-                                style: Get.theme.textTheme.titleMedium,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 0,
-                    top: 56 + Get.mediaQuery.padding.top,
-                    child: SizedBox(
-                      width: Get.width,
-                      height: Get.height - 56 - Get.mediaQuery.padding.top - 64,
-                      child: CustomScrollView(
-                        controller: controller.scrollController,
-                        reverse: true,
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        slivers: [
-                          SliverList.builder(
-                            itemBuilder: (context, index) {
-                              return _buildMessageItem(
-                                controller.messages[index],
-                                index,
-                              );
-                            },
-                            itemCount: controller.messages.length,
-                          ),
-                          SliverToBoxAdapter(
-                            child: Obx(
-                              () => controller.newMessageCount.value > 0
-                                  ? Container(height: 32)
-                                  : Container(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 0,
-                    bottom: 0,
-                    child: Container(
-                      width: Get.width,
-                      height: 64,
-                      color: Get.theme.colorScheme.surface,
-                      padding: EdgeInsets.only(left: 12, right: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        // spacing: 8,
-                        children: [
-                          // SizedBox(
-                          //   width: 48,
-                          //   height: 48,
-                          //   child: IconButton(
-                          //     onPressed: () {
-                          //       controller.toggleSendType();
-                          //     },
-                          //     icon: controller.sendType.value == 'text'
-                          //         ? SvgPicture.asset(
-                          //             'assets/svgs/icon_voice_mesage.svg',
-                          //             width: 24,
-                          //             height: 24,
-                          //           )
-                          //         : SvgPicture.asset(
-                          //             'assets/svgs/icon_keybord_mesage.svg',
-                          //             width: 24,
-                          //             height: 24,
-                          //           ),
-                          //     visualDensity: VisualDensity.compact,
-                          //   ),
-                          // ),
-                          Expanded(
-                            child: TextField(
-                              controller: controller.messageController,
-                              focusNode: controller.messageFocusNode,
-                              maxLines: 6,
-                              minLines: 1,
-                              onTapOutside: (event) {
-                                controller.messageFocusNode.unfocus();
-                              },
-                              decoration: InputDecoration(
-                                hintText: 'chat_detail.hint_text'.tr,
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(6),
+              return GetBuilder(
+                id: 'update-messages',
+                init: controller,
+                builder: (_) {
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: Stack(
+                          children: [
+                            CustomScrollView(
+                              controller: controller.scrollController,
+                              reverse: true,
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              slivers: [
+                                SliverList.builder(
+                                  itemBuilder: (context, index) {
+                                    return _buildMessageItem(
+                                      controller.messages[index],
+                                      index,
+                                    );
+                                  },
+                                  itemCount: controller.messages.length,
                                 ),
-                                filled: true,
-                                fillColor: Get.theme.hintColor.withValues(
-                                  alpha: 0.06,
-                                ),
-                                contentPadding: const EdgeInsets.only(
-                                  left: 16,
-                                  right: 16,
-                                  top: 12,
-                                  bottom: 12,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 48,
-                            height: 48,
-                            child: IconButton(
-                              onPressed: () {
-                                controller.sendMessage();
-                              },
-                              icon: SvgPicture.asset(
-                                'assets/svgs/icon_send_message.svg',
-                                width: 24,
-                                height: 24,
-                              ),
-                              visualDensity: VisualDensity.compact,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Obx(() {
-                    if (controller.totalCount > 8 &&
-                        controller.newMessageCount.value > 0) {
-                      return Positioned(
-                        bottom: 6 + 64,
-                        left: 0,
-                        child: GestureDetector(
-                          onTap: () {
-                            controller.scrollToNewMessage();
-                          },
-                          child: Container(
-                            width: Get.width,
-                            height: 32,
-                            alignment: Alignment.center,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 8,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Get.theme.primaryColor,
-                                borderRadius: BorderRadius.circular(6),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Get.theme.hintColor.withValues(
-                                      alpha: 0.1,
-                                    ),
-                                    blurRadius: 10,
-                                    offset: Offset(0, 0),
+                                SliverToBoxAdapter(
+                                  child: Obx(
+                                    () => controller.newMessageCount.value > 0
+                                        ? Container(height: 32)
+                                        : Container(),
                                   ),
-                                ],
-                              ),
-                              clipBehavior: Clip.hardEdge,
-                              child: Text(
-                                'chat_detail.has_new_message'.tr.replaceAll(
-                                  '{count}',
-                                  controller.newMessageCount.value.toString(),
                                 ),
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Get.theme.colorScheme.onPrimary,
-                                ),
-                              ),
+                              ],
                             ),
+                            if (controller.totalCount > 8)
+                              Positioned(
+                                bottom: 6,
+                                left: 0,
+                                child: Obx(
+                                  () => controller.newMessageCount.value > 0
+                                      ? GestureDetector(
+                                          onTap: () {
+                                            controller.scrollToNewMessage();
+                                          },
+                                          child: Container(
+                                            width: Get.width,
+                                            height: 32,
+                                            alignment: Alignment.center,
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: 16,
+                                                vertical: 8,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: Get.theme.primaryColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Get.theme.hintColor
+                                                        .withValues(alpha: 0.1),
+                                                    blurRadius: 10,
+                                                    offset: Offset(0, 0),
+                                                  ),
+                                                ],
+                                              ),
+                                              clipBehavior: Clip.hardEdge,
+                                              child: Text(
+                                                'chat_detail.has_new_message'.tr
+                                                    .replaceAll(
+                                                      '{count}',
+                                                      controller
+                                                          .newMessageCount
+                                                          .value
+                                                          .toString(),
+                                                    ),
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Get
+                                                      .theme
+                                                      .colorScheme
+                                                      .onPrimary,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : Container(),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                      SafeArea(
+                        child: Container(
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.only(
+                            top: 8,
+                            bottom: 8,
+                            left: 16,
+                            right: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Get.theme.colorScheme.surface,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            spacing: 8,
+                            children: [
+                              Expanded(
+                                child: TextField(
+                                  controller: controller.messageController,
+                                  focusNode: controller.messageFocusNode,
+                                  maxLines: 6,
+                                  minLines: 1,
+                                  onTapOutside: (event) {
+                                    controller.messageFocusNode.unfocus();
+                                  },
+                                  decoration: InputDecoration(
+                                    hintText: 'chat_detail.hint_text'.tr,
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    filled: true,
+                                    fillColor: Get.theme.hintColor.withValues(
+                                      alpha: 0.06,
+                                    ),
+                                    contentPadding: const EdgeInsets.only(
+                                      left: 16,
+                                      right: 16,
+                                      top: 12,
+                                      bottom: 12,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 48,
+                                height: 48,
+                                child: IconButton(
+                                  onPressed: () {
+                                    controller.sendMessage();
+                                  },
+                                  icon: const Icon(Icons.send),
+                                  visualDensity: VisualDensity.compact,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      );
-                    }
-                    return Container();
-                  }),
-                ],
+                      ),
+                    ],
+                  );
+                },
               );
             },
           );

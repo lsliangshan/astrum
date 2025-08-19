@@ -119,6 +119,7 @@ class Messages extends Translations {
       'chat_detail.load_more_message': '加载更多消息',
       'chat_detail.no_more_message': '没有更多消息了',
       'chat_detail.has_new_message': '{count} 条新消息',
+      'chat_detail.send_message': '按住 说话',
 
       // 未登录页面
       'need_login.tip': '需要登录',
@@ -243,6 +244,7 @@ class Messages extends Translations {
       'chat_detail.load_more_message': 'Load More Message',
       'chat_detail.no_more_message': 'No More Message',
       'chat_detail.has_new_message': '{count} New Message',
+      'chat_detail.send_message': 'Hold to Speak',
 
       // 未登录页面
       'need_login.tip': 'Need Login',

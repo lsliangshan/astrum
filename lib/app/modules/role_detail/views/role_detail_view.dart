@@ -239,11 +239,11 @@ class RoleDetailView extends GetView {
           controller.gotoChatDetail();
         },
         icon: SvgPicture.asset(
-          'assets/svgs/icon_chat_filled.svg',
+          'assets/svgs/icon_chat.svg',
           width: 18,
           height: 18,
           colorFilter: ColorFilter.mode(
-            Get.theme.colorScheme.onSurface.withValues(alpha: 0.68),
+            Get.theme.colorScheme.onPrimary.withValues(alpha: 0.88),
             BlendMode.srcIn,
           ),
         ),
@@ -276,7 +276,7 @@ class RoleDetailView extends GetView {
                 width: 18,
                 height: 18,
                 colorFilter: ColorFilter.mode(
-                  Get.theme.colorScheme.onSurface.withValues(alpha: 0.68),
+                  Get.theme.colorScheme.onPrimary.withValues(alpha: 0.88),
                   BlendMode.srcIn,
                 ),
               ),
@@ -309,13 +309,20 @@ class RoleDetailView extends GetView {
                 'assets/svgs/icon_add_role.svg',
                 width: 18,
                 height: 18,
-                colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                colorFilter: ColorFilter.mode(
+                  Get.theme.colorScheme.onPrimary.withValues(alpha: 0.88),
+                  BlendMode.srcIn,
+                ),
               ),
         label: controller.isUnforking.isTrue
             ? const SizedBox.shrink()
             : Text(
                 'role_detail.btn_unfork'.tr,
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(
+                  color: Get.theme.colorScheme.onPrimary.withValues(
+                    alpha: 0.88,
+                  ),
+                ),
               ),
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all(Get.theme.colorScheme.error),
