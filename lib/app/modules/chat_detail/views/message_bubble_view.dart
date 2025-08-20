@@ -20,13 +20,14 @@ class MessageBubbleView extends GetView {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(maxWidth: Get.width - 64 - 16 - 16),
+      constraints: BoxConstraints(maxWidth: Get.width - 64 - 16 - 16 - 20),
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       margin: EdgeInsets.only(bottom: 12, top: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: isSender ? Color(0xFF07c160) : Get.theme.colorScheme.surface,
       ),
+
       // isSender: message.senderId == controller.loginInfo.value?.id,
 
       // tail: false,
