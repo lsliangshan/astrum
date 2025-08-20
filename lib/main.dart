@@ -47,7 +47,7 @@ void main() async {
   initializeDateFormatting().then(
     (_) => runApp(
       GetMaterialApp(
-        title: "astrum",
+        title: "灵枢",
         initialRoute: AppPages.INITIAL,
         getPages: AppPages.routes,
         debugShowCheckedModeBanner: false,
