@@ -159,4 +159,25 @@ class AuthService extends GetxService {
     user.value = User(id: '', username: '', password: '');
     isLogin.value = false;
   }
+
+  Future<NormalResponse> exchangeActivationCode({required String code}) async {
+    http.Response response = await http.post(
+      Uri.parse('https://wf.liangqy.com/webhook/astrum/use-code'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json.encode({'code': code, 'userId': user.value.id}),
+    );
+
+    if (response.body.isEmpty) {
+      return NormalResponse(code: 1001, message: '网络异常', data: {});
+    }
+    final data = json.decode(response.body);
+
+    if (data['code'] == 200 && data['data'] != null) {
+      await initLoginInfo();
+    }
+
+    return NormalResponse.fromJson(data);
+  }
 }

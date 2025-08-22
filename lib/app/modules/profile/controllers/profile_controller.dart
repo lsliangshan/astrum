@@ -27,6 +27,10 @@ class ProfileController extends GetxController {
     authService.logout();
   }
 
+  void gotoActivationCode() {
+    Get.toNamed(Routes.ACTIVATION_CODE);
+  }
+
   void test() {
     asrService = TencentAsrService();
 

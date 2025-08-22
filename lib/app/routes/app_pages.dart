@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/activation_code/bindings/activation_code_binding.dart';
+import '../modules/activation_code/views/activation_code_view.dart';
 import '../modules/add_attachment/bindings/add_attachment_binding.dart';
 import '../modules/add_attachment/views/add_attachment_view.dart';
 import '../modules/add_role/bindings/add_role_binding.dart';
@@ -8,6 +10,8 @@ import '../modules/attachments/bindings/attachments_binding.dart';
 import '../modules/attachments/views/attachments_view.dart';
 import '../modules/chat/bindings/chat_binding.dart';
 import '../modules/chat/views/chat_view.dart';
+import '../modules/chat_detail/bindings/chat_detail_binding.dart';
+import '../modules/chat_detail/views/chat_detail_view.dart';
 import '../modules/create_attachment/bindings/create_attachment_binding.dart';
 import '../modules/create_attachment/views/create_attachment_view.dart';
 import '../modules/discovery/bindings/discovery_binding.dart';
@@ -24,8 +28,6 @@ import '../modules/role/bindings/role_binding.dart';
 import '../modules/role/views/role_view.dart';
 import '../modules/role_detail/bindings/role_detail_binding.dart';
 import '../modules/role_detail/views/role_detail_view.dart';
-import '../modules/chat_detail/bindings/chat_detail_binding.dart';
-import '../modules/chat_detail/views/chat_detail_view.dart';
 
 part 'app_routes.dart';
 
@@ -102,6 +104,11 @@ class AppPages {
       name: _Paths.LOGIN,
       page: () => const LoginView(),
       binding: LoginBinding(),
+    ),
+    GetPage(
+      name: _Paths.ACTIVATION_CODE,
+      page: () => const ActivationCodeView(),
+      binding: ActivationCodeBinding(),
     ),
   ];
 }

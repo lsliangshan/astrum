@@ -147,33 +147,48 @@ class ProfileView extends GetView<ProfileController> {
                         child: Column(
                           children: [
                             ListTile(
-                              title: Text('profile.member_card.title'.tr),
+                              title: Row(
+                                spacing: 8,
+                                children: [
+                                  Text('profile.member_card.title'.tr),
+                                  if (controller.user.value.vipType != 'free')
+                                    SvgPicture.asset(
+                                      'assets/svgs/icon_vip.svg',
+                                      height: 32,
+                                    ),
+                                ],
+                              ),
                               contentPadding: EdgeInsets.only(
                                 left: 12,
                                 right: 12,
                               ),
-                              trailing: UnconstrainedBox(
-                                child: SizedBox(
-                                  width: 64,
-                                  height: 34,
-                                  child: TextButton(
-                                    onPressed: () {
-                                      controller.gotoLogin();
-                                    },
-                                    style: TextButton.styleFrom(
-                                      backgroundColor: Get.theme.primaryColor,
-                                    ),
-                                    child: Text(
-                                      'profile.member_card.btn.recharge'.tr,
-                                      style: Get.theme.textTheme.bodyMedium
-                                          ?.copyWith(
-                                            color:
-                                                Get.theme.colorScheme.onPrimary,
-                                          ),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              // trailing: SvgPicture.asset(
+                              //   'assets/svgs/icon_vip.svg',
+
+                              //   height: 32,
+                              // ),
+                              // trailing: UnconstrainedBox(
+                              //   child: SizedBox(
+                              //     width: 64,
+                              //     height: 34,
+                              //     child: TextButton(
+                              //       onPressed: () {
+                              //         controller.gotoLogin();
+                              //       },
+                              //       style: TextButton.styleFrom(
+                              //         backgroundColor: Get.theme.primaryColor,
+                              //       ),
+                              //       child: Text(
+                              //         'profile.member_card.btn.recharge'.tr,
+                              //         style: Get.theme.textTheme.bodyMedium
+                              //             ?.copyWith(
+                              //               color:
+                              //                   Get.theme.colorScheme.onPrimary,
+                              //             ),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
                             ),
                             Container(
                               height: 1,
@@ -216,6 +231,38 @@ class ProfileView extends GetView<ProfileController> {
                               );
                             }),
                           ],
+                        ),
+                      );
+                    }
+                    return SizedBox.shrink();
+                  }),
+                  Obx(() {
+                    if (controller.isLogin.isTrue) {
+                      return Container(
+                        width: Get.width,
+                        margin: EdgeInsets.only(left: 24, right: 24, top: 32),
+                        decoration: BoxDecoration(
+                          color: Get.theme.dividerColor.withValues(alpha: 0.02),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        clipBehavior: Clip.hardEdge,
+                        child: ListTile(
+                          onTap: () {
+                            controller.gotoActivationCode();
+                          },
+                          title: Text('profile.settings.exchange'.tr),
+                          trailing: SvgPicture.asset(
+                            'assets/svgs/icon_arrow_right.svg',
+                            width: 16,
+                            height: 16,
+                            colorFilter: ColorFilter.mode(
+                              Get.theme.colorScheme.onSurface.withValues(
+                                alpha: 0.4,
+                              ),
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                          contentPadding: EdgeInsets.only(left: 16, right: 16),
                         ),
                       );
                     }

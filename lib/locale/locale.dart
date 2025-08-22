@@ -112,6 +112,7 @@ class Messages extends Translations {
       'profile.member_card.btn.recharge': '充值',
       'profile.member_card.remaining_tokens': '剩余积分',
       'profile.member_card.vip_end': '会员到期时间',
+      'profile.settings.exchange': '兑换码',
 
       // 发送机器人消息页面
       'chat_detail.title': '发送机器人消息',
@@ -121,11 +122,22 @@ class Messages extends Translations {
       'chat_detail.has_new_message': '{count} 条新消息',
       'chat_detail.send_message': '按住 说话',
 
+      'activation_code.title': '兑换码',
+      'activation_code.hint': '请输入兑换码',
+      'activation_code.btn.exchange': '立即兑换',
+      'activation_code.btn.exchange.success': '兑换成功',
+      'activation_code.btn.exchange.failed': '兑换失败',
+      'activation_code.rule.title': '兑换码规则',
+      'activation_code.rule.tip1': '1. 兑换账号为当前登录账号，兑换前请核实账号信息',
+      'activation_code.rule.tip2': '2. 兑换码只能使用一次，一旦使用，概不退换',
+
       // 未登录页面
       'need_login.tip': '需要登录',
       'need_login.btn.login': '去登录',
 
       'no_data': '暂无数据',
+
+      'anonymous': '匿名用户',
     },
     'en_US': {
       // 页面
@@ -237,6 +249,7 @@ class Messages extends Translations {
       'profile.member_card.btn.recharge': 'Recharge',
       'profile.member_card.remaining_tokens': 'Remaining Credits',
       'profile.member_card.vip_end': 'VIP End Time',
+      'profile.settings.exchange': 'Activation Code',
 
       // 发送机器人消息页面
       'chat_detail.title': 'Send Robot Message',
@@ -251,6 +264,19 @@ class Messages extends Translations {
       'need_login.btn.login': 'Go Login',
 
       'no_data': 'No Data',
+
+      'anonymous': 'Anonymous',
+
+      'activation_code.title': 'Activation Code',
+      'activation_code.hint': 'Please enter the activation code',
+      'activation_code.btn.exchange': 'Activate Now',
+      'activation_code.btn.exchange.success': 'Activate Success',
+      'activation_code.btn.exchange.failed': 'Activate Failed',
+      'activation_code.rule.title': 'Activation Code Rule',
+      'activation_code.rule.tip1':
+          '1. The activation account is the current logged-in account, please verify the account information before activation',
+      'activation_code.rule.tip2':
+          '2. The activation code can only be used once, once used, it cannot be returned',
     },
   };
 }

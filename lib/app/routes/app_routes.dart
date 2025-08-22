@@ -16,6 +16,7 @@ abstract class Routes {
   static const FILE_PREVIEWER = _Paths.FILE_PREVIEWER;
   static const CHAT_DETAIL = _Paths.CHAT_DETAIL;
   static const LOGIN = _Paths.LOGIN;
+  static const ACTIVATION_CODE = _Paths.ACTIVATION_CODE;
 }
 
 abstract class _Paths {
@@ -33,4 +34,5 @@ abstract class _Paths {
   static const FILE_PREVIEWER = '/file-previewer';
   static const CHAT_DETAIL = '/chat-detail';
   static const LOGIN = '/login';
+  static const ACTIVATION_CODE = '/activation-code';
 }
