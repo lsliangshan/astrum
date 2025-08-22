@@ -162,33 +162,30 @@ class ProfileView extends GetView<ProfileController> {
                                 left: 12,
                                 right: 12,
                               ),
-                              // trailing: SvgPicture.asset(
-                              //   'assets/svgs/icon_vip.svg',
-
-                              //   height: 32,
-                              // ),
-                              // trailing: UnconstrainedBox(
-                              //   child: SizedBox(
-                              //     width: 64,
-                              //     height: 34,
-                              //     child: TextButton(
-                              //       onPressed: () {
-                              //         controller.gotoLogin();
-                              //       },
-                              //       style: TextButton.styleFrom(
-                              //         backgroundColor: Get.theme.primaryColor,
-                              //       ),
-                              //       child: Text(
-                              //         'profile.member_card.btn.recharge'.tr,
-                              //         style: Get.theme.textTheme.bodyMedium
-                              //             ?.copyWith(
-                              //               color:
-                              //                   Get.theme.colorScheme.onPrimary,
-                              //             ),
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ),
+                              trailing: UnconstrainedBox(
+                                child: SizedBox(
+                                  width: 64,
+                                  height: 34,
+                                  child: OutlinedButton(
+                                    onPressed: () {
+                                      controller.gotoLogin();
+                                    },
+                                    style: TextButton.styleFrom(
+                                      side: BorderSide(
+                                        color: Color(0xFFffa500),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'profile.member_card.btn.recharge'.tr,
+                                      style: Get.theme.textTheme.bodyMedium
+                                          ?.copyWith(
+                                            color:
+                                                Get.theme.colorScheme.onPrimary,
+                                          ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                             Container(
                               height: 1,
