@@ -343,64 +343,57 @@ class ProfileView extends GetView<ProfileController> {
                   // SizedBox(height: 24),
                   buildItem(index: 0),
                   SizedBox(height: 16),
-                  GetBuilder(
-                    id: "update-login-info",
-                    init: controller,
-                    builder: (_) {
-                      if (controller.isLogin.isTrue) {
-                        return Card(
-                          margin: const EdgeInsets.only(left: 12, right: 12),
-                          elevation: 0,
-                          color: Colors.transparent,
+                  Obx(() {
+                    if (controller.isLogin.isTrue) {
+                      return Card(
+                        margin: const EdgeInsets.only(left: 12, right: 12),
+                        elevation: 0,
+                        color: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0),
+                        ),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Get.theme.colorScheme.error,
+                            child: Icon(Icons.delete),
+                          ),
+                          tileColor: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0),
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: Get.theme.colorScheme.error,
-                              child: Icon(Icons.delete),
-                            ),
-                            tileColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            onTap: () {
-                              controller.gotoDeleteAccount();
-                            },
-                            isThreeLine: true,
-                            title: Text(
-                              'settings.account.title'.tr,
-                              style: TextStyle(
-                                color: Get.theme.colorScheme.error,
-                              ),
-                            ),
-                            subtitle: Text(
-                              'settings.delete.account.tip'.tr,
-                              style: Get.theme.textTheme.bodySmall?.copyWith(
-                                color: Get.theme.disabledColor,
-                              ),
-                            ),
-                            trailing: SvgPicture.asset(
-                              'assets/svgs/icon_arrow_right.svg',
-                              width: 24,
-                              height: 24,
-                              colorFilter: ColorFilter.mode(
-                                Get.theme.colorScheme.error.withValues(
-                                  alpha: 0.6,
-                                ),
-                                BlendMode.srcIn,
-                              ),
-                            ),
-                            contentPadding: EdgeInsets.only(
-                              left: 16,
-                              right: 16,
+                          onTap: () {
+                            controller.gotoDeleteAccount();
+                          },
+                          isThreeLine: true,
+                          title: Text(
+                            'settings.account.title'.tr,
+                            style: TextStyle(
+                              color: Get.theme.colorScheme.error,
                             ),
                           ),
-                        );
-                      }
-                      return const SizedBox.shrink();
-                    },
-                  ),
+                          subtitle: Text(
+                            'settings.delete.account.tip'.tr,
+                            style: Get.theme.textTheme.bodySmall?.copyWith(
+                              color: Get.theme.disabledColor,
+                            ),
+                          ),
+                          trailing: SvgPicture.asset(
+                            'assets/svgs/icon_arrow_right.svg',
+                            width: 24,
+                            height: 24,
+                            colorFilter: ColorFilter.mode(
+                              Get.theme.colorScheme.error.withValues(
+                                alpha: 0.6,
+                              ),
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                          contentPadding: EdgeInsets.only(left: 16, right: 16),
+                        ),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  }),
                   SizedBox(height: 24),
                   Obx(() {
                     if (controller.isLogin.isTrue) {

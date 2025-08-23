@@ -18,6 +18,7 @@ import 'package:astrum/theme.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'app/routes/app_pages.dart';
 
@@ -43,6 +44,11 @@ void main() async {
   HttpOverrides.global = MyHttpOverrides();
 
   await dotenv.load(fileName: ".env");
+
+  await Supabase.initialize(
+    url: dotenv.env['SUPABASE_URL']!,
+    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
+  );
 
   initializeDateFormatting().then(
     (_) => runApp(
