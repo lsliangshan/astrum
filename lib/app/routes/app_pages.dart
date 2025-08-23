@@ -22,12 +22,16 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/member/bindings/member_binding.dart';
+import '../modules/member/views/member_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/role/bindings/role_binding.dart';
 import '../modules/role/views/role_view.dart';
 import '../modules/role_detail/bindings/role_detail_binding.dart';
 import '../modules/role_detail/views/role_detail_view.dart';
+import '../modules/webview/bindings/webview_binding.dart';
+import '../modules/webview/views/webview_view.dart';
 
 part 'app_routes.dart';
 
@@ -109,6 +113,19 @@ class AppPages {
       name: _Paths.ACTIVATION_CODE,
       page: () => const ActivationCodeView(),
       binding: ActivationCodeBinding(),
+    ),
+    GetPage(
+      name: _Paths.MEMBER,
+      page: () => const MemberView(),
+      binding: MemberBinding(),
+    ),
+    GetPage(
+      name: _Paths.WEBVIEW,
+      page: () => WebviewView(
+        url: Get.arguments != null ? Get.arguments['url'] : null,
+        title: Get.arguments != null ? Get.arguments['title'] : null,
+      ),
+      binding: WebviewBinding(),
     ),
   ];
 }

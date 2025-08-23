@@ -65,7 +65,7 @@ class RegisterBoxView extends GetView<LoginController> {
                       Text(
                         '*',
                         style: Get.theme.textTheme.labelLarge?.copyWith(
-                          color: Colors.red,
+                          color: Get.theme.colorScheme.error,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -114,7 +114,7 @@ class RegisterBoxView extends GetView<LoginController> {
                         Text(
                           '*',
                           style: Get.theme.textTheme.labelLarge?.copyWith(
-                            color: Colors.red,
+                            color: Get.theme.colorScheme.error,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -173,7 +173,7 @@ class RegisterBoxView extends GetView<LoginController> {
                         Text(
                           '*',
                           style: Get.theme.textTheme.labelLarge?.copyWith(
-                            color: Colors.red,
+                            color: Get.theme.colorScheme.error,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

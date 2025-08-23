@@ -175,6 +175,7 @@ class RoleView extends GetView<RoleController> {
                       SliverToBoxAdapter(
                         child: Container(
                           padding: EdgeInsets.all(16),
+                          margin: EdgeInsets.only(bottom: 100),
                           width: double.infinity,
                           child: Text(
                             'no_more_data'.tr,

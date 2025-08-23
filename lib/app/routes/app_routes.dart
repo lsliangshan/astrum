@@ -17,6 +17,8 @@ abstract class Routes {
   static const CHAT_DETAIL = _Paths.CHAT_DETAIL;
   static const LOGIN = _Paths.LOGIN;
   static const ACTIVATION_CODE = _Paths.ACTIVATION_CODE;
+  static const MEMBER = _Paths.MEMBER;
+  static const WEBVIEW = _Paths.WEBVIEW;
 }
 
 abstract class _Paths {
@@ -35,4 +37,6 @@ abstract class _Paths {
   static const CHAT_DETAIL = '/chat-detail';
   static const LOGIN = '/login';
   static const ACTIVATION_CODE = '/activation-code';
+  static const MEMBER = '/member';
+  static const WEBVIEW = '/webview';
 }

@@ -43,3 +43,51 @@ List<Map<String, String>> languages = [
 ];
 
 String LocalLanguageKey = 'current-language';
+
+String ServiceAgreementUrl =
+    'https://apipilot.liangqy.com/giftify/member/service/aggrement?lang={LANG}';
+String ServiceFaqUrl =
+    'https://apipilot.liangqy.com/giftify/member/service/faq?lang={LANG}';
+
+String ServiceTermsUrl =
+    'https://apipilot.liangqy.com/giftify/member/terms?lang={LANG}';
+
+String ServiceAutoRenewalUrl =
+    'https://apipilot.liangqy.com/giftify/member/renewal?lang={LANG}';
+
+String ServicePrivacyUrl =
+    'https://apipilot.liangqy.com/giftify/member/privacy?lang={LANG}';
+
+// 会员特权
+List<Map<String, String>> memberPrivileges = [
+  {
+    "icon": "assets/svgs/massive_volume.svg",
+    "title": "member.privilege.massive.volume",
+    "tip": "member.privilege.massive.volume.tip",
+  },
+  {
+    "icon": "assets/svgs/unlimited_creation.svg",
+    "title": "member.privilege.unlimited.creation",
+    "tip": "member.privilege.unlimited.creation.tip",
+  },
+  {
+    "icon": "assets/svgs/deep_knowledge.svg",
+    "title": "member.privilege.deep.knowledge",
+    "tip": "member.privilege.deep.knowledge.tip",
+  },
+  {
+    "icon": "assets/svgs/exclusive_access.svg",
+    "title": "member.privilege.exclusive.access",
+    "tip": "member.privilege.exclusive.access.tip",
+  },
+  {
+    "icon": "assets/svgs/early_access.svg",
+    "title": "member.privilege.early.access",
+    "tip": "member.privilege.early.access.tip",
+  },
+  {
+    "icon": "assets/svgs/priority_support.svg",
+    "title": "member.privilege.priority.support",
+    "tip": "member.privilege.priority.support.tip",
+  },
+];

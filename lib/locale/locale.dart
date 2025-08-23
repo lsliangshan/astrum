@@ -66,6 +66,7 @@ class Messages extends Translations {
 
       'btn.cancel': '取消',
       'btn.save': '保存',
+      'btn.delete': '删除',
 
       'snackbar.title': '提示',
 
@@ -109,10 +110,14 @@ class Messages extends Translations {
       'profile.logout': '退出登录',
       'profile.login': '登录',
       'profile.member_card.title': '我的账户',
-      'profile.member_card.btn.recharge': '充值',
+      'profile.member_card.btn.subscribe': '开通会员',
+      'profile.member_card.btn.renew': '续费',
       'profile.member_card.remaining_tokens': '剩余积分',
       'profile.member_card.vip_end': '会员到期时间',
       'profile.settings.exchange': '兑换码',
+      'profile.language': '语言',
+      'profile.language.en_US': '英语',
+      'profile.language.zh_CN': '简体中文',
 
       // 发送机器人消息页面
       'chat_detail.title': '发送机器人消息',
@@ -130,6 +135,47 @@ class Messages extends Translations {
       'activation_code.rule.title': '兑换码规则',
       'activation_code.rule.tip1': '1. 兑换账号为当前登录账号，兑换前请核实账号信息',
       'activation_code.rule.tip2': '2. 兑换码只能使用一次，一旦使用，概不退换',
+
+      'member.card.title': 'VIP会员',
+      'member.card.tip': '解锁共享礼簿等多项特权',
+      'member.card.btn.buy': '去开通',
+      'member.card.tip.subscription': '订阅即享：你的专属特权，从不打折！',
+
+      'member.privilege.title': '会员特权',
+      'member.privilege.massive.volume': '海量对话额度',
+      'member.privilege.massive.volume.tip':
+          '每月畅享 10万 积分，与AI深度对话，探索各种奇思妙想，无需为次数担忧。',
+      'member.privilege.unlimited.creation': '角色创建自由',
+      'member.privilege.unlimited.creation.tip':
+          '最多可创建并发布20个专属角色，打造您的个人AI角色帝国，展现无限创造力。',
+      'member.privilege.deep.knowledge': '深度知识库支持',
+      'member.privilege.deep.knowledge.tip':
+          '每个角色均可上传多达10个专属文件，构建更专业、更精准的AI大脑，解锁高质量对话。',
+      'member.privilege.exclusive.access': '专属角色库通行证',
+      'member.privilege.exclusive.access.tip':
+          '无限制访问丰富多元的第三方角色市场，一键体验由精英创作者打造的优质角色，发现更多乐趣。',
+      'member.privilege.early.access': '新功能优先体验权',
+      'member.privilege.early.access.tip':
+          '优先尝鲜最新产品和特性，快人一步感受AI科技的前沿魅力，成为我们的首席体验官。',
+      'member.privilege.priority.support': '会员专属支持通道',
+      'member.privilege.priority.support.tip': '享受优先技术支持，快速响应，解决您的问题更高效。',
+      'member.privilege.service': '会员服务',
+      'member.privilege.service.agreement': '会员服务协议',
+      'member.privilege.service.faq': '会员常见问题',
+      'member.privilege.activation.code': '使用激活码',
+      'member.privilege.service.terms': '使用条款',
+      'member.privilege.service.auto.renewal': '自动续订商品规则',
+      'member.privilege.service.privacy': '隐私政策',
+      'member.privilege.auto.renewal.subscription.terms': '自动续订商品规则',
+
+      'settings.account.title': '删除账号',
+      'settings.delete.account.title': '确认删除账号？',
+      'settings.delete.account.tip':
+          '您的账号数据（含个人信息、使用记录及已购会员权益）将永久删除且无法恢复，会员服务立即终止不退费；本地缓存数据（如临时文件等）需手动清理。此操作不可撤销，请务必提前备份重要信息！',
+      'settings.delete.account.success.title': '账号删除成功',
+      'settings.delete.account.failed.title': '账号删除失败',
+      'settings.delete.account.success.tip':
+          '您的账号已成功删除，所有相关数据也已从我们的系统中清除。如有疑问，请联系客户支持：cheenoalive@gmail.com',
 
       // 未登录页面
       'need_login.tip': '需要登录',
@@ -201,6 +247,7 @@ class Messages extends Translations {
 
       'btn.cancel': 'Cancel',
       'btn.save': 'Save',
+      'btn.delete': 'Delete',
 
       'snackbar.title': 'Hint',
 
@@ -246,26 +293,22 @@ class Messages extends Translations {
       'profile.logout': 'Logout',
       'profile.login': 'Login',
       'profile.member_card.title': 'My Account',
-      'profile.member_card.btn.recharge': 'Recharge',
+      'profile.member_card.btn.subscribe': 'Subscribe',
+      'profile.member_card.btn.renew': 'Renew',
       'profile.member_card.remaining_tokens': 'Remaining Credits',
       'profile.member_card.vip_end': 'VIP End Time',
       'profile.settings.exchange': 'Activation Code',
+      'profile.language': 'Language',
+      'profile.language.en_US': 'English',
+      'profile.language.zh_CN': 'Simplified Chinese',
 
       // 发送机器人消息页面
       'chat_detail.title': 'Send Robot Message',
-      'chat_detail.hint_text': 'Please enter the message content',
+      'chat_detail.hint_text': 'Please enter the message',
       'chat_detail.load_more_message': 'Load More Message',
       'chat_detail.no_more_message': 'No More Message',
       'chat_detail.has_new_message': '{count} New Message',
       'chat_detail.send_message': 'Hold to Speak',
-
-      // 未登录页面
-      'need_login.tip': 'Need Login',
-      'need_login.btn.login': 'Go Login',
-
-      'no_data': 'No Data',
-
-      'anonymous': 'Anonymous',
 
       'activation_code.title': 'Activation Code',
       'activation_code.hint': 'Please enter the activation code',
@@ -277,6 +320,58 @@ class Messages extends Translations {
           '1. The activation account is the current logged-in account, please verify the account information before activation',
       'activation_code.rule.tip2':
           '2. The activation code can only be used once, once used, it cannot be returned',
+
+      'member.card.title': 'VIP Member',
+      'member.card.tip': 'Unlock shared gift registers and other privileges',
+      'member.card.btn.buy': 'Subscribe',
+      'member.card.tip.subscription':
+          'Subscribe to enjoy: your exclusive privileges, never discounted!',
+
+      'member.privilege.title': 'Member Privileges',
+      'member.privilege.massive.volume': 'Generous Conversation Quota',
+      'member.privilege.massive.volume.tip':
+          'Enjoy 100,000 credits monthly for deep and extensive AI dialogues, empowering you to explore every idea without limits.',
+      'member.privilege.unlimited.creation': 'Unlimited Role Creation',
+      'member.privilege.unlimited.creation.tip':
+          'Create and publish up to 20 exclusive roles, build your personal AI role empire, and showcase your limitless creativity.',
+      'member.privilege.deep.knowledge': 'Deep Knowledge Base Support',
+      'member.privilege.deep.knowledge.tip':
+          'Each role can upload up to 10 exclusive files, build a more professional and accurate AI brain, and unlock high-quality conversations.',
+      'member.privilege.exclusive.access': 'Exclusive Role Library Pass',
+      'member.privilege.exclusive.access.tip':
+          'Access the rich and diverse third-party role market without restrictions, experience high-quality roles created by elite creators with just one click, and discover more fun.',
+      'member.privilege.early.access': 'Early Access to New Features',
+      'member.privilege.early.access.tip':
+          'Experience the latest products and features ahead of others, feel the cutting-edge charm of AI technology, and become our chief experience officer.',
+      'member.privilege.priority.support': 'Priority Support Channel',
+      'member.privilege.priority.support.tip':
+          'Enjoy priority technical support, quick response, and more efficient problem-solving.',
+      'member.privilege.service': 'Member Service',
+      'member.privilege.service.agreement': 'Member Service Agreement',
+      'member.privilege.service.faq': 'Member FAQ',
+      'member.privilege.activation.code': 'Use Activation Code',
+      'member.privilege.service.terms': 'Terms of service',
+      'member.privilege.service.auto.renewal': 'Automatic renewal rules',
+      'member.privilege.service.privacy': 'Privacy Policy',
+      'member.privilege.auto.renewal.subscription.terms':
+          'Automatic renewal rules',
+
+      'settings.account.title': 'Delete account',
+      'settings.delete.account.title': 'Confirm Account Deletion',
+      'settings.delete.account.tip':
+          'Your account data (including personal information, usage records, and purchased membership benefits) will be permanently erased and unrecoverable, with active subscriptions terminated immediately without refund. Locally cached data (e.g. temporary files) must be manually cleared. This action is irreversible – ensure critical data is backed up before proceeding!',
+      'settings.delete.account.success.title': 'Account Deleted Successfully',
+      'settings.delete.account.failed.title': 'Account Deleted Failed',
+      'settings.delete.account.success.tip':
+          'Your account has been successfully deleted, and all associated data has been removed from our system. If you have any questions, please contact customer support at: cheenoalive@gmail.com',
+
+      // 未登录页面
+      'need_login.tip': 'Need Login',
+      'need_login.btn.login': 'Go Login',
+
+      'no_data': 'No Data',
+
+      'anonymous': 'Anonymous',
     },
   };
 }

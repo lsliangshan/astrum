@@ -162,6 +162,7 @@ class DiscoveryView extends GetView<DiscoveryController> {
                         child: Container(
                           padding: EdgeInsets.all(16),
                           width: double.infinity,
+                          margin: EdgeInsets.only(bottom: 100),
                           child: Text(
                             'no_more_data'.tr,
                             textAlign: TextAlign.center,

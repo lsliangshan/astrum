@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
+import 'package:intl/intl.dart';
 import 'package:tiktoken/tiktoken.dart';
 
 int countTokens(String text) {
@@ -57,4 +58,16 @@ int _bpeTokenCountApproximation(String text) {
       (0.1 * wordCount / bytes.length); // 单词密度
 
   return (baseTokens * adjustment).ceil();
+}
+
+String dateFormat({
+  required String timestamp,
+  String format = 'yyyy-MM-dd HH:mm:ss',
+}) {
+  DateFormat formatter = DateFormat(format);
+
+  String formattedDateTime = formatter.format(
+    DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp)),
+  );
+  return formattedDateTime;
 }
