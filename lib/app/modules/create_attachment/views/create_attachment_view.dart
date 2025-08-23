@@ -95,6 +95,7 @@ class CreateAttachmentView extends GetView {
               },
               maxLines: null,
               minLines: 60,
+              ignorePointers: controller.isLogin.isFalse,
               readOnly: controller.isLogin.isFalse,
               style: Get.theme.textTheme.bodyLarge,
               cursorColor: Get.theme.colorScheme.primary,

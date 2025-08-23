@@ -7,6 +7,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   gtk
   record_linux
   sqlite3_flutter_libs
+  syncfusion_pdfviewer_linux
   url_launcher_linux
 )
 
