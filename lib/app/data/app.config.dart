@@ -45,18 +45,18 @@ List<Map<String, String>> languages = [
 String LocalLanguageKey = 'current-language';
 
 String ServiceAgreementUrl =
-    'https://apipilot.liangqy.com/giftify/member/service/aggrement?lang={LANG}';
+    'https://apipilot.liangqy.com/astrum/member/service/aggrement?lang={LANG}';
 String ServiceFaqUrl =
-    'https://apipilot.liangqy.com/giftify/member/service/faq?lang={LANG}';
+    'https://apipilot.liangqy.com/astrum/member/service/faq?lang={LANG}';
 
 String ServiceTermsUrl =
-    'https://apipilot.liangqy.com/giftify/member/terms?lang={LANG}';
+    'https://apipilot.liangqy.com/astrum/member/terms?lang={LANG}';
 
 String ServiceAutoRenewalUrl =
-    'https://apipilot.liangqy.com/giftify/member/renewal?lang={LANG}';
+    'https://apipilot.liangqy.com/astrum/member/renewal?lang={LANG}';
 
 String ServicePrivacyUrl =
-    'https://apipilot.liangqy.com/giftify/member/privacy?lang={LANG}';
+    'https://apipilot.liangqy.com/astrum/member/privacy?lang={LANG}';
 
 // 会员特权
 List<Map<String, String>> memberPrivileges = [
