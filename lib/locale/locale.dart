@@ -144,13 +144,13 @@ class Messages extends Translations {
       'member.privilege.title': '会员特权',
       'member.privilege.massive.volume': '海量对话额度',
       'member.privilege.massive.volume.tip':
-          '每月畅享 10万 积分，与AI深度对话，探索各种奇思妙想，无需为次数担忧。',
+          '每月畅享无限积分，与AI深度对话，探索各种奇思妙想，无需为次数担忧。',
       'member.privilege.unlimited.creation': '角色创建自由',
       'member.privilege.unlimited.creation.tip':
-          '最多可创建并发布20个专属角色，打造您的个人AI角色帝国，展现无限创造力。',
+          '最多可创建并发布 20 个专属角色，打造您的个人AI角色帝国，展现无限创造力。',
       'member.privilege.deep.knowledge': '深度知识库支持',
       'member.privilege.deep.knowledge.tip':
-          '每个角色均可上传多达10个专属文件，构建更专业、更精准的AI大脑，解锁高质量对话。',
+          '每个角色均可上传多达 10 个专属文件，构建更专业、更精准的AI大脑，解锁高质量对话。',
       'member.privilege.exclusive.access': '专属角色库通行证',
       'member.privilege.exclusive.access.tip':
           '无限制访问丰富多元的第三方角色市场，一键体验由精英创作者打造的优质角色，发现更多乐趣。',
@@ -330,7 +330,7 @@ class Messages extends Translations {
       'member.privilege.title': 'Member Privileges',
       'member.privilege.massive.volume': 'Generous Conversation Quota',
       'member.privilege.massive.volume.tip':
-          'Enjoy 100,000 credits monthly for deep and extensive AI dialogues, empowering you to explore every idea without limits.',
+          'Enjoy unlimited credits monthly for deep and extensive AI dialogues, empowering you to explore every idea without limits.',
       'member.privilege.unlimited.creation': 'Unlimited Role Creation',
       'member.privilege.unlimited.creation.tip':
           'Create and publish up to 20 exclusive roles, build your personal AI role empire, and showcase your limitless creativity.',
