@@ -34,7 +34,7 @@ class RoleService extends GetxService {
       request.files.add(
         await http.MultipartFile.fromPath(
           'file',
-          icon!.path,
+          icon.path,
           filename: icon.name,
           contentType: MediaType.parse(
             lookupMimeType(icon.name) ?? 'image/png',
