@@ -106,17 +106,26 @@ class RoleService extends GetxService {
       return NormalResponse(code: 200, message: 'success', data: {});
     }
 
+    final serverRoles = await getRolesFromServer(
+      authorId: authorId,
+      include: 'self',
+      pageIndex: 1,
+      pageSize: 1000,
+    );
+    await roleDao.deleteMyRoles(authorId: authorId);
+    await roleDao.insertAll(roleList: serverRoles.data['list']);
+
     // 如果本地数据库中没有角色，则从服务器端数据库中获取角色
     final localRoles = await roleDao.getRoles(authorId: authorId);
-    if (localRoles.code == 200 && localRoles.data['list'].isEmpty) {
-      final serverRoles = await getRolesFromServer(
-        authorId: authorId,
-        include: 'self',
-        pageIndex: 1,
-        pageSize: 1000,
-      );
-      await roleDao.insertAll(roleList: serverRoles.data['list']);
-    }
+    // if (localRoles.code == 200 && localRoles.data['list'].isEmpty) {
+    //   final serverRoles = await getRolesFromServer(
+    //     authorId: authorId,
+    //     include: 'self',
+    //     pageIndex: 1,
+    //     pageSize: 1000,
+    //   );
+    //   await roleDao.insertAll(roleList: serverRoles.data['list']);
+    // }
     return localRoles;
   }
 
