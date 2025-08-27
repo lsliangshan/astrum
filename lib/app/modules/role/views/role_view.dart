@@ -60,10 +60,11 @@ class RoleView extends GetView<RoleController> {
               margin: EdgeInsets.only(top: 0, bottom: 16),
               alignment: Alignment.centerLeft,
               child: Text(
-                controller.roles[index].description ?? '',
+                controller.roles[index].description?.trim() ?? '',
                 style: Get.theme.textTheme.bodySmall?.copyWith(
                   color: Get.theme.hintColor,
                 ),
+                textAlign: TextAlign.justify,
               ),
             ),
             if (controller.roles[index].authorName != null &&

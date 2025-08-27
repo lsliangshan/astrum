@@ -30,6 +30,8 @@ class RoleDetailController extends GetxController {
   Rx<bool> isForking = false.obs;
   Rx<bool> isUnforking = false.obs;
 
+  Rx<bool> isExpanded = false.obs;
+
   late Future<void> initRoleDetailFuture;
 
   @override

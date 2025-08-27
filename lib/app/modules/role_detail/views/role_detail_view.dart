@@ -87,8 +87,9 @@ class RoleDetailView extends GetView {
           Obx(
             () => ListTile(
               title: Text(
-                controller.role.value.description ?? '',
+                controller.role.value.description?.trim() ?? '',
                 style: Get.theme.textTheme.bodySmall,
+                textAlign: TextAlign.justify,
               ),
               leading: controller.role.value.icon != null
                   ? Container(
@@ -110,6 +111,60 @@ class RoleDetailView extends GetView {
               titleAlignment: ListTileTitleAlignment.top,
             ),
           ),
+          Obx(() {
+            return ExpansionPanelList(
+              elevation: 0,
+              expansionCallback: (int index, bool isExpanded) {
+                controller.isExpanded.value = !controller.isExpanded.value;
+              },
+              expandedHeaderPadding: EdgeInsets.zero,
+              children: [
+                ExpansionPanel(
+                  headerBuilder: (BuildContext context, bool isExpanded) {
+                    return ListTile(
+                      // tileColor: Colors.white,
+                      title: Text('role_detail.prompt'.tr),
+                      visualDensity: VisualDensity.compact,
+                      dense: true,
+                      contentPadding: EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                        top: 12,
+                        bottom: 12,
+                      ),
+                    );
+                  },
+                  canTapOnHeader: true,
+                  isExpanded: controller.isExpanded.isTrue,
+                  backgroundColor: Colors.white,
+                  body: ListTile(
+                    subtitle: Text(
+                      controller.role.value.prompt?.trim() ?? '',
+                      style: Get.theme.textTheme.bodySmall?.copyWith(
+                        color: Get.theme.colorScheme.onSurface.withValues(
+                          alpha: 0.4,
+                        ),
+                      ),
+                      textAlign: TextAlign.justify,
+                    ),
+                    titleAlignment: ListTileTitleAlignment.top,
+                  ),
+                ),
+              ],
+            );
+          }),
+          // Obx(
+          //   () => ListTile(
+          //     subtitle: Text(
+          //       controller.role.value.prompt?.trim() ?? '',
+          //       style: Get.theme.textTheme.bodySmall?.copyWith(
+          //         color: Get.theme.colorScheme.onSurface.withValues(alpha: 0.4),
+          //       ),
+          //       textAlign: TextAlign.justify,
+          //     ),
+          //     titleAlignment: ListTileTitleAlignment.top,
+          //   ),
+          // ),
           SizedBox(height: 12),
         ],
       ),
