@@ -19,6 +19,7 @@ class RoleService extends GetxService {
   Future<NormalResponse> addRole({
     required String name,
     String? description,
+    String? prompt,
     XFile? icon,
   }) async {
     final uri = Uri.parse(
@@ -27,6 +28,7 @@ class RoleService extends GetxService {
     final request = http.MultipartRequest('POST', uri)
       ..fields['name'] = Uri.encodeComponent(name)
       ..fields['description'] = Uri.encodeComponent(description ?? '')
+      ..fields['prompt'] = Uri.encodeComponent(prompt ?? '')
       ..fields['authorId'] = Uri.encodeComponent(loginInfo.value.id)
       ..fields['authorName'] = Uri.encodeComponent(loginInfo.value.username);
 
@@ -53,6 +55,7 @@ class RoleService extends GetxService {
     required String id,
     String? name,
     String? description,
+    String? prompt,
     XFile? icon,
   }) async {
     final uri = Uri.parse(
@@ -69,6 +72,10 @@ class RoleService extends GetxService {
 
     if (description != null && description.isNotEmpty) {
       request.fields['description'] = Uri.encodeComponent(description);
+    }
+
+    if (prompt != null && prompt.isNotEmpty) {
+      request.fields['prompt'] = Uri.encodeComponent(prompt);
     }
 
     if (icon != null) {

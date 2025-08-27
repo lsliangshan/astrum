@@ -38,6 +38,16 @@ class $RolesTable extends Roles with TableInfo<$RolesTable, Role> {
     requiredDuringInsert: false,
     defaultValue: Constant(''),
   );
+  static const VerificationMeta _promptMeta = const VerificationMeta('prompt');
+  @override
+  late final GeneratedColumn<String> prompt = GeneratedColumn<String>(
+    'prompt',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: Constant(''),
+  );
   static const VerificationMeta _iconMeta = const VerificationMeta('icon');
   @override
   late final GeneratedColumn<String> icon = GeneratedColumn<String>(
@@ -125,6 +135,7 @@ class $RolesTable extends Roles with TableInfo<$RolesTable, Role> {
     id,
     name,
     description,
+    prompt,
     icon,
     authorId,
     authorName,
@@ -165,6 +176,12 @@ class $RolesTable extends Roles with TableInfo<$RolesTable, Role> {
           data['description']!,
           _descriptionMeta,
         ),
+      );
+    }
+    if (data.containsKey('prompt')) {
+      context.handle(
+        _promptMeta,
+        prompt.isAcceptableOrUnknown(data['prompt']!, _promptMeta),
       );
     }
     if (data.containsKey('icon')) {
@@ -233,6 +250,10 @@ class $RolesTable extends Roles with TableInfo<$RolesTable, Role> {
         DriftSqlType.string,
         data['${effectivePrefix}description'],
       ),
+      prompt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}prompt'],
+      ),
       icon: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}icon'],
@@ -274,6 +295,7 @@ class Role extends DataClass implements Insertable<Role> {
   final String id;
   final String name;
   final String? description;
+  final String? prompt;
   final String? icon;
   final String? authorId;
   final String? authorName;
@@ -287,6 +309,7 @@ class Role extends DataClass implements Insertable<Role> {
     required this.id,
     required this.name,
     this.description,
+    this.prompt,
     this.icon,
     this.authorId,
     this.authorName,
@@ -302,6 +325,9 @@ class Role extends DataClass implements Insertable<Role> {
     map['name'] = Variable<String>(name);
     if (!nullToAbsent || description != null) {
       map['description'] = Variable<String>(description);
+    }
+    if (!nullToAbsent || prompt != null) {
+      map['prompt'] = Variable<String>(prompt);
     }
     if (!nullToAbsent || icon != null) {
       map['icon'] = Variable<String>(icon);
@@ -334,6 +360,9 @@ class Role extends DataClass implements Insertable<Role> {
       description: description == null && nullToAbsent
           ? const Value.absent()
           : Value(description),
+      prompt: prompt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(prompt),
       icon: icon == null && nullToAbsent ? const Value.absent() : Value(icon),
       authorId: authorId == null && nullToAbsent
           ? const Value.absent()
@@ -365,6 +394,7 @@ class Role extends DataClass implements Insertable<Role> {
       id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       description: serializer.fromJson<String?>(json['description']),
+      prompt: serializer.fromJson<String?>(json['prompt']),
       icon: serializer.fromJson<String?>(json['icon']),
       authorId: serializer.fromJson<String?>(json['authorId']),
       authorName: serializer.fromJson<String?>(json['authorName']),
@@ -381,6 +411,7 @@ class Role extends DataClass implements Insertable<Role> {
       'id': serializer.toJson<String>(id),
       'name': serializer.toJson<String>(name),
       'description': serializer.toJson<String?>(description),
+      'prompt': serializer.toJson<String?>(prompt),
       'icon': serializer.toJson<String?>(icon),
       'authorId': serializer.toJson<String?>(authorId),
       'authorName': serializer.toJson<String?>(authorName),
@@ -395,6 +426,7 @@ class Role extends DataClass implements Insertable<Role> {
     String? id,
     String? name,
     Value<String?> description = const Value.absent(),
+    Value<String?> prompt = const Value.absent(),
     Value<String?> icon = const Value.absent(),
     Value<String?> authorId = const Value.absent(),
     Value<String?> authorName = const Value.absent(),
@@ -406,6 +438,7 @@ class Role extends DataClass implements Insertable<Role> {
     id: id ?? this.id,
     name: name ?? this.name,
     description: description.present ? description.value : this.description,
+    prompt: prompt.present ? prompt.value : this.prompt,
     icon: icon.present ? icon.value : this.icon,
     authorId: authorId.present ? authorId.value : this.authorId,
     authorName: authorName.present ? authorName.value : this.authorName,
@@ -421,6 +454,7 @@ class Role extends DataClass implements Insertable<Role> {
       description: data.description.present
           ? data.description.value
           : this.description,
+      prompt: data.prompt.present ? data.prompt.value : this.prompt,
       icon: data.icon.present ? data.icon.value : this.icon,
       authorId: data.authorId.present ? data.authorId.value : this.authorId,
       authorName: data.authorName.present
@@ -441,6 +475,7 @@ class Role extends DataClass implements Insertable<Role> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('description: $description, ')
+          ..write('prompt: $prompt, ')
           ..write('icon: $icon, ')
           ..write('authorId: $authorId, ')
           ..write('authorName: $authorName, ')
@@ -457,6 +492,7 @@ class Role extends DataClass implements Insertable<Role> {
     id,
     name,
     description,
+    prompt,
     icon,
     authorId,
     authorName,
@@ -472,6 +508,7 @@ class Role extends DataClass implements Insertable<Role> {
           other.id == this.id &&
           other.name == this.name &&
           other.description == this.description &&
+          other.prompt == this.prompt &&
           other.icon == this.icon &&
           other.authorId == this.authorId &&
           other.authorName == this.authorName &&
@@ -485,6 +522,7 @@ class RolesCompanion extends UpdateCompanion<Role> {
   final Value<String> id;
   final Value<String> name;
   final Value<String?> description;
+  final Value<String?> prompt;
   final Value<String?> icon;
   final Value<String?> authorId;
   final Value<String?> authorName;
@@ -497,6 +535,7 @@ class RolesCompanion extends UpdateCompanion<Role> {
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.description = const Value.absent(),
+    this.prompt = const Value.absent(),
     this.icon = const Value.absent(),
     this.authorId = const Value.absent(),
     this.authorName = const Value.absent(),
@@ -510,6 +549,7 @@ class RolesCompanion extends UpdateCompanion<Role> {
     required String id,
     required String name,
     this.description = const Value.absent(),
+    this.prompt = const Value.absent(),
     this.icon = const Value.absent(),
     this.authorId = const Value.absent(),
     this.authorName = const Value.absent(),
@@ -524,6 +564,7 @@ class RolesCompanion extends UpdateCompanion<Role> {
     Expression<String>? id,
     Expression<String>? name,
     Expression<String>? description,
+    Expression<String>? prompt,
     Expression<String>? icon,
     Expression<String>? authorId,
     Expression<String>? authorName,
@@ -537,6 +578,7 @@ class RolesCompanion extends UpdateCompanion<Role> {
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (description != null) 'description': description,
+      if (prompt != null) 'prompt': prompt,
       if (icon != null) 'icon': icon,
       if (authorId != null) 'author_id': authorId,
       if (authorName != null) 'author_name': authorName,
@@ -552,6 +594,7 @@ class RolesCompanion extends UpdateCompanion<Role> {
     Value<String>? id,
     Value<String>? name,
     Value<String?>? description,
+    Value<String?>? prompt,
     Value<String?>? icon,
     Value<String?>? authorId,
     Value<String?>? authorName,
@@ -565,6 +608,7 @@ class RolesCompanion extends UpdateCompanion<Role> {
       id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,
+      prompt: prompt ?? this.prompt,
       icon: icon ?? this.icon,
       authorId: authorId ?? this.authorId,
       authorName: authorName ?? this.authorName,
@@ -587,6 +631,9 @@ class RolesCompanion extends UpdateCompanion<Role> {
     }
     if (description.present) {
       map['description'] = Variable<String>(description.value);
+    }
+    if (prompt.present) {
+      map['prompt'] = Variable<String>(prompt.value);
     }
     if (icon.present) {
       map['icon'] = Variable<String>(icon.value);
@@ -621,6 +668,7 @@ class RolesCompanion extends UpdateCompanion<Role> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('description: $description, ')
+          ..write('prompt: $prompt, ')
           ..write('icon: $icon, ')
           ..write('authorId: $authorId, ')
           ..write('authorName: $authorName, ')
@@ -2706,6 +2754,7 @@ typedef $$RolesTableCreateCompanionBuilder =
       required String id,
       required String name,
       Value<String?> description,
+      Value<String?> prompt,
       Value<String?> icon,
       Value<String?> authorId,
       Value<String?> authorName,
@@ -2720,6 +2769,7 @@ typedef $$RolesTableUpdateCompanionBuilder =
       Value<String> id,
       Value<String> name,
       Value<String?> description,
+      Value<String?> prompt,
       Value<String?> icon,
       Value<String?> authorId,
       Value<String?> authorName,
@@ -2750,6 +2800,11 @@ class $$RolesTableFilterComposer extends Composer<_$AppDatabase, $RolesTable> {
 
   ColumnFilters<String> get description => $composableBuilder(
     column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get prompt => $composableBuilder(
+    column: $table.prompt,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -2813,6 +2868,11 @@ class $$RolesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get prompt => $composableBuilder(
+    column: $table.prompt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get icon => $composableBuilder(
     column: $table.icon,
     builder: (column) => ColumnOrderings(column),
@@ -2868,6 +2928,9 @@ class $$RolesTableAnnotationComposer
     column: $table.description,
     builder: (column) => column,
   );
+
+  GeneratedColumn<String> get prompt =>
+      $composableBuilder(column: $table.prompt, builder: (column) => column);
 
   GeneratedColumn<String> get icon =>
       $composableBuilder(column: $table.icon, builder: (column) => column);
@@ -2926,6 +2989,7 @@ class $$RolesTableTableManager
                 Value<String> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<String?> description = const Value.absent(),
+                Value<String?> prompt = const Value.absent(),
                 Value<String?> icon = const Value.absent(),
                 Value<String?> authorId = const Value.absent(),
                 Value<String?> authorName = const Value.absent(),
@@ -2938,6 +3002,7 @@ class $$RolesTableTableManager
                 id: id,
                 name: name,
                 description: description,
+                prompt: prompt,
                 icon: icon,
                 authorId: authorId,
                 authorName: authorName,
@@ -2952,6 +3017,7 @@ class $$RolesTableTableManager
                 required String id,
                 required String name,
                 Value<String?> description = const Value.absent(),
+                Value<String?> prompt = const Value.absent(),
                 Value<String?> icon = const Value.absent(),
                 Value<String?> authorId = const Value.absent(),
                 Value<String?> authorName = const Value.absent(),
@@ -2964,6 +3030,7 @@ class $$RolesTableTableManager
                 id: id,
                 name: name,
                 description: description,
+                prompt: prompt,
                 icon: icon,
                 authorId: authorId,
                 authorName: authorName,

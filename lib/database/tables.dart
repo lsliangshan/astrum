@@ -10,6 +10,8 @@ class Roles extends Table {
   TextColumn get name => text()();
   // 智能体 描述
   TextColumn get description => text().nullable().withDefault(Constant(''))();
+  // 智能体 提示词
+  TextColumn get prompt => text().nullable().withDefault(Constant(''))();
   // 智能体 图标
   TextColumn get icon => text().nullable()();
 

@@ -170,6 +170,49 @@ class AddRoleView extends GetView<AddRoleController> {
                                 ),
                               ),
                             ),
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Get.theme.disabledColor.withValues(
+                                    alpha: 0.1,
+                                  ),
+                                  width: 0.5,
+                                ),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: TextFormField(
+                                controller: controller.promptController,
+                                focusNode: controller.promptFocusNode,
+                                onTapOutside: (value) {
+                                  controller.promptFocusNode.unfocus();
+                                },
+                                maxLines: 6,
+                                minLines: 6,
+                                keyboardType: TextInputType.multiline,
+                                textInputAction:
+                                    TextInputAction.newline, // 允许换行
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 10,
+                                  ),
+                                  label: Text(
+                                    'add_role.prompt'.tr,
+                                    style: Get.theme.textTheme.bodyMedium,
+                                  ),
+                                  alignLabelWithHint: true,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  hintText: 'add_role.prompt.hint'.tr,
+                                  hintStyle: Get.theme.textTheme.titleMedium
+                                      ?.copyWith(
+                                        color: Get.theme.disabledColor,
+                                      ),
+                                ),
+                              ),
+                            ),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [

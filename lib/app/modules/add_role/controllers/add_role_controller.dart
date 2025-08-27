@@ -19,9 +19,11 @@ class AddRoleController extends GetxController {
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController promptController = TextEditingController();
 
   final FocusNode nameFocusNode = FocusNode();
   final FocusNode descriptionFocusNode = FocusNode();
+  final FocusNode promptFocusNode = FocusNode();
 
   final Rx<XFile?> roleIcon = Rx<XFile?>(null);
 
@@ -46,6 +48,12 @@ class AddRoleController extends GetxController {
     descriptionController.addListener(() {
       formData.value = formData.value.copyWith(
         description: Value<String?>(descriptionController.text),
+      );
+    });
+
+    promptController.addListener(() {
+      formData.value = formData.value.copyWith(
+        prompt: Value<String?>(promptController.text),
       );
     });
 
@@ -81,6 +89,7 @@ class AddRoleController extends GetxController {
 
       nameController.text = role.value.name;
       descriptionController.text = role.value.description ?? '';
+      promptController.text = role.value.prompt ?? '';
 
       update(['update-role']);
     }
@@ -124,6 +133,7 @@ class AddRoleController extends GetxController {
       response = await roleService.addRole(
         name: nameController.text,
         description: descriptionController.text,
+        prompt: promptController.text,
         icon: roleIcon.value,
       );
     } else {
@@ -132,6 +142,7 @@ class AddRoleController extends GetxController {
         id: roleId!,
         name: nameController.text,
         description: descriptionController.text,
+        prompt: promptController.text,
         icon: roleIcon.value,
       );
     }
