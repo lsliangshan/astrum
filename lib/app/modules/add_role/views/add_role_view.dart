@@ -143,8 +143,8 @@ class AddRoleView extends GetView<AddRoleController> {
                                 onTapOutside: (value) {
                                   controller.descriptionFocusNode.unfocus();
                                 },
-                                maxLines: 6,
-                                minLines: 6,
+                                maxLines: 3,
+                                minLines: 3,
                                 keyboardType: TextInputType.multiline,
                                 textInputAction:
                                     TextInputAction.newline, // 允许换行
@@ -186,7 +186,7 @@ class AddRoleView extends GetView<AddRoleController> {
                                 onTapOutside: (value) {
                                   controller.promptFocusNode.unfocus();
                                 },
-                                maxLines: 6,
+                                maxLines: 8,
                                 minLines: 6,
                                 keyboardType: TextInputType.multiline,
                                 textInputAction:
