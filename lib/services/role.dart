@@ -22,15 +22,19 @@ class RoleService extends GetxService {
     String? prompt,
     XFile? icon,
   }) async {
-    final uri = Uri.parse(
-      'https://wf.liangqy.com/webhook/astrum/add-role',
-    ); // 替换成你的实际 URL
+    final uri = Uri.parse('https://wf.liangqy.com/webhook/astrum/add-role');
     final request = http.MultipartRequest('POST', uri)
       ..fields['name'] = Uri.encodeComponent(name)
-      ..fields['description'] = Uri.encodeComponent(description ?? '')
-      ..fields['prompt'] = Uri.encodeComponent(prompt ?? '')
       ..fields['authorId'] = Uri.encodeComponent(loginInfo.value.id)
       ..fields['authorName'] = Uri.encodeComponent(loginInfo.value.username);
+
+    if (description != null && description.isNotEmpty) {
+      request.fields['description'] = Uri.encodeComponent(description);
+    }
+
+    if (prompt != null && prompt.isNotEmpty) {
+      request.fields['prompt'] = Uri.encodeComponent(prompt);
+    }
 
     if (icon != null) {
       request.files.add(
@@ -120,7 +124,9 @@ class RoleService extends GetxService {
       pageSize: 1000,
     );
     await roleDao.deleteMyRoles(authorId: authorId);
-    await roleDao.insertAll(roleList: serverRoles.data['list']);
+    if (serverRoles.code == 200 && serverRoles.data['list'].isNotEmpty) {
+      await roleDao.insertAll(roleList: serverRoles.data['list']);
+    }
 
     // 如果本地数据库中没有角色，则从服务器端数据库中获取角色
     final localRoles = await roleDao.getRoles(authorId: authorId);

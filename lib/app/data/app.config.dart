@@ -7,13 +7,13 @@ import 'package:astrum/app/modules/role/views/role_view.dart';
 import 'package:astrum/types/types.dart';
 
 List tabs = [
-  {
-    "icon": "assets/svgs/tab_home_unselected.svg",
-    "icon_selected": "assets/svgs/tab_home_selected.svg",
-    "label": 'tab.home',
-    "name": TabName.home,
-    "page": const DiscoveryView(),
-  },
+  // {
+  //   "icon": "assets/svgs/tab_home_unselected.svg",
+  //   "icon_selected": "assets/svgs/tab_home_selected.svg",
+  //   "label": 'tab.home',
+  //   "name": TabName.home,
+  //   "page": const DiscoveryView(),
+  // },
   {
     "icon": "assets/svgs/tab_chat_unselected.svg",
     "icon_selected": "assets/svgs/tab_chat_selected.svg",
